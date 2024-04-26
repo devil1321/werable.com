@@ -1,0 +1,432 @@
+[
+    {
+        "id":1,
+        "img":"/assets/product-1.png",
+        "event":"Hot",
+        "title":"Men Sweter",
+        "category":"sweter",
+        "price":28.85,
+        "prevPrice":32.8,
+        "colors":[
+            {
+                "name":"Green",
+                "hex":"00FFFF"
+            },
+            {
+                "name":"Purple",
+                "hex":"FA00FF"
+            },
+            {
+                "name":"Orange",
+                "hex":"F1D129"
+            },
+            {
+                "name":"Strong Green",
+                "hex":"5CE72B"
+            },
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "company":"Diamond Clothes",
+        "rating":4.0,
+        "inCart":false
+    },
+    {
+        "id":2,
+        "img":"/assets/product-2.png",
+        "event":"Summer",
+        "title":"Woman Sweter",
+        "category":"sweter",
+        "colors":[
+            {
+                "name":"Green",
+                "hex":"00FFFF"
+            },
+            {
+                "name":"Purple",
+                "hex":"FA00FF"
+            },
+            {
+                "name":"Orange",
+                "hex":"F1D129"
+            }
+        ],
+        "price":65,
+        "prevPrice":89,
+        "company":"Diamond Clothes",
+        "rating":5.0,
+        "inCart":false
+    },
+    {
+        "id":3,
+        "img":"/assets/product-3.png",
+        "event":"Hot",
+        "title":"Orange T Shirt",
+        "category":"t-shirt",
+        "colors":[
+            {
+                "name":"Green",
+                "hex":"00FFFF"
+            },
+            {
+                "name":"Purple",
+                "hex":"FA00FF"
+            },
+            {
+                "name":"Orange",
+                "hex":"F1D129"
+            },
+            {
+                "name":"Strong Green",
+                "hex":"5CE72B"
+            },
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":23,
+        "prevPrice":41,
+        "company":"Diamond Clothes",
+        "rating":4.2,
+        "inCart":false
+    },
+    {
+        "id":4,
+        "img":"/assets/product-4.png",
+        "event":"Hot",
+        "title":"White T Shirt",
+        "category":"t-shirt",
+        "colors":[
+            {
+                "name":"Orange",
+                "hex":"F1D129"
+            },
+            {
+                "name":"Strong Green",
+                "hex":"5CE72B"
+            },
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":19,
+        "prevPrice":32,
+        "company":"Diamond Clothes",
+        "rating":5.0,
+        "inCart":false
+    },
+    {
+        "id":5,
+        "img":"/assets/product-5.png",
+        "event":"Hot",
+        "title":"Green T Shirt",
+        "category":"t-shirt",
+        "colors":[
+            {
+                "name":"Green",
+                "hex":"00FFFF"
+            },
+            {
+                "name":"Purple",
+                "hex":"FA00FF"
+            },
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":28,
+        "prevPrice":38,
+        "company":"Diamond Clothes",
+        "rating":3.9,
+        "inCart":false
+    },
+    {
+        "id":6,
+        "img":"/assets/product-6.png",
+        "event":"Summer",
+        "title":"Black Dress",
+        "category":"dress",
+        "colors":[
+            {
+                "name":"Green",
+                "hex":"00FFFF"
+            },
+            {
+                "name":"Purple",
+                "hex":"FA00FF"
+            },
+            {
+                "name":"Orange",
+                "hex":"F1D129"
+            },
+            {
+                "name":"Strong Green",
+                "hex":"5CE72B"
+            }
+        ],
+        "price":120,
+        "prevPrice":200,
+        "company":"Diamond Clothes",
+        "rating":5.0,
+        "inCart":false
+    },
+    {
+        "id":7,
+        "img":"/assets/product-7.png",
+        "event":"Winter",
+        "title":"Jeans",
+        "category":"pants",
+        "colors":[
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":98,
+        "prevPrice":125,
+        "company":"Diamond Clothes",
+        "rating":5.0,
+        "inCart":false
+    },
+    {
+        "id":8,
+        "img":"/assets/product-8.png",
+        "event":"Summer",
+        "title":"Shirt",
+        "category":"t-shirt",
+        "colors":[
+            {
+                "name":"Green",
+                "hex":"00FFFF"
+            },
+            {
+                "name":"Orange",
+                "hex":"F1D129"
+            },
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":12,
+        "prevPrice":24,
+        "company":"Diamond Clothes",
+        "rating":3.2,
+        "inCart":false
+    },
+    {
+        "id":9,
+        "img":"/assets/product-9.png",
+        "event":"Summer",
+        "title":"Jacket",
+        "category":"jacket",
+        "colors":[
+            {
+                "name":"Purple",
+                "hex":"FA00FF"
+            },
+            {
+                "name":"Orange",
+                "hex":"F1D129"
+            },
+            {
+                "name":"Strong Green",
+                "hex":"5CE72B"
+            },
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":212,
+        "prevPrice":256,
+        "company":"Diamond Clothes",
+        "rating":5.0,
+        "inCart":false
+    },
+    {
+        "id":10,
+        "img":"/assets/product-10.png",
+        "event":"Summer",
+        "title":"Hat",
+        "category":"hat",
+        "colors":[
+            {
+                "name":"Green",
+                "hex":"00FFFF"
+            },
+            {
+                "name":"Purple",
+                "hex":"FA00FF"
+            },
+            {
+                "name":"Orange",
+                "hex":"F1D129"
+            },
+            {
+                "name":"Strong Green",
+                "hex":"5CE72B"
+            },
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":34,
+        "prevPrice":44,
+        "company":"Diamond Clothes",
+        "rating":4.2,
+        "inCart":false
+    },
+    {
+        "id":11,
+        "img":"/assets/product-11.png",
+        "event":"Hot",
+        "title":"Red Shirt",
+        "category":"dress",
+        "colors":[
+            {
+                "name":"Green",
+                "hex":"00FFFF"
+            },
+            {
+                "name":"Purple",
+                "hex":"FA00FF"
+            },
+            {
+                "name":"Orange",
+                "hex":"F1D129"
+            },
+            {
+                "name":"Strong Green",
+                "hex":"5CE72B"
+            },
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":99,
+        "prevPrice":120,
+        "company":"Diamond Clothes",
+        "rating":5.0,
+        "inCart":false
+    },
+    {
+        "id":12,
+        "img":"/assets/product-12.png",
+        "event":"Spring",
+        "title":"Blouse",
+        "category":"blouse",
+        "colors":[
+            {
+                "name":"Green",
+                "hex":"00FFFF"
+            },
+            {
+                "name":"Purple",
+                "hex":"FA00FF"
+            },
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":21,
+        "prevPrice":35,
+        "company":"Diamond Clothes",
+        "rating":3.5,
+        "inCart":false
+    },
+    {
+        "id":13,
+        "img":"/assets/product-13.png",
+        "event":"Hot",
+        "title":"Sweter",
+        "category":"sweter",
+        "colors":[
+            {
+                "name":"Green",
+                "hex":"00FFFF"
+            },
+            {
+                "name":"Purple",
+                "hex":"FA00FF"
+            },
+            {
+                "name":"Orange",
+                "hex":"F1D129"
+            },
+            {
+                "name":"Strong Green",
+                "hex":"5CE72B"
+            },
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":30,
+        "prevPrice":60,
+        "company":"Diamond Clothes",
+        "rating":4.0,
+        "inCart":false
+    },
+    {
+        "id":14,
+        "img":"/assets/product-14.png",
+        "event":"Hot",
+        "title":"Black T Shirt",
+        "category":"t-shirt",
+        "colors":[
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":40,
+        "prevPrice":60,
+        "company":"Diamond Clothes",
+        "rating":5.0,
+        "inCart":false
+    },
+    {
+        "id":15,
+        "img":"/assets/product-15.png",
+        "event":"Summer",
+        "title":"White Blouse",
+        "category":"blouse",
+        "colors":[
+            {
+                "name":"Green",
+                "hex":"00FFFF"
+            },
+            {
+                "name":"Purple",
+                "hex":"FA00FF"
+            },
+            {
+                "name":"Orange",
+                "hex":"F1D129"
+            },
+            {
+                "name":"Strong Green",
+                "hex":"5CE72B"
+            },
+            {
+                "name":"Dark Grey",
+                "hex":"7B7575"
+            }
+        ],
+        "price":23,
+        "prevPrice":39,
+        "company":"Diamond Clothes",
+        "rating":4.2,
+        "inCart":false
+    }
+]
