@@ -6,18 +6,23 @@
   body{
     overflow-x: clip;
     width: 100vw;
-    height: 8000px;
   }
   a{
     min-width: max-content;
   }
-  svg path,.home-carousel-view,.home-carousel-feature-controls div {
+  svg path,.home-carousel-view,.home-carousel-feature-controls div,.product-title {
     transition: all 0.7s linear;
+  }
+  .product-breadcrumb{
+    transition: all 0.7s ease-in-out;
   }
   input::placeholder{
     font-style: italic;
   }
   button{
     background: linear-gradient(90deg,#FF00C7,#FF7A00);
+  }
+  .product:hover .product-breadcrumb{
+    right: 0px;
   }
 }

@@ -20,9 +20,8 @@ export default function Page() {
           title="Style Meets Functionality"
           paragraph="Elevate your look with our Fashionable Smartwatch. Crafted with premium materials and a stunning display, it adds sophistication to any outfit. Stay connected, track your activities, and express your style with customizable features."
         />
-        <div className="product-carousel flex justify-center items-center">
-          {products.slice(0,3).map((p:any)=><GlobalComponents.Product product={p} />)}
-        </div>
+        <GlobalComponents.Title isLeft={false} title="Hot"/>
+        <HomeComponents.ProductCarousel />
       </div>
     )     
   }
