@@ -34,9 +34,9 @@ export default function Page() {
           title="Explore Our Cutting-Edge Products"
           paragraph="Discover a range of innovative products designed to enhance your lifestyle and redefine the way you interact with technology"
         />
-        <GlobalComponents.Search />
+        <GlobalComponents.Search  title="Products"/>
         <div className="products-items xl:px-10 flex justify-center items-start flex-wrap">
-          {products.map((p:any) => <GlobalComponents.Product product={p} />)}
+          {products.map((p:any) => <GlobalComponents.Product key={`product-key-${p.id}`} product={p} />)}
         </div>
         <GlobalComponents.Title isLeft={false} title="Hot" />
         <HomeComponents.ProductCarousel />

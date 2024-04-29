@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 @layer base{
-  body{
-  
-    height: 8000px;
-  }
   .container{
     overflow-x: clip;
     min-width: 100vw;
@@ -36,5 +32,11 @@
   }
   .hero-image{
     clip-path: polygon(0 0, 100% 0, 100% 70%, 0% 100%);
+  }
+  .item-detailsm,.cart-summary{
+    background: linear-gradient(180deg,#D9D9D9,#FFFFFF);
+  }
+  .cart-summary button{
+    background: gray;
   }
 }

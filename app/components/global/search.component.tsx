@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
-import Title from './title.component'
-const Search = () => {
+
+const Search:React.FC<{title:string}> = ({title}) => {
   return (
     <div className='search mt-[100px] mb-[700px] md:mb-[400px] relative flex justify-center items-start top-0 left-0'>
       <div className="search-form absolute left-0 md:-left-[5%] xl:rotate-[2deg] lg:left-0 xl:left-[3%] top-[100px] md:top-[0px] xl:-top-[50px]">
@@ -48,7 +48,7 @@ const Search = () => {
       </div>
       <div className="search-title absolute w-max -top-[120px] md:top-0 left-1/2 -translate-x-1/2 xl:-translate-x-[55%]">
         <Image src="/assets/title-left.png" alt='search-title' width={800} height={800} />
-        <h2 className="absolute top-[30%] md:top-[20%] left-1/2 -translate-x-[40%] text-white font-bold text-5xl md:text-[80px]">Products</h2>
+        <h2 className="absolute top-[30%] md:top-[20%] left-1/2 -translate-x-[40%] text-white font-bold text-5xl md:text-[80px]">{title}</h2>
       </div>
       <div className="search-submit absolute top-[290px] w-max rotate-[30deg] md:rotate-[2deg] md:top-[60px] lg:rotate-0 lg:top-[50px] xl:top-0 -right-[30%] md:-right-[15%] lg:-right-[12%] xl:right-[2%]">
         <Image src="/assets/purple-triangle.png" alt='triangle-yellow' width={500} height={500}/> 

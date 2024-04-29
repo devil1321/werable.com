@@ -2,6 +2,8 @@
 import React, { MutableRefObject, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
+import SplitTextJS from 'split-text-js'
+
 
 interface HeroProps{
   img:string;
@@ -30,10 +32,34 @@ const Hero:React.FC<HeroProps> = ({img,title,paragraph}) => {
     }
   }
 
+  const handleAnimate = () =>{
+    const heading = document.querySelector('h1') as HTMLHeadingElement
+    const paragraph = document.querySelector('p') as HTMLParagraphElement
+    const headingText = new SplitTextJS(heading)
+    const paragraphText = new SplitTextJS(paragraph)
+
+    const rubber = (chars:HTMLSpanElement[]) =>{
+      let time = 0
+      chars.forEach((t:HTMLSpanElement)=>{
+        setTimeout(() => {
+          t.classList.add('animate__animated')
+          t.classList.add('animate__rubberBand')
+          t.classList.add('animate__slow')
+        }, time += 100);
+      })
+    } 
+
+    gsap.fromTo(headingText.chars,{ opacity:0 }, { opacity:1,stagger:0.1,duration:0.5,onUpdate:(e:any)=>{
+        rubber(headingText.chars)
+    }})
+    gsap.fromTo(paragraphText.chars,{ opacity:0 }, { opacity:1,delay:2})
+  }
+
   useEffect(()=>{
     if(typeof window !== 'undefined'){
       window.addEventListener('scroll',handleSknew)
     }
+    handleAnimate()
     return () => window.removeEventListener('scroll',handleSknew)
   },[])
 
@@ -43,7 +69,7 @@ const Hero:React.FC<HeroProps> = ({img,title,paragraph}) => {
         <Image src={img} alt='hero-image' width={1920} height={768} />
       </div>
       <div className="hero-details absolute top-[45%] left-[5%]">
-        <h1 className='font-bold text-white text-5xl md:text-[80px] lg:w-[100%] xl:w-2/3'>{title}</h1>
+        <h1 className='font-bold text-white text-5xl md:text-[80px] lg:w-[100%]'>{title}</h1>
         <p className="text-sm text-white">{paragraph}</p>
       </div>
     </div>

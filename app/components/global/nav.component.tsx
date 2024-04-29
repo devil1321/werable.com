@@ -17,8 +17,9 @@ const Nav = () => {
           <h2 className="text-4xl font-bold text-white">Werable</h2>
         </div>
         <div className="nav-menu relative left-[30%] -top-4 w-1/3 flex gap-5">
-          <Link className="hover:underline text-white translate-y-4" href="/new-sale">New Sale</Link>
-          <Link className="hover:underline text-white translate-y-2" href="/favourites">Favoruites</Link>
+          <Link className="hover:underline text-white translate-y-6" href="/new-sale">New Sale</Link>
+          <Link className="hover:underline text-white translate-y-4" href="/cart">Cart</Link>
+          <Link className="hover:underline text-white translate-y-2" href="/favoruites">Favoruites</Link>
           <Link className="hover:underline text-white" href="/contact">Contact</Link>
         </div>
       </div>
