@@ -7,10 +7,12 @@ import AboutFeature from "./about-feature.component";
 import Product from "./product.component";
 import Item from "./item.component";
 import Search from "./search.component";
+import Foot from "./foot.component";
 
 export const GlobalComponents = {
     Nav,
     Footer,
+    Foot,
     Hero,
     Title,
     Banner,

@@ -4,8 +4,17 @@
 
 @layer base{
   body{
+  
+    height: 8000px;
+  }
+  .container{
     overflow-x: clip;
+    min-width: 100vw;
     width: 100vw;
+    margin:0px auto;
+    position:relative;
+    top:0px;
+    left:0px;
   }
   a{
     min-width: max-content;
@@ -24,5 +33,8 @@
   }
   .product:hover .product-breadcrumb{
     right: 0px;
+  }
+  .hero-image{
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 0% 100%);
   }
 }
