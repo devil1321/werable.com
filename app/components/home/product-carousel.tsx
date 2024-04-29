@@ -1,7 +1,7 @@
 'use client'
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import products from '@/public/assets/tmp/db/products.json'
-import { GlobalComponents } from '../global'
+import Product from '../global/product.component'
 
 const ProductCarousel = () => {
 
@@ -79,7 +79,7 @@ const ProductCarousel = () => {
       </div>
       <div className="home-carousel-items-wrapper h-[400px] w-[100vw] overflow-hidden">
         <div ref={viewRef} className="home-carousel-view flex justify-center items-center">
-            {products.map((p:any) => <GlobalComponents.Product key={`product-home-carousel-${p.id}`} productRef={itemRef} product={p}/>)}
+            {products.map((p:any) => <Product key={`product-home-carousel-${p.id}`} productRef={itemRef} product={p}/>)}
         </div>
       </div>
     </div>

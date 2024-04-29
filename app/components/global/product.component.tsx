@@ -2,7 +2,7 @@
 import React, { MutableRefObject, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
-import { MotionPathPlugin } from 'gsap/all'
+import  MotionPathPlugin  from 'gsap/dist/MotionPathPlugin'
 import SplitTextJS from 'split-text-js'
 
 const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement> }> = ({product,productRef}) => {
