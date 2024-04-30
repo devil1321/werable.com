@@ -16,6 +16,10 @@
   a{
     min-width: max-content;
   }
+  input,input:focus,input:active,textarea,textarea:focus,textarea:active{
+    outline: none;
+    border: 0px;
+  }
   svg path,.home-carousel-view,.home-carousel-feature-controls div,.product-title {
     transition: all 0.7s ease-in-out;
   }

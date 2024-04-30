@@ -156,8 +156,8 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
   }
 
   return (
-    <div ref={productRef} onMouseEnter={()=>handleAnimationIn()} onMouseLeave={()=>handleAnimationOut()} className='product cursor-pointer my-10 mx-[50px] relative top-0 left-0'>
-      <svg className='absolute opacity-0 -top-[15%] -left-[12.5%]' width={450} height={450}>
+    <div ref={productRef} onMouseEnter={()=>handleAnimationIn()} onMouseLeave={()=>handleAnimationOut()} className='product cursor-pointer my-10 mx-[50px] relative top-0 left-1/2 -translate-x-[58%] md:left-0 md:-translate-x-0'>
+      <svg className='absolute opacity-0 -top-[15%] -left-[9%] md:-left-[12.5%]' width={450} height={450}>
         <path ref={pathRef} d="M0,140a135,135 0 1,0 270,0a135,135 0 1,0 -270,0" fill="none" stroke="black" strokeWidth={2}/>
       </svg>
       <h3 ref={titleRef} className="product-title hidden text-neutral-900 text-4xl font-bold absolute top-0 left-0">{product.title}</h3>

@@ -86,10 +86,10 @@ const Carousel = () => {
       </div>
       <div className="home-carousel-items-wrapper md:h-[50vh] lg:h-[100vh] w-[100vw] overflow-hidden">
         <div ref={viewRef} className="home-carousel-view flex justify-start items-center">
-            <Item itemRef={itemRef} img="/assets/woman.jpg" title="" paragraph="" />
-            <Item itemRef={itemRef} img="/assets/about.jpg" title="" paragraph="" />
-            <Item itemRef={itemRef} img="/assets/people.jpg" title="" paragraph="" />
-            <Item itemRef={itemRef} img="/assets/banner-people.jpg" title="" paragraph="" />
+            <Item itemRef={itemRef} count={count} img="/assets/woman.jpg" title="Stay Chic, Stay Comfortable" paragraph="Elevate your everyday style with our collection of wearable clothes that seamlessly blend fashion and comfort." />
+            <Item itemRef={itemRef} count={count} img="/assets/about.jpg" title="Effortless Elegance for Every Occasion" paragraph="Discover timeless pieces designed to effortlessly take you from day to night, ensuring you radiate elegance wherever you go." />
+            <Item itemRef={itemRef} count={count} img="/assets/people.jpg" title="Always in Vogue" paragraph="Explore our range of wearable clothing that combines practicality with style, ensuring you're fashion-forward without compromising on comfort." />
+            <Item itemRef={itemRef} count={count} img="/assets/banner-people.jpg" title="Your Wardrobe Essentials, Redefined" paragraph="Revolutionize your closet with our curated selection of wearable clothing essentials, tailored to suit your busy lifestyle without sacrificing sophistication." />
         </div>
       </div>
       <div className="home-carousel-feature relative z-10 top-0 left-0">

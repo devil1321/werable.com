@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const Feature = () => {
   return (
-    <div className='about-feature px-[100px]'>
+    <div className='about-feature md:px-[100px]'>
       <Image src="/assets/sweter.jpg" width={1920} height={500} alt='sweter-image' />
       <div className="about-feature-details w-[80%] relative -top-[200px] left-1/2 -translate-x-1/2 text-white bg-neutral-600 p-12">
         <h2 className="font-bold text-5xl md:text-[80px]">Wellness Worldwide</h2>

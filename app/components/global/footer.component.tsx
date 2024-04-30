@@ -40,26 +40,26 @@ const Footer = () => {
           </div>
           <div className="footer-contact-item my-1 md:my-5 flex gap-3 items-center">
             <Image src="/assets/email-icon.png" alt="email" width={30} height={30} />
-            <p className="text-sm text-white">support@werable.com</p>
+            <p className="text-sm text-white italic">support@werable.com</p>
           </div>
           <div className="footer-contact-item my-1 md:my-5 flex gap-3 items-center">
             <Image src="/assets/email-icon.png" alt="phone" width={30} height={30} />
-            <p className="text-sm text-white">888-100-888</p>
+            <p className="text-sm text-white italic">888-100-888</p>
           </div>
           <div className="footer-contact-item my-0 md:my-5 flex gap-3 items-center">
             <Image src="/assets/email-icon.png" alt="address" width={30} height={30} />
             <div>
-              <p className="text-sm text-white">Houston Road 25</p>
-              <p className="text-sm text-white">Seattle 200-300</p>
+              <p className="text-sm text-white italic">Houston Road 25</p>
+              <p className="text-sm text-white italic">Seattle 200-300</p>
             </div>
           </div>
         </div>
-          <button className='w-[170px] relative -top-5 left-0 md:hidden py-2 font-bold text-white text-md rounded-full'>
+          <button className='w-[170px] md:hidden relative -top-5 left-0 py-2 font-bold text-white text-md rounded-full'>
             <Link className="block -ml-[20px]" href="/contact">
               Contact
             </Link>
           </button>
-        <div ref={formRef} className="hidden footer-form w-[300px] relative top-[150px] -left-[20%]">
+        <div ref={formRef} className="hidden footer-form w-[300px] relative top-[130px] -left-[20%]">
           <h2 className="text-3xl my-2 italic font-bold text-white text-center">Contact With Us</h2>
           <form action="">
             <div className="footer-field bg-white p-2 rounded-full">
