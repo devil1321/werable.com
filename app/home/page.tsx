@@ -7,7 +7,7 @@ export default function Page() {
       <div className="home">
         <HomeComponents.Carousel />
         <HomeComponents.Categories />
-        <GlobalComponents.Title isLeft={true} title="Discover Style" />
+        <GlobalComponents.Title isLeft={true} title="Discover Style" className="-mt-[1200px] lg:mt-12" />
         <GlobalComponents.AboutFeature
           isLeft={true} 
           img="/assets/about-1.png"

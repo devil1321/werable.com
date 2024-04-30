@@ -1,5 +1,8 @@
-import React from 'react'
+'use client'
+import React, { MutableRefObject, useEffect, useRef } from 'react'
 import Image from 'next/image';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 
 interface AboutFeatureProps{
   isLeft:boolean;
@@ -9,10 +12,50 @@ interface AboutFeatureProps{
 }
 
 const AboutFeature:React.FC<AboutFeatureProps> = ({isLeft,img,title,paragraph}) => {
+
+  const featureRef = useRef() as MutableRefObject<HTMLDivElement>
+  const imageRef = useRef() as MutableRefObject<HTMLImageElement>
+  const detailsRef = useRef() as MutableRefObject<HTMLDivElement>
+
+  const handleAnimate = () =>{
+    if(typeof window !== 'undefined'){
+      if(window.innerWidth < 768){
+        gsap.registerPlugin(ScrollTrigger)
+        if(isLeft){
+          gsap.fromTo(imageRef.current,{x:-1000},{x:0,duration:1,scrollTrigger:{
+            trigger:featureRef.current,
+            start:'-=250px',
+            end:'-=250px'
+          }})
+          gsap.fromTo(detailsRef.current,{x:1000},{x:0,duration:1,scrollTrigger:{
+            trigger:featureRef.current,
+            start:'-=250px',
+            end:'-=250px'
+          }})
+        }else{
+          gsap.fromTo(imageRef.current,{x:1000},{x:0,duration:1,scrollTrigger:{
+            trigger:featureRef.current,
+            start:'-=250px',
+            end:'-=250px'
+          }})
+          gsap.fromTo(detailsRef.current,{x:-1000},{x:0,duration:1,scrollTrigger:{
+            trigger:featureRef.current,
+            start:'-=250px',
+            end:'-=250px'
+          }})
+        }
+      }
+    }
+  }
+
+  useEffect(()=>{
+    handleAnimate()
+  },[])
+
   return (
-    <div className='about-feature my-12 flex justify-center items-center'>
-      <Image className={`${isLeft ? "order-1" : 'order-2'} relative ${isLeft ? 'left-[10%]' : '-left-[10%]'} top-0`} src={img} alt='about-image' width={800} height={600} />
-      <div className={`about-feature-details bg-neutral-700 text-white relative top-0 px-12 z-10 py-[50px] ${isLeft ? '-left-[15%]' : 'left-[15%]'} ${isLeft ? 'order-2' : "order-1"}`}>
+    <div ref={featureRef} className='about-feature my-12 md:flex md:justify-center md:items-center'>
+      <Image ref={imageRef} className={`about-feature-image ${isLeft ? "order-1" : 'order-2'} relative ${isLeft ? 'md:left-[10%]' : 'md:-left-[10%]'} top-0`} src={img} alt='about-image' width={800} height={600} />
+      <div ref={detailsRef} className={`about-feature-details bg-neutral-700 text-white relative top-0 px-12 z-10 py-[50px] ${isLeft ? 'md:-left-[15%]' : 'md:left-[15%]'} ${isLeft ? 'order-2' : "order-1"}`}>
         <h2 className="text-5xl mb-5 text-white">{title}</h2>
         <p className="text-sm text-white">{paragraph}</p>
       </div>

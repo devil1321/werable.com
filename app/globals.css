@@ -17,7 +17,10 @@
     min-width: max-content;
   }
   svg path,.home-carousel-view,.home-carousel-feature-controls div,.product-title {
-    transition: all 0.7s linear;
+    transition: all 0.7s ease-in-out;
+  }
+  .nav-overlay{
+    box-shadow: 0px -200px 100px inset black;
   }
   .product-breadcrumb{
     transition: all 0.7s ease-in-out;
