@@ -88,7 +88,7 @@ const Nav = () => {
   },[menuWrapperRef.current])
 
   return (
-    <div className='nav w-[100vw] absolute top-0 left-0'>
+    <div className='nav absolute top-0 left-0'>
       <div ref={overlayRef} className="nav-overlay z-10 opacity-0 absolute top-0 left-0 w-[100%] h-[100vh]"></div>
         <div className="nav-navigation relative top-0 left-0 z-50">
         <div onClick={()=>handleMenu()} className='nav-hamburger absolute z-10 right-5 top-[10px] md:hidden'>

@@ -10,6 +10,11 @@ interface InitState {
     token:any;
     image:string;
     paymentLink:string;
+    product:any;
+    categories:any[];
+    category:any;
+    storeHeader:string;
+    oAuthToken:string;
 }
 
 const initState:InitState = {
@@ -19,7 +24,12 @@ const initState:InitState = {
     token:null,
     user:null,
     image:'',
-    paymentLink:''
+    paymentLink:'',
+    product:null,
+    categories:[],
+    category:null,
+    storeHeader:'',
+    oAuthToken:''
 }
 
 export default (state:InitState = initState,action:APIActions) =>{

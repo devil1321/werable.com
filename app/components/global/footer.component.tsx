@@ -30,9 +30,9 @@ const Footer = () => {
   },[])
 
   return (
-    <div className='footer w-[100vw] relative top-0 left-0'>
+    <div className='footer w-[100vw] max-w-[1920px] relative top-0 left-0'>
       <Image src="/assets/footer.png" alt='footer-img' width={1920} height={300} />
-      <div className="footer-details absolute w-[100%] left-[10%] top-1/2 -translate-y-1/2 flex justify-between">
+      <div className="footer-details absolute w-[100%] left-[10%] 2xl:px-[100px] 2xl:left-0 top-1/2 -translate-y-1/2 flex justify-between">
         <div className="footer-contact-info relative top-3 left-0 md:top-0">
           <div ref={logoRef} className="footer-logo flex gap-3 items-center">
             <Image src="/assets/logo-white.svg" alt='logo' width={70} height={50} />

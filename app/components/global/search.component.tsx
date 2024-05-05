@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const Search:React.FC<{title:string}> = ({title}) => {
   return (
-    <div className='search mt-[100px] mb-[700px] md:mb-[400px] relative flex justify-center items-start top-0 left-0'>
+    <div className='search mt-[100px] 2xl:-mt-[100%] mb-[700px] md:mb-[400px] relative flex justify-center items-start top-0 left-0'>
       <div className="search-form absolute left-0 md:-left-[5%] xl:rotate-[2deg] lg:left-0 xl:left-[3%] top-[100px] md:top-[0px] xl:-top-[50px]">
         <Image src="/assets/yellow-triangle.png" alt='triangle-yellow' width={550} height={550}/> 
         <div className="search-form-form max-w-[350px] absolute z-10 px-5 md:px-0 left-0 md:-left-[5%] xl:-rotate-[2deg] md:left-[10%] lg:left-[5%] xl:left-[3%] top-[50px] md:top-[200px] xl:top-[180px]">

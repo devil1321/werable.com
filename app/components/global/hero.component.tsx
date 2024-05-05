@@ -65,10 +65,10 @@ const Hero:React.FC<HeroProps> = ({img,title,paragraph}) => {
 
   return (
     <div className='hero relative top-0 left-0'>
-      <div ref={imageWrapperRef} className="hero-image w-[100vw] lg:h-[140vh] overflow-hidden">
+      <div ref={imageWrapperRef} className="hero-image w-[100vw] overflow-hidden">
         <Image src={img} alt='hero-image' width={1920} height={768} />
       </div>
-      <div className="hero-details absolute top-[40%] md:top-[60%] left-[5%]">
+      <div className="hero-details absolute top-[40%] md:top-[60%] 2xl:top-[25%] left-[5%]">
         <h1 className='font-bold text-white text-xl md:text-4xl relative md:-top-5 left-0 xl:text-[70px] lg:w-[100%]'>{title}</h1>
         <p className="text-sm text-white">{paragraph}</p>
       </div>

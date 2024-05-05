@@ -2,9 +2,11 @@ import products from '@/public/assets/tmp/db/products.json'
 import Image from 'next/image'
 import Title from '@/app/components/global/title.component'
 import ProductCarousel from '@/app/components/home/product-carousel'
+import Layout from '../layout'
 
 const Details:React.FC<{ product:any }> = ({product}) => {
     return ( 
+    <Layout>
       <div className='details pt-[200px]'>
         <div className="details-main flex justify-between items-center">
           <Image className ="md:w-1/2" src={product.img} width={1920} height={768} alt='product-image' />
@@ -26,9 +28,10 @@ const Details:React.FC<{ product:any }> = ({product}) => {
         <Title 
           isLeft={true}
           title="Hot"
-        />
+          />
         <ProductCarousel />
       </div>
+    </Layout>
     )     
   }
 

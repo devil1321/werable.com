@@ -3,15 +3,28 @@
 @tailwind utilities;
 
 @layer base{
+  *{
+    margin: 0px;
+    padding: 0px;
+  }
   .container{
     overflow-x: clip;
-    min-width: 100vw;
-    width: 100vw;
+    max-width: 1920px;
     margin:0px auto;
     position:relative;
     top:0px;
     left:0px;
     background-color: #f3f3f3;
+  }
+  @media (max-width:1366px) {
+    .container{
+      min-width: 100vw;
+    }
+  }
+  @media (min-width:1367px) {
+    .container{
+      min-width: 0px !important;
+    }
   }
   a{
     min-width: max-content;
@@ -40,6 +53,36 @@
   }
   .hero-image{
     clip-path: polygon(0 0, 100% 0, 100% 70%, 0% 100%);
+  }
+  @media (min-device-width:768px) {
+    .hero-image{
+      height: 20vh !important;
+    }
+  }
+  @media (min-device-width:1024px) {
+    .hero-image{
+      height: 100vh !important;
+    } 
+  }
+  @media (min-device-width:1366px) {
+    .hero-image{
+      height: 140vh !important;
+    }
+  }
+  @media (min-device-width:1440px) {
+    .hero-image{
+      height: 100vh !important;
+    }
+  }
+  @media (min-device-width:768px) {
+    .search{
+      margin-top: 100px !important;
+    }
+  }
+  @media (min-device-width:1444px) {
+    .search{
+      margin-top: 100px !important;
+    }
   }
   .item-detailsm,.cart-summary{
     background: linear-gradient(180deg,#D9D9D9,#FFFFFF);

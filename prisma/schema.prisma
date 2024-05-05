@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model usershop {
+  id            Int      @id @default(autoincrement())
+  nickname      String   @db.VarChar(255)
+  email         String   @unique @db.VarChar(255)
+  password      String   @db.VarChar(5000)
+  first_name    String   @db.VarChar(255)
+  last_name     String   @db.VarChar(255)
+  city          String?  @db.VarChar(255)
+  zip           String?  @db.VarChar(255)
+  phone         String   @unique @db.VarChar(255)
+  created_at    DateTime @default(dbgenerated("CURRENT_TIMESTAMP(6)")) @db.Timestamp(6)
+  last_modified DateTime @default(dbgenerated("CURRENT_TIMESTAMP(6)")) @db.Timestamp(6)
+}
