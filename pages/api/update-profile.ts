@@ -12,7 +12,9 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(req.method === 'POST'){
         const user = req.body as Interfaces.User
         try{
+            // @ts-ignore
             bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS as string),(err,salt)=>{
+                // @ts-ignore
                 bcrypt.hash(user.password as string, salt, async function(err, hash){ 
                     const User = await client.usershop.update({
                         where:{
