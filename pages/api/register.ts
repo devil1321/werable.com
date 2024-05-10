@@ -17,8 +17,8 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                 }})
                 if(!User){        
                     if(password_1 === password_2){
-                        bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS as string),(err,salt)=>{
-                            bcrypt.hash(password_1 as string, salt, async function(err, hash) {
+                        bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS as string),(err:any,salt:any)=>{
+                            bcrypt.hash(password_1 as string, salt, async function(err:any, hash:any) {
                                 try{
                                     const User = await client.usershop.create({
                                         data:{
