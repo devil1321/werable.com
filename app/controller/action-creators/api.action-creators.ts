@@ -4,7 +4,7 @@ import axios from "axios"
 import * as Interfaces from '../interfaces'
 import { getToken } from '@/app/controller/lib/get-token'
 import store from "../store"
-import { prinful } from "../lib/prinful"
+import  printful  from "../lib/printful"
 import { PrintfulTypes } from "../types"
 import { headers } from "next/headers"
 
@@ -291,9 +291,9 @@ export const pay = (total:number,currency:string,description:string) => async(di
 
 /*---------------------PRINTFUL API-----------------------*/
 
-export const prinfulGetProducts = (category_id:number) => async (dispatch:Dispatch) => {
+export const printfulGetProducts = (category_id:number) => async (dispatch:Dispatch) => {
     try{
-        const res = await prinful.get('/products',{
+        const res = await printful.get('/products',{
             params:{
                 category_id:category_id
             }
@@ -313,9 +313,9 @@ export const prinfulGetProducts = (category_id:number) => async (dispatch:Dispat
 
 }
 
-export const prinfulGetVariant = (id:number) => async (dispatch:Dispatch) =>{
+export const printfulGetVariant = (id:number) => async (dispatch:Dispatch) =>{
     try{
-        const res = await prinful.get('/products/variant',{
+        const res = await printful.get('/products/variant',{
             params:{
                 id:id
             }
@@ -333,22 +333,22 @@ export const prinfulGetVariant = (id:number) => async (dispatch:Dispatch) =>{
         })
     }
 }
-export const prinfulGetProduct = (id:number) => async (dispatch:Dispatch) =>{
+export const printfulGetProduct = (id:number) => async (dispatch:Dispatch) =>{
     try{
-        const res = await prinful.get('/products',{
+        const res = await printful.get('/products',{
             params:{
                 id:id
             }
         })
         const data = res.data
         dispatch({
-            type:PrintfulTypes.PRINTFUL_GET_VARIANT,
+            type:PrintfulTypes.PRINTFUL_GET_PRODUCT,
             product:data
         })
     }catch(err){
         console.log(err)
         dispatch({
-            type:PrintfulTypes.PRINTFUL_GET_VARIANT,
+            type:PrintfulTypes.PRINTFUL_GET_PRODUCT,
             product:null
         })
     }
@@ -356,7 +356,7 @@ export const prinfulGetProduct = (id:number) => async (dispatch:Dispatch) =>{
 
 export const printfulGetSizes = (id:number) => async(dispatch:Dispatch) =>{
     try{
-        const res = await prinful.get(`/products/${id}/sizes`)
+        const res = await printful.get(`/products/${id}/sizes`)
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_SIZES,
@@ -373,7 +373,11 @@ export const printfulGetSizes = (id:number) => async(dispatch:Dispatch) =>{
 
 export const printfulGetCategories = () => async(dispatch:Dispatch) =>{
     try{
-        const res = await prinful.get('/categories')
+        const res = await printful.get('/categories',{
+            headers:{
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_CATEGORIES,
@@ -388,9 +392,9 @@ export const printfulGetCategories = () => async(dispatch:Dispatch) =>{
     }
 }
 
-export const prinfulGetCategory = (id:number) => async(dispatch:Dispatch) =>{
+export const printfulGetCategory = (id:number) => async(dispatch:Dispatch) =>{
     try{
-        const res = await prinful.get('/categories',{
+        const res = await printful.get('/categories',{
             params:{
                 id:id
             }
@@ -409,10 +413,10 @@ export const prinfulGetCategory = (id:number) => async(dispatch:Dispatch) =>{
     }
 }
 
-export const prinfulGetSyncProducts = (category_id:number,status:string) => async (dispatch:Dispatch) =>{
+export const printfulGetSyncProducts = (category_id:number,status:string) => async (dispatch:Dispatch) =>{
     const { storeHeader,oAuthToken } = store.getState().api
     try {
-        const res = await prinful.get('/store/products',{
+        const res = await printful.get('/store/products',{
             params:{
                 category_id:category_id,
                 status:status
@@ -436,10 +440,10 @@ export const prinfulGetSyncProducts = (category_id:number,status:string) => asyn
     }
 }
 
-export const prinfulCreateSyncProduct = (sync_product:any,sync_variants:any) => async(dispatch:Dispatch) =>{
+export const printfulCreateSyncProduct = (sync_product:any,sync_variants:any) => async(dispatch:Dispatch) =>{
     const { storeHeader,oAuthToken } = store.getState().api
     try{
-        const res = await prinful.post('/store/products',{
+        const res = await printful.post('/store/products',{
             sync_product:sync_product,
             sync_variants:sync_variants
         },{
@@ -462,10 +466,10 @@ export const prinfulCreateSyncProduct = (sync_product:any,sync_variants:any) => 
     }
 }
 
-export const prinfulGetSyncProduct  = (id:number) => async(dispatch:Dispatch) =>{
+export const printfulGetSyncProduct  = (id:number) => async(dispatch:Dispatch) =>{
     const { storeHeader, oAuthToken } = store.getState().api
     try{
-       const res = await prinful.get('/store/products',{
+       const res = await printful.get('/store/products',{
             params:{
                 id:id
             },
@@ -488,10 +492,10 @@ export const prinfulGetSyncProduct  = (id:number) => async(dispatch:Dispatch) =>
     }
 }
 
-export const prinfulDeleteSyncProduct = (id:number) => async(dispatch:Dispatch) =>{
+export const printfulDeleteSyncProduct = (id:number) => async(dispatch:Dispatch) =>{
     const { storeHeader, oAuthToken } = store.getState().api
     try{
-        const res = await prinful.post('/store/products',{ id:id },{
+        const res = await printful.post('/store/products',{ id:id },{
             headers:{
                 'X-PF-Store-Id':storeHeader,
                 'Authorization':`Bearer ${oAuthToken}`
@@ -511,10 +515,10 @@ export const prinfulDeleteSyncProduct = (id:number) => async(dispatch:Dispatch) 
 }
 
 
-export const prinfulModifySyncProduct = (id:number) => async(dispatch:Dispatch) =>{
+export const printfulModifySyncProduct = (id:number) => async(dispatch:Dispatch) =>{
     const { storeHeader, oAuthToken } = store.getState().api
     try{
-        const res = await prinful.put('/store/products',{ id:id },{
+        const res = await printful.put('/store/products',{ id:id },{
             headers:{
                 'X-PF-Store-Id':storeHeader,
                 'Authorization':`Bearer ${oAuthToken}`
@@ -534,3 +538,772 @@ export const prinfulModifySyncProduct = (id:number) => async(dispatch:Dispatch) 
     }
 }
 
+export const printfulGetSyncVariant = (id:number) => async(dispatch:Dispatch) =>{
+    const { storeHeader,oAuthToken } = store.getState().api
+    try{
+        const res = await printful.get('store/variants',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_SYNC_VARIANT,
+            variant:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_SYNC_VARIANT,
+            variant:null
+        })
+    }
+}
+
+
+export const printfulDeleteSyncVariant = (id:number) => async(dispatch:Dispatch) =>{
+    const { storeHeader,oAuthToken } = store.getState().api
+    try{
+        const res = await printful.delete('store/variants',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_DELETE_SYNC_VARIANT,
+            variant:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_DELETE_SYNC_VARIANT,
+            variant:null,
+            data:null
+        })
+    }
+}
+export const printfulModifySyncVariant = (id:number) => async(dispatch:Dispatch) =>{
+    const { storeHeader,oAuthToken } = store.getState().api
+    try{
+        const res = await printful.put('store/variants',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_MODIFY_SYNC_VARIANT,
+            variant:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_MODIFY_SYNC_VARIANT,
+            variant:null,
+            data:null
+        })
+    }
+}
+export const printfulCreateNewSyncVariant = (id:number,variant_body:any) => async(dispatch:Dispatch) =>{
+    const { storeHeader,oAuthToken } = store.getState().api
+    try{
+        const res = await printful.post(`store/products/${id}/variants`,{
+            params:{
+                ...variant_body
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CREATE_NEW_SYNC_VARIANT,
+            variant:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CREATE_NEW_SYNC_VARIANT,
+            variant:null,
+            data:null
+        })
+    }
+}
+
+export const printfulGetProductsTemplatesAPI = (offset:number,limit:number) => async(dispatch:Dispatch) =>{
+    const { oAuthToken } = store.getState().api
+    try{
+        const res = await printful.get('product-templates',{
+            params:{
+                offset:offset,
+                limit:limit
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+            }
+        })
+        const data = res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_PRODUCT_TEMPLATES,
+            templates:data,
+            data:data
+        })
+
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_PRODUCT_TEMPLATES,
+            data:null,
+            templates:null
+        })
+    }
+
+}
+
+export const printfulGetProductTemplate = (id:number) => async(dispatch:Dispatch) =>{
+    const { oAuthToken } = store.getState().api
+    try{
+        const res = await printful.get('product-templates',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+            }
+        })
+        const data = res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_PRODUCT_TEMPLATE,
+            templates:data,
+            data:data
+        })
+
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_PRODUCT_TEMPLATE,
+            data:null,
+            templates:null
+        })
+    }
+
+}
+
+export const printfulDeleteProductTemplate = (id:number) => async(dispatch:Dispatch) =>{
+    const { oAuthToken } = store.getState().api
+    try{
+        const res = await printful.post('product-templates',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+            }
+        })
+        const data = res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_DELETE_PRODUCT_TEMPLATE,
+            templates:data,
+            data:data
+        })
+
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_DELETE_PRODUCT_TEMPLATE,
+            data:null,
+            templates:null
+        })
+    }
+
+}
+export const printfulGetListOfOrders = () => async(dispatch:Dispatch) =>{
+    const { oAuthToken } = store.getState().api
+    try{
+        const res = await printful.get('/orders',{
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_LIST_OF_ORDERS,
+            orders:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_LIST_OF_ORDERS,
+            orders:[],
+            data:null
+        })
+    }
+}
+export const printfulCreateNewOrder = (confirm:boolean,update_existing:boolean) => async(dispatch:Dispatch) =>{
+    const { storeHeader,oAuthToken } = store.getState().api
+    try{
+        const res = await printful.post('/orders',{
+            params:{
+                confirm:confirm,
+                update_existing:update_existing
+            },
+            headers:{
+                'X-PF-Store-Id':storeHeader,
+                'Authorization':`Bearer ${oAuthToken}`
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CREATE_NEW_ORDER,
+            order:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CREATE_NEW_ORDER,
+            order:null,
+            data:null       
+        })
+    }
+}
+
+export const printfulGetOrderData = (id:number) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.get('/orders',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_ORDER_DATA,
+            order:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_ORDER_DATA,
+            order:null,
+            data:null
+        })
+    }
+}
+export const printfulCancelAnOrder = (id:number) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.delete('/orders',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CANCEL_AN_ORDER,
+            order:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CANCEL_AN_ORDER,
+            order:null,
+            data:null
+        })
+    }
+}
+export const printfulUpdateOrderData = (id:number,confirm:boolean) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.put('/orders',{
+            params:{
+                id:id,
+                confirm:confirm
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_UPDATE_ORDER_DATA,
+            order:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_UPDATE_ORDER_DATA,
+            order:null,
+            data:null
+        })
+    }
+}
+export const printfulConfirmDraftForFulfillment = (id:number,confirm:boolean) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.put(`/orders/${id}/confirm`,{
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CONFIRM_DRAFT_FOR_FULLFILMENT,
+            order:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CONFIRM_DRAFT_FOR_FULLFILMENT,
+            order:null,
+            data:null
+        })
+    }
+}
+export const printfulEstimateOrderCost = (order_data:any) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.post(`/orders/estimate-cost`,{
+            params:{
+                ...order_data
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_ESTIMATE_ORDER_COST,
+            informationCost:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_ESTIMATE_ORDER_COST,
+            informationCost:null,
+            data:null
+        })
+    }
+}
+export const printfulAddANewFile = (file:any) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.post('/files',{
+            params:{
+                ...file
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_ADD_A_NEW_FILE,
+            file:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_ADD_A_NEW_FILE,
+            file:null,
+            data:null
+        })
+    }
+}
+export const printfulGetFile = (id:number) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.get('/file',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_FILE,
+            file:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_FILE,
+            file:null,
+            data:null
+        })
+    }
+}
+export const printfulReturnAvailableColorsFromImageUrl = (file_url:string) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.post('/files/thread-colors',{
+            params:{
+                file_url:file_url
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_AVAILABLE_THREDS_COLORS_FROM_IMAGE_URL,
+            file:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_AVAILABLE_THREDS_COLORS_FROM_IMAGE_URL,
+            file:null,
+            data:null
+        })
+    }
+}
+export const printfulShippingRateAPI = (shipping:any) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.post('/shipping-rates',{
+            params:{
+                ...shipping
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_SHIPPING_RATE_API,
+            shipping:data,
+            data:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_SHIPPING_RATE_API,
+            shipping:null,
+            data:null
+        })
+    }
+}
+export const printfulGetListOfSyncProductsEcommerce = (query:any) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.get('/sync/products',{
+            params:{
+                ...query
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_LIST_OF_SYNC_PRODUCTS_ECOMMERCE,
+            products:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_LIST_OF_SYNC_PRODUCTS_ECOMMERCE,
+            products:null,
+        })
+    }
+}
+export const printfulGetListOfSyncProductEcommerce = (id:number) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.get('/sync/products',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_SYNC_PRODUCT_ECOMMERCE,
+            product:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_SYNC_PRODUCT_ECOMMERCE,
+            product:null,
+        })
+    }
+}
+export const printfulDeleteListOfSyncProductEcommerce = (id:number) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.delete('/sync/products',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_DELETE_SYNC_PRODUCT_ECOMMERCE,
+            product:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_DELETE_SYNC_PRODUCT_ECOMMERCE,
+            product:null,
+        })
+    }
+}
+export const printfulGetSyncVariantEcommerce = (id:number) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.delete('/sync/variant',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_SYNC_VARIANT_ECOMMERCE,
+            variant:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_SYNC_VARIANT_ECOMMERCE,
+            variant:null,
+        })
+    }
+}
+export const printfulModifySyncVariantEcommerce = (id:number) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.put('/sync/variant',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_MODIFY_SYNC_VARIANT_ECOMMERCE,
+            variant:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_MODIFY_SYNC_VARIANT_ECOMMERCE,
+            variant:null,
+        })
+    }
+}
+export const printfulDeleteSyncVariantEcommerce = (id:number) => async(dispatch:Dispatch) =>{
+    const { storeHeader, oAuthToken } = store.getState().api
+    try{
+        const res = await printful.delete('/sync/variant',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_DELETE_SYNC_VARIANT_ECOMMERCE,
+            variant:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_DELETE_SYNC_VARIANT_ECOMMERCE,
+            variant:null,
+        })
+    }
+}
+export const printfulGetCountries = () => async(dispatch:Dispatch) =>{
+    try{
+        const res = await printful.get('/countries')
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_COUNTRIES,
+            countries:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_COUNTRIES,
+            variant:null,
+        })
+    }
+}
+export const printfulTaxRate = () => async(dispatch:Dispatch) =>{
+    try{
+        const res = await printful.get('/tax/countries')
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_TAX_API,
+            tax:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_TAX_API,
+            tax:null,
+        })
+    }
+}
+export const printfulCalculateTaxRate = (recipient:any) => async(dispatch:Dispatch) =>{
+    try{
+        const res = await printful.post('/tax/rates',recipient)
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CALCULATE_TAX_RATE,
+            tax:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CALCULATE_TAX_RATE,
+            tax:null,
+        })
+    }
+}
+export const printfulDisableWebhookSupport = () => async(dispatch:Dispatch) =>{
+    try{
+        const res = await printful.delete('/webhooks')
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_DISABLE_WEBHOOK_SUPPORT,
+            data:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_DISABLE_WEBHOOK_SUPPORT,
+            data:null,
+        })
+    }
+}
+export const printfulStoreInformationAPI = (query:any) => async(dispatch:Dispatch) =>{
+    const { storeHeader,oAuthToken } = store.getState().api
+    try{
+        const res = await printful.post('/store/packing-slip',{...query},{
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`,
+                'X-PF-Store-Id':storeHeader
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CHANGE_PACKING_SLIP,
+            packing:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_CHANGE_PACKING_SLIP,
+            packing:null,
+        })
+    }
+}
+export const printfulGetBasicInformationAboutStores = () => async(dispatch:Dispatch) =>{
+    const { oAuthToken } = store.getState().api
+    try{
+        const res = await printful.get('/stores',{
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_BASIC_INFORMATION_ABOUT_STORES,
+            stores:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_BASIC_INFORMATION_ABOUT_STORES,
+            stores:null,
+        })
+    }
+}
+export const printfulGetBasicInformationAboutStore = (id:number) => async(dispatch:Dispatch) =>{
+    const { oAuthToken } = store.getState().api
+    try{
+        const res = await printful.get('/stores',{
+            params:{
+                id:id
+            },
+            headers:{
+                'Authorization':`Bearer ${oAuthToken}`
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_BASIC_INFORMATION_ABOUT_STORE,
+            store:data,
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_BASIC_INFORMATION_ABOUT_STORE,
+            store:null,
+        })
+    }
+}

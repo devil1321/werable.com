@@ -1,35 +1,45 @@
-import { APITypes } from "../types";
+import { APITypes, PrintfulTypes } from "../types";
 import { APIActions } from "../actions/api.actions";
 import * as Interfaces from '@/app/controller/interfaces'
 
 interface InitState {
+    oAuthToken:any;
+    storeHeader:any;
     data:any;
     user:any;
     products:Interfaces.Product[]
     matches:Interfaces.Product[]
     token:any;
-    image:string;
     paymentLink:string;
     product:any;
     categories:any[];
     category:any;
-    storeHeader:string;
-    oAuthToken:string;
+    sizes:any[];
+    stores:any[];
+    store:any;
+    countries:any[];
+    variants:any[];
+    variant:any;
 }
 
 const initState:InitState = {
+    oAuthToken:null,
+    storeHeader:null,
     data:null,
-    products:[],
     matches:[],
     token:null,
     user:null,
-    image:'',
     paymentLink:'',
+    products:[],
     product:null,
+    variants:[],
+    variant:null,
     categories:[],
     category:null,
-    storeHeader:'',
-    oAuthToken:''
+    sizes:[],
+    store:null,
+    stores:[],
+    countries:[],
 }
 
 export default (state:InitState = initState,action:APIActions) =>{
@@ -104,6 +114,36 @@ export default (state:InitState = initState,action:APIActions) =>{
                 ...state,
                 data:action.data,
                 image:action.image
+            }
+        case PrintfulTypes.PRINTFUL_GET_PRODUCTS:
+            return{
+                ...state,
+                products:action.products
+            }
+        case PrintfulTypes.PRINTFUL_GET_VARIANT:
+            return{
+                ...state,
+                variant:action.variant
+            }
+        case PrintfulTypes.PRINTFUL_GET_PRODUCT:
+            return{
+                ...state,
+                product:action.product
+            }
+        case PrintfulTypes.PRINTFUL_GET_SIZES:
+            return{
+                ...state,
+                sizes:action.sizes
+            }
+        case PrintfulTypes.PRINTFUL_GET_CATEGORIES:
+            return{
+                ...state,
+                categories:action.categories
+            }
+        case PrintfulTypes.PRINTFUL_GET_CATEGORY:
+            return{
+                ...state,
+                category:action.category
             }
         default:
             return {

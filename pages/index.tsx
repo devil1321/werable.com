@@ -10,7 +10,7 @@ import Link from 'next/link'
 
 const Credentials = () => {
 
-  const {data, user } = useSelector((state:State) => state.api)
+  const {data, user, products, categories ,category,oAuthToken,storeHeader,product,variants,variant } = useSelector((state:State) => state.api)
   
   const dispatch = useDispatch()
   const APIActions = bindActionCreators(ApiActions,dispatch)
@@ -80,7 +80,12 @@ const Credentials = () => {
 
   useEffect(()=>{
     // handleInit()
+    APIActions.printfulGetCategories()
   },[user])
+
+  useEffect(()=>{
+    console.log(categories)
+  },[categories])
 
   return (
     <div>
