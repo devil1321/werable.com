@@ -7,10 +7,11 @@ import { bindActionCreators } from 'redux'
 import { usePathname, useRouter } from 'next/navigation'
 import { State } from '@/app/controller/reducers/root.reducer'
 import Link from 'next/link'
+import axios from 'axios'
 
 const Credentials = () => {
 
-  const {data, user, products, categories ,category,oAuthToken,storeHeader,product,variants,variant } = useSelector((state:State) => state.api)
+  const {data, user, products, categories ,category,oAuthToken,storeHeader,product,variants,variant,stores,store } = useSelector((state:State) => state.api)
   
   const dispatch = useDispatch()
   const APIActions = bindActionCreators(ApiActions,dispatch)
@@ -81,13 +82,18 @@ const Credentials = () => {
   useEffect(()=>{
     // handleInit()
     APIActions.printfulGetCategories()
+    APIActions.printfulGetCategory(1)
+    APIActions.printfulGetBasicInformationAboutStores()
+
   },[user])
 
   useEffect(()=>{
-    console.log(categories)
-  },[categories])
+    console.log(stores,store)
+    console.log(oAuthToken)
 
-  return (
+  },[stores,store])
+
+  return (  
     <div>
       {!isRegister
         ? <div className='credentials-login relative top-0 -left-[4%] w-[100vw] h-[100vh] flex flex-col justify-center items-center'>

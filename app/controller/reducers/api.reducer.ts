@@ -5,6 +5,8 @@ import * as Interfaces from '@/app/controller/interfaces'
 interface InitState {
     oAuthToken:any;
     storeHeader:any;
+    refreshToken:any;
+    html:any;
     data:any;
     user:any;
     products:Interfaces.Product[]
@@ -23,8 +25,10 @@ interface InitState {
 }
 
 const initState:InitState = {
-    oAuthToken:null,
+    html:undefined,
+    oAuthToken:process.env.PRINTFUL_TOKEN,
     storeHeader:null,
+    refreshToken:null,
     data:null,
     matches:[],
     token:null,
@@ -114,6 +118,18 @@ export default (state:InitState = initState,action:APIActions) =>{
                 ...state,
                 data:action.data,
                 image:action.image
+            }
+        case PrintfulTypes.PRINTFUL_AUTH:
+            return{
+                ...state,
+                html:action.html
+            }
+        case PrintfulTypes.PRINTFUL_AUTH_REDIRECT:
+            return{
+                ...state,
+                storeHeader:action.storeHeader,
+                oAuthToken:action.accessToken,
+                refreshToken:action.refreshToken
             }
         case PrintfulTypes.PRINTFUL_GET_PRODUCTS:
             return{
