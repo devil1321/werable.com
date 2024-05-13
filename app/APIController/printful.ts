@@ -437,12 +437,11 @@ export const printfulEstimateOrderCost = async(order_data:any) => {
         return err
     }
 }
-export const printfulAddANewFile = async(file:any) =>{
+export const printfulAddANewFile = async(query:any) =>{
     try{
         const res = await printful.post('/files',{
-            params:{
-                ...file
-            },
+                ...query
+            },{
             headers:{
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID
@@ -491,12 +490,11 @@ export const printfulReturnAvailableColorsFromImageUrl = async(file_url:string) 
         return err
     }
 }
-export const printfulShippingRateAPI = async(shipping:any) => {
+export const printfulShippingRateAPI = async(query:any) => {
     try{
-        const res = await printful.post('/shipping-rates',{
-            params:{
-                ...shipping
-            },
+        const res = await printful.post('/shipping/rates',{
+                ...query
+            },{
             headers:{
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID
@@ -547,10 +545,7 @@ export const printfulGetListOfSyncProductEcommerce = async(id:number) => {
 }
 export const printfulDeleteListOfSyncProductEcommerce = async(id:number) => {
     try{
-        const res = await printful.delete('/sync/products',{
-            params:{
-                id:id
-            },
+        const res = await printful.delete(`/sync/products/${id}`,{
             headers:{
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID
@@ -565,10 +560,7 @@ export const printfulDeleteListOfSyncProductEcommerce = async(id:number) => {
 }
 export const printfulGetSyncVariantEcommerce = async(id:number) => {
     try{
-        const res = await printful.delete('/sync/variant',{
-            params:{
-                id:id
-            },
+        const res = await printful.get(`/sync/variant/${id}`,{
             headers:{
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID
@@ -581,12 +573,11 @@ export const printfulGetSyncVariantEcommerce = async(id:number) => {
         return err
     }
 }
-export const printfulModifySyncVariantEcommerce = async(id:number) => {
+export const printfulModifySyncVariantEcommerce = async(id:number,query:any) => {
     try{
-        const res = await printful.put('/sync/variant',{
-            params:{
-                id:id
-            },
+        const res = await printful.put(`/sync/variant/${id}`,{
+                ...query
+            },{
             headers:{
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID
@@ -601,10 +592,7 @@ export const printfulModifySyncVariantEcommerce = async(id:number) => {
 }
 export const printfulDeleteSyncVariantEcommerce = async(id:number) => {
     try{
-        const res = await printful.delete('/sync/variant',{
-            params:{
-                id:id
-            },
+        const res = await printful.delete(`/sync/variant/${id}`,{
             headers:{
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID

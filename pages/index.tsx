@@ -83,13 +83,14 @@ const Credentials = () => {
     // handleInit()
     APIActions.printfulGetCategories()
     APIActions.printfulGetCategory(1)
-    APIActions.printfulGetBasicInformationAboutStores()
+    APIActions.printfulGetListOfSyncProductsEcommerce({id:1,value:'empty'})
 
   },[user])
 
   useEffect(()=>{
     console.log(stores,store)
     console.log(oAuthToken)
+    console.log(products)
 
   },[stores,store])
 

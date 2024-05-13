@@ -5,16 +5,8 @@ import * as APIController from '@/app/APIController/printful'
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
     const params = req.query
     if(req.method === 'GET'){
-        if(params['search'] && params['offset'] && params['limit'] && params['status']){
-            const data = await APIController.printfulGetListOfSyncProductsEcommerce(params)
-            if(data){
-                res.status(200).json(data)
-            }else{
-                res.status(500).json(null)
-            }
-        }
         if(params['id']){
-            const data = await APIController.printfulGetListOfSyncProductEcommerce(Number(params['id']))
+            const data = await APIController.printfulGetSyncVariantEcommerce(Number(params['id']))
             if(data){
                 res.status(200).json(data)
             }else{
@@ -22,9 +14,10 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
             }
         }
     } 
-    if(req.method === "DELETE"){
+    if(req.method === 'PUT'){
+        const { query } = req.body
         if(params['id']){
-            const data = await APIController.printfulDeleteListOfSyncProductEcommerce(Number(params['id']))
+            const data = await APIController.printfulModifySyncVariantEcommerce(Number(params['id']),query)
             if(data){
                 res.status(200).json(data)
             }else{
@@ -32,4 +25,15 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
             }
         }
     }
+    if(req.method === "DELETE"){
+        if(params['id']){
+            const data = await APIController.printfulDeleteSyncVariantEcommerce(Number(params['id']))
+        if(data){
+            res.status(200).json(data)
+        }else{
+            res.status(500).json(null)
+        }
+        }
+    }
+    
 }

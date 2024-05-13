@@ -866,12 +866,10 @@ export const printfulEstimateOrderCost = (order_data:any) => async(dispatch:Disp
         })
     }
 }
-export const printfulAddANewFile = (file:any) => async(dispatch:Dispatch) =>{
+export const printfulAddANewFile = (query:any) => async(dispatch:Dispatch) =>{
     try{
         const res = await printful.post('/files',{
-            params:{
-                ...file
-            }
+            query:query
         })
         const data = await res.data
         dispatch({
@@ -913,10 +911,8 @@ export const printfulGetFile = (id:number) => async(dispatch:Dispatch) =>{
 export const printfulReturnAvailableColorsFromImageUrl = (file_url:string) => async(dispatch:Dispatch) =>{
     try{
         const res = await printful.post('/files-thread-colors',{
-            params:{
                 file_url:file_url
-            }
-        })
+            })
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_AVAILABLE_THREDS_COLORS_FROM_IMAGE_URL,
@@ -932,13 +928,11 @@ export const printfulReturnAvailableColorsFromImageUrl = (file_url:string) => as
         })
     }
 }
-export const printfulShippingRateAPI = (shipping:any) => async(dispatch:Dispatch) =>{
+export const printfulShippingRateAPI = (query:any) => async(dispatch:Dispatch) =>{
     try{
         const res = await printful.post('/shipping-rates',{
-            params:{
-                ...shipping
-            }
-        })
+                query:query
+            })
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_SHIPPING_RATE_API,
@@ -1016,7 +1010,7 @@ export const printfulDeleteListOfSyncProductEcommerce = (id:number) => async(dis
 }
 export const printfulGetSyncVariantEcommerce = (id:number) => async(dispatch:Dispatch) =>{
     try{
-        const res = await printful.delete('/sync-variant-ecommerce',{
+        const res = await printful.get('/sync-variant-ecommerce',{
             params:{
                 id:id
             }
@@ -1034,9 +1028,11 @@ export const printfulGetSyncVariantEcommerce = (id:number) => async(dispatch:Dis
         })
     }
 }
-export const printfulModifySyncVariantEcommerce = (id:number) => async(dispatch:Dispatch) =>{
+export const printfulModifySyncVariantEcommerce = (id:number,query:any) => async(dispatch:Dispatch) =>{
     try{
         const res = await printful.put('/sync-variant-ecommerce',{
+            query:query
+        },{
             params:{
                 id:id
             }
