@@ -6,7 +6,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     const params = req.query
     if(req.method === 'GET'){
         if(params['offset'] && params['limit'] && params['status']){
-            const data = await APIController.printfulGetListOfOrders(Number(params['offset']),Number(params['limit']),String(params['status']))
+            const data = await APIController.printfulGetListOfOrders(params['locale'] as string,Number(params['offset']),Number(params['limit']),String(params['status']))
             if(data){
                 res.status(200).json(data)
             }else{
@@ -14,7 +14,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
             }
         }
         if(params['id']){
-            const data = await APIController.printfulGetOrderData(Number(params['id']))
+            const data = await APIController.printfulGetOrderData(params['locale'] as string,Number(params['id']))
             if(data){
                 res.status(200).json(data)
             }else{

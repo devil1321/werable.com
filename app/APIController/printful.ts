@@ -26,9 +26,12 @@ export const printfulAuthRedirect = async(code:string) =>{
     }
 }
 
-export const printfulGetProducts = async(category_id:string) => {
+export const printfulGetProducts = async(locale:string,category_id:string) => {
     try{
         const res = await printful.get('/products',{
+            headers:{
+                'X-PF-Language':locale
+            },
             params:{
                 category_id:category_id
             }
@@ -42,9 +45,13 @@ export const printfulGetProducts = async(category_id:string) => {
 
 }
 
-export const printfulGetVariant = async(id:number) => {
+export const printfulGetVariant = async(locale:string,id:number) => {
     try{
-        const res = await printful.get(`/products/variant/${id}`)
+        const res = await printful.get(`/products/variant/${id}`,{
+            headers:{
+                'X-PF-Language':locale
+            }
+        })
         const data = res.data
         return data
     }catch(err){
@@ -52,9 +59,13 @@ export const printfulGetVariant = async(id:number) => {
         return err
     }
 }
-export const printfulGetProduct = async(id:number) =>{
+export const printfulGetProduct = async(locale:string,id:number) =>{
     try{
-        const res = await printful.get(`/products/${id}`)
+        const res = await printful.get(`/products/${id}`,{
+            headers:{
+                'X-PF-Language':locale
+            }
+        })
         const data = res.data
         return data
     }catch(err){
@@ -79,9 +90,13 @@ export const printfulGetSizes = async(id:number,unit:string) => {
 
 }
 
-export const printfulGetCategories = async() =>{
+export const printfulGetCategories = async(locale:string,) =>{
     try{
-        const res = await printful.get('/categories')
+        const res = await printful.get('/categories',{
+            headers:{
+                'X-PF-Language':locale
+            }
+        })
         const data = await res.data
         return data
     }catch(err){
@@ -90,9 +105,13 @@ export const printfulGetCategories = async() =>{
     }
 }
 
-export const printfulGetCategory = async(id:number) =>{
+export const printfulGetCategory = async(locale:string,id:number) =>{
     try{
-        const res = await printful.get(`/categories/${id}`)
+        const res = await printful.get(`/categories/${id}`,{
+            headers:{
+                'X-PF-Language':locale
+            }
+        })
         const data = await res.data
         return data 
     }catch(err){
@@ -101,7 +120,7 @@ export const printfulGetCategory = async(id:number) =>{
     }
 }
 
-export const printfulGetSyncProducts = async(category_id:string,status:string) =>{
+export const printfulGetSyncProducts = async(locale:string,category_id:string,status:string) =>{
     try {
         const res = await printful.get('/store/products',{
             params:{
@@ -109,6 +128,7 @@ export const printfulGetSyncProducts = async(category_id:string,status:string) =
                 status:status
             },
             headers:{
+                "X-PF-Language":locale,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`
             }
@@ -140,13 +160,14 @@ export const printfulCreateSyncProduct = async(sync_product:any,sync_variants:an
     }
 }
 
-export const printfulGetSyncProduct  = async(id:number) => {
+export const printfulGetSyncProduct  = async(locale:string,id:number) => {
     try{
        const res = await printful.get('/store/products',{
             params:{
                 id:id
             },
             headers:{
+                "X-PF-Language":locale,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`
             }
@@ -195,10 +216,11 @@ export const printfulModifySyncProduct = async(id:number,sync_product:any,sync_v
     }
 }
 
-export const printfulGetSyncVariant = async(id:number) => {
+export const printfulGetSyncVariant = async(locale:string,id:number) => {
     try{
         const res = await printful.get(`/store/variants/${id}`,{
             headers:{
+                "X-PF-Language":locale,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID
             }
@@ -263,7 +285,7 @@ export const printfulCreateNewSyncVariant = async(id:number,variant_body:any) =>
     }
 }
 
-export const printfulGetProductsTemplateList = async(offset:number,limit:number) =>{
+export const printfulGetProductsTemplateList = async(locale:string,offset:number,limit:number) =>{
     try{
         const res = await printful.get('/product-templates',{
             params:{
@@ -271,6 +293,7 @@ export const printfulGetProductsTemplateList = async(offset:number,limit:number)
                 limit:limit
             },
             headers:{
+                "X-PF-Language":locale,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
             }
         })
@@ -284,10 +307,11 @@ export const printfulGetProductsTemplateList = async(offset:number,limit:number)
 
 }
 
-export const printfulGetProductTemplate = async(id:number) => {
+export const printfulGetProductTemplate = async(locale:string,id:number) => {
     try{
         const res = await printful.get(`/product-templates/${id}`,{
             headers:{
+                "X-PF-Language":locale,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
             }
         })
@@ -316,7 +340,7 @@ export const printfulDeleteProductTemplate = async(id:number) => {
     }
 
 }
-export const printfulGetListOfOrders = async(offset:number,limit:number,status:string) =>{
+export const printfulGetListOfOrders = async(locale:string,offset:number,limit:number,status:string) =>{
     try{
         const res = await printful.get('/orders',{
             params:{
@@ -325,6 +349,7 @@ export const printfulGetListOfOrders = async(offset:number,limit:number,status:s
                 status:status
             },
             headers:{
+                "X-PF-Language":locale,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`
             }
         })
@@ -357,10 +382,11 @@ export const printfulCreateNewOrder = async(confirm:boolean,update_existing:bool
     }
 }
 
-export const printfulGetOrderData = async(id:number) => {
+export const printfulGetOrderData = async(locale:string,id:number) => {
     try{
         const res = await printful.get(`/orders/${id}`,{
             headers:{
+                "X-PF-Language":locale,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID
             }
@@ -507,13 +533,14 @@ export const printfulShippingRateAPI = async(query:any) => {
         return err
     }
 }
-export const printfulGetListOfSyncProductsEcommerce = async(query:any) => {
+export const printfulGetListOfSyncProductsEcommerce = async(locale:string,query:any) => {
     try{
         const res = await printful.get('/sync/products',{
             params:{
                 ...query
             },
             headers:{
+                "X-PF-Language":locale,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID
             }
@@ -525,13 +552,14 @@ export const printfulGetListOfSyncProductsEcommerce = async(query:any) => {
         return err
     }
 }
-export const printfulGetListOfSyncProductEcommerce = async(id:number) => {
+export const printfulGetListOfSyncProductEcommerce = async(locale:string,id:number) => {
     try{
         const res = await printful.get('/sync/products',{
             params:{
                 id:id
             },
             headers:{
+                "X-PF-Language":locale,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID
             }
@@ -558,10 +586,11 @@ export const printfulDeleteListOfSyncProductEcommerce = async(id:number) => {
         return err
     }
 }
-export const printfulGetSyncVariantEcommerce = async(id:number) => {
+export const printfulGetSyncVariantEcommerce = async(locale:string,id:number) => {
     try{
         const res = await printful.get(`/sync/variant/${id}`,{
             headers:{
+                "X-PF-Language":locale,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID
             }
@@ -605,9 +634,13 @@ export const printfulDeleteSyncVariantEcommerce = async(id:number) => {
         return err
     }
 }
-export const printfulGetCountries = async() => {
+export const printfulGetCountries = async(locale:string,) => {
     try{
-        const res = await printful.get('/countries')
+        const res = await printful.get('/countries',{
+            headers:{
+                'X-PF-Language':locale
+            }
+        })
         const data = await res.data
         return data
     }catch(err){
@@ -615,9 +648,13 @@ export const printfulGetCountries = async() => {
         return err
     }
 }
-export const printfulTaxRate = async() => {
+export const printfulTaxRate = async(locale:string,) => {
     try{
-        const res = await printful.get('/tax/countries')
+        const res = await printful.get('/tax/countries',{
+            headers:{
+                'X-PF-Language':locale
+            }
+        })
         const data = await res.data
         return data
     }catch(err){
@@ -625,9 +662,13 @@ export const printfulTaxRate = async() => {
         return err
     }
 }
-export const printfulCalculateTaxRate = async(recipient:any) => {
+export const printfulCalculateTaxRate = async(locale:string,recipient:any) => {
     try{
-        const res = await printful.post('/tax/rates',recipient)
+        const res = await printful.post('/tax/rates',recipient,{
+            headers:{
+                'X-PF-Language':locale
+            }
+        })
         const data = await res.data
         return data
     }catch(err){
@@ -645,10 +686,11 @@ export const printfulDisableWebhookSupport = async() => {
         return err
     }
 }
-export const printfulStoreInformationAPI = async(query:any) => {
+export const printfulStoreInformationAPI = async(locale:string,query:any) => {
     try{
         const res = await printful.post('/store/packing-slip',{...query},{
             headers:{
+                "X-PF-Language":locale,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID
             }
@@ -660,10 +702,11 @@ export const printfulStoreInformationAPI = async(query:any) => {
         return err
     }
 }
-export const printfulGetBasicInformationAboutStores = async() => {
+export const printfulGetBasicInformationAboutStores = async(locale:string,) => {
     try{
         const res = await printful.get('/stores',{
             headers:{
+                "X-PF-Language":locale,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`
             }
         })
@@ -674,13 +717,14 @@ export const printfulGetBasicInformationAboutStores = async() => {
         return err
     }
 }
-export const printfulGetBasicInformationAboutStore = async(id:number) => {
+export const printfulGetBasicInformationAboutStore = async(locale:string,id:number) => {
     try{
         const res = await printful.get('/stores',{
             params:{
                 id:id
             },
             headers:{
+                "X-PF-Language":locale,
                 'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`
             }
         })

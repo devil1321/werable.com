@@ -3,10 +3,10 @@ import * as APIController from '@/app/APIController/printful'
 
 
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
+    const params = req.query
     if(req.method === 'GET'){
-        const params = req.query
         if(params['category_id'] && params['status']){
-            const products = await APIController.printfulGetSyncProducts(params['category_id'] as string,params['status'] as string)
+            const products = await APIController.printfulGetSyncProducts(params['locale'] as string,params['category_id'] as string,params['status'] as string)
             console.log(params)
             if(products){
                 res.status(200).json(products)
@@ -15,7 +15,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
             }
         }
         if(params['id']){
-            const product = await APIController.printfulGetSyncProduct(Number(params['id']))
+            const product = await APIController.printfulGetSyncProduct(params['locale'] as string,Number(params['id']))
             if(product){
                 res.status(200).json(product)
             }else{
@@ -26,7 +26,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(req.method === 'POST'){
         const { category_id, status, id } = req.body
         if(category_id && status){
-            const products = await APIController.printfulGetSyncProducts(category_id,status)
+            const products = await APIController.printfulGetSyncProducts(params['locale'] as string,category_id,status)
             if(products){
                 res.status(200).json(products)
             }else{

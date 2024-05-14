@@ -2,8 +2,12 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import products from '@/public/assets/tmp/db/products.json'
 import Product from '../global/product.component'
+import { useSelector } from 'react-redux'
+import { State } from '@/app/controller/reducers/root.reducer'
 
 const ProductCarousel = () => {
+
+  const { products } = useSelector((state:State) => state.api)
 
   const [count,setCount] = useState<number>(0)
   const viewRef = useRef() as MutableRefObject<HTMLDivElement>
@@ -36,7 +40,7 @@ const ProductCarousel = () => {
   }
 
   const handleMove = () =>{
-    viewRef.current.style.transform = `translateX(-${count * itemRef.current.clientWidth}px)`
+    viewRef.current.style.transform = `translateX(-${count * itemRef?.current?.clientWidth}px)`
   }
 
   const handlePrev = () =>{
@@ -79,7 +83,7 @@ const ProductCarousel = () => {
       </div>
       <div className="home-carousel-items-wrapper h-[400px] w-[100vw] overflow-hidden">
         <div ref={viewRef} className="home-carousel-view flex justify-center items-center">
-            {products.map((p:any) => <Product key={`product-home-carousel-${p.id}`} productRef={itemRef} product={p}/>)}
+            {products?.result?.map((p:any) => <Product key={`product-home-carousel-${p.id}`} productRef={itemRef} product={p}/>)}
         </div>
       </div>
     </div>

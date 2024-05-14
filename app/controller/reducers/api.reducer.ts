@@ -22,6 +22,13 @@ interface InitState {
     countries:any[];
     variants:any[];
     variant:any;
+    locale:string;
+    locales:any[];
+    templates:any[];
+    template:any;
+    informationCost:any;
+    packing:any;
+    tax:any;
 }
 
 const initState:InitState = {
@@ -44,6 +51,13 @@ const initState:InitState = {
     store:null,
     stores:[],
     countries:[],
+    locale:'en_US',
+    locales:[],
+    templates:[],
+    template:null,
+    informationCost:null,
+    packing:null,
+    tax:null
 }
 
 export default (state:InitState = initState,action:APIActions) =>{
@@ -131,6 +145,11 @@ export default (state:InitState = initState,action:APIActions) =>{
                 oAuthToken:action.accessToken,
                 refreshToken:action.refreshToken
             }
+        case PrintfulTypes.PRINTFUL_SET_LOCALE:
+            return{
+                ...state,
+                locale:action.locale
+            }
         case PrintfulTypes.PRINTFUL_GET_PRODUCTS:
             return{
                 ...state,
@@ -160,6 +179,186 @@ export default (state:InitState = initState,action:APIActions) =>{
             return{
                 ...state,
                 category:action.category
+            }
+        case PrintfulTypes.PRINTFUL_GET_COUNTRIES:
+            return{
+                ...state,
+                countries:action.countries
+            }
+        case PrintfulTypes.PRINTFUL_GET_SYNC_PRODUCTS:
+            return{
+                ...state,
+                products:action.products
+            }
+        case PrintfulTypes.PRINTFUL_CREATE_SYNC_PRODUCT:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_GET_SYNC_PRODUCT:
+            return {
+                ...state,
+                product:action.product
+            }
+        case PrintfulTypes.PRINTFUL_DELETE_SYNC_PRODUCT:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_MODIFY_SYNC_PRODUCT:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_GET_SYNC_VARIANT:
+            return {
+                ...state,
+                variant:action.variant
+            }
+        case PrintfulTypes.PRINTFUL_DELETE_SYNC_VARIANT:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_MODIFY_SYNC_VARIANT:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_CREATE_NEW_SYNC_VARIANT:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_GET_PRODUCT_TEMPLATE_LIST:
+            return {
+                ...state,
+                templates:action.templates
+            }
+        case PrintfulTypes.PRINTFUL_GET_PRODUCT_TEMPLATE:
+            return {
+                ...state,
+                template:action.template
+            }
+        case PrintfulTypes.PRINTFUL_DELETE_PRODUCT_TEMPLATE:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_GET_LIST_OF_ORDERS:
+            return {
+                ...state,
+                orders:action.orders
+            }
+        case PrintfulTypes.PRINTFUL_CREATE_NEW_ORDER:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_GET_ORDER_DATA:
+            return {
+                ...state,
+                order:action.order
+            }
+        case PrintfulTypes.PRINTFUL_CANCEL_AN_ORDER:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_UPDATE_ORDER_DATA:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_CONFIRM_DRAFT_FOR_FULLFILMENT:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_ESTIMATE_ORDER_COST:
+            return {
+                ...state,
+                informationCost:action.informationCost
+            }
+        case PrintfulTypes.PRINTFUL_ADD_A_NEW_FILE:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_GET_FILE:
+            return {
+                ...state,
+                file:action.file
+            }
+        case PrintfulTypes.PRINTFUL_AVAILABLE_THREDS_COLORS_FROM_IMAGE_URL:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_SHIPPING_RATE_API:
+            return {
+                ...state,
+                shipping:action.shipping
+            }
+        case PrintfulTypes.PRINTFUL_GET_LIST_OF_SYNC_PRODUCTS_ECOMMERCE:
+            return {
+                ...state,
+                products:action.products
+            }
+        case PrintfulTypes.PRINTFUL_GET_SYNC_PRODUCT_ECOMMERCE:
+            return {
+                ...state,
+                product:action.product
+            }
+        case PrintfulTypes.PRINTFUL_DELETE_SYNC_PRODUCT_ECOMMERCE:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_GET_SYNC_VARIANT_ECOMMERCE:
+            return {
+                ...state,
+                variant:action.variant
+            }
+        case PrintfulTypes.PRINTFUL_MODIFY_SYNC_VARIANT_ECOMMERCE:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_DELETE_SYNC_VARIANT_ECOMMERCE:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_TAX_API:
+            return {
+                ...state,
+                tax:action.tax
+            }
+        case PrintfulTypes.PRINTFUL_CALCULATE_TAX_RATE:
+            return {
+                ...state,
+                tax:action.tax
+            }
+        case PrintfulTypes.PRINTFUL_DISABLE_WEBHOOK_SUPPORT:
+            return {
+                ...state,
+                data:action.data
+            }
+        case PrintfulTypes.PRINTFUL_CHANGE_PACKING_SLIP:
+            return {
+                ...state,
+                packing:action.packing
+            }
+        case PrintfulTypes.PRINTFUL_GET_BASIC_INFORMATION_ABOUT_STORE:
+            return {
+                ...state,
+                store:action.store
+            }
+        case PrintfulTypes.PRINTFUL_GET_BASIC_INFORMATION_ABOUT_STORES:
+            return {
+                ...state,
+                stores:action.stores
             }
         default:
             return {

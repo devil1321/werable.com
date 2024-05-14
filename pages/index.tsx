@@ -80,20 +80,10 @@ const Credentials = () => {
 
 
   useEffect(()=>{
-    // handleInit()
     APIActions.printfulGetCategories()
-    APIActions.printfulGetCategory(1)
-    APIActions.printfulGetListOfSyncProductsEcommerce({id:1,value:'empty'})
 
   },[user])
-
-  useEffect(()=>{
-    console.log(stores,store)
-    console.log(oAuthToken)
-    console.log(products)
-
-  },[stores,store])
-
+  
   return (  
     <div>
       {!isRegister

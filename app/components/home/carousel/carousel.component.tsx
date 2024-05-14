@@ -1,7 +1,6 @@
 'use client'
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import Item from './item.component'
-import Image from 'next/image'
 
 const Carousel = () => {
 
@@ -10,6 +9,7 @@ const Carousel = () => {
   const itemRef = useRef() as MutableRefObject<HTMLDivElement>
   const prevRef = useRef() as MutableRefObject<SVGSVGElement>
   const nextRef = useRef() as MutableRefObject<SVGSVGElement>
+
 
   const handleSetControls = () =>{
     const pathPrev = prevRef.current.querySelector('path') as SVGPathElement

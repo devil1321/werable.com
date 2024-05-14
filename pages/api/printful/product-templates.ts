@@ -6,7 +6,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(req.method === 'GET'){
         const params = req.query
         if(params['offset'] && params['limit']){
-            const data = await APIController.printfulGetProductsTemplateList(Number(params['offset']),Number(params['limit']))
+            const data = await APIController.printfulGetProductsTemplateList(params['locale'] as string,Number(params['offset']),Number(params['limit']))
             if(data){
                 res.status(200).json(data)
             }else{
@@ -14,7 +14,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
             }
         }
         if(params['id']){
-            const data = await APIController.printfulGetProductTemplate(Number(params['id']))
+            const data = await APIController.printfulGetProductTemplate(params['locale'] as string,Number(params['id']))
             if(data){
                 res.status(200).json(data)
             }else{

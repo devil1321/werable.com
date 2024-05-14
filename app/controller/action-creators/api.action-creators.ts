@@ -290,6 +290,13 @@ export const pay = (total:number,currency:string,description:string) => async(di
 
 /*---------------------PRINTFUL API-----------------------*/
 
+export const printfulSetLocale = (locale:string) => (dispatch:Dispatch) =>{
+    dispatch({
+        type:PrintfulTypes.PRINTFUL_SET_LOCALE,
+        locale:locale
+    })
+}
+
 export const printfulAuth = () => async(dispatch:Dispatch) =>{
    try{
      const res = await printful.get('/auth')
@@ -336,10 +343,12 @@ export const printfulAuthRedirect = (code:string) => async(dispatch:Dispatch) =>
 }
 
 export const printfulGetProducts = (category_id:string[]) => async (dispatch:Dispatch) => {
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/products',{
             params:{
-                category_id:category_id
+                category_id:category_id,
+                locale:locale
             }
         })
         const data = await res.data
@@ -358,10 +367,12 @@ export const printfulGetProducts = (category_id:string[]) => async (dispatch:Dis
 }
 
 export const printfulGetVariant = (id:number) => async (dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/products-variant',{
             params:{
-                id:id
+                id:id,
+                locale:locale
             }
         })
         const data = res.data
@@ -378,10 +389,12 @@ export const printfulGetVariant = (id:number) => async (dispatch:Dispatch) =>{
     }
 }
 export const printfulGetProduct = (id:number) => async (dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/products',{
             params:{
-                id:id
+                id:id,
+                locale:locale
             }
         })
         const data = res.data
@@ -421,8 +434,13 @@ export const printfulGetSizes = (id:number,unit:string) => async(dispatch:Dispat
 }
 
 export const printfulGetCategories = () => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
-        const res = await printful.get('/categories')
+        const res = await printful.get('/categories',{
+            params:{
+                locale:locale
+            }
+        })
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_CATEGORIES,
@@ -438,10 +456,12 @@ export const printfulGetCategories = () => async(dispatch:Dispatch) =>{
 }
 
 export const printfulGetCategory = (id:number) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/categories',{
             params:{
-                id:id
+                id:id,
+                locale:locale
             }
         })
         const data = await res.data
@@ -459,23 +479,25 @@ export const printfulGetCategory = (id:number) => async(dispatch:Dispatch) =>{
 }
 
 export const printfulGetSyncProducts = (category_id:number,status:string) => async (dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try {
         const res = await printful.get('/sync-products',{
             params:{
                 category_id:category_id,
-                status:status
+                status:status,
+                locale:locale
             }
         })
         const data = await res.data
         dispatch({
-            type:PrintfulTypes.PRINTFUL_GET_SYNC_PRODUCT,
-            product:data
+            type:PrintfulTypes.PRINTFUL_GET_SYNC_PRODUCTS,
+            products:data
         })
     }catch(err){
         console.log(err)
         dispatch({
-            type:PrintfulTypes.PRINTFUL_GET_SYNC_PRODUCT,
-            product:null
+            type:PrintfulTypes.PRINTFUL_GET_SYNC_PRODUCTS,
+            products:null
         })
     }
 }
@@ -495,16 +517,18 @@ export const printfulCreateSyncProduct = (sync_product:any,sync_variants:any) =>
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_CREATE_SYNC_PRODUCT,
-            product:null
+            data:null
         })
     }
 }
 
 export const printfulGetSyncProduct  = (id:number) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
        const res = await printful.get('/sync-product',{
             params:{
-                id:id
+                id:id,
+                locale:locale
             }
        })
        const data = await res.data
@@ -556,10 +580,12 @@ export const printfulModifySyncProduct = (id:number) => async(dispatch:Dispatch)
 }
 
 export const printfulGetSyncVariant = (id:number) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/sync-variant',{
             params:{
-                id:id
+                id:id,
+                locale:locale
             }
         })
         const data = await res.data
@@ -629,39 +655,37 @@ export const printfulCreateNewSyncVariant = (id:number,query:any) => async(dispa
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_CREATE_NEW_SYNC_VARIANT,
-            variant:data,
             data:data
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_CREATE_NEW_SYNC_VARIANT,
-            variant:null,
             data:null
         })
     }
 }
 
 export const printfulGetProductsTemplateList = (offset:number,limit:number) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/products-templates',{
             params:{
                 offset:offset,
-                limit:limit
+                limit:limit,
+                locale:locale
             }
         })
         const data = res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_PRODUCT_TEMPLATES,
             templates:data,
-            data:data
         })
 
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_PRODUCT_TEMPLATES,
-            data:null,
             templates:null
         })
     }
@@ -669,24 +693,24 @@ export const printfulGetProductsTemplateList = (offset:number,limit:number) => a
 }
 
 export const printfulGetProductTemplate = (id:number) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/product-templates',{
             params:{
-                id:id
+                id:id,
+                locale:locale
             }
         })
         const data = res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_PRODUCT_TEMPLATE,
             templates:data,
-            data:data
         })
 
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_PRODUCT_TEMPLATE,
-            data:null,
             templates:null
         })
     }
@@ -699,7 +723,6 @@ export const printfulDeleteProductTemplate = (id:number) => async(dispatch:Dispa
         const data = res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_DELETE_PRODUCT_TEMPLATE,
-            templates:data,
             data:data
         })
 
@@ -708,18 +731,19 @@ export const printfulDeleteProductTemplate = (id:number) => async(dispatch:Dispa
         dispatch({
             type:PrintfulTypes.PRINTFUL_DELETE_PRODUCT_TEMPLATE,
             data:null,
-            templates:null
         })
     }
 
 }
 export const printfulGetListOfOrders = (offset:number,limit:number,status:string) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/orders',{
             params:{
                 offset:offset,
                 limit:limit,
-                status:status
+                status:status,
+                locale:locale
             }
         })
         const data = await res.data
@@ -732,7 +756,6 @@ export const printfulGetListOfOrders = (offset:number,limit:number,status:string
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_LIST_OF_ORDERS,
             orders:[],
-            data:null
         })
     }
 }
@@ -746,38 +769,36 @@ export const printfulCreateNewOrder = (confirm:boolean,update_existing:boolean,q
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_CREATE_NEW_ORDER,
-            order:data,
             data:data
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_CREATE_NEW_ORDER,
-            order:null,
             data:null       
         })
     }
 }
 
 export const printfulGetOrderData = (id:number) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/orders',{
             params:{
-                id:id
+                id:id,
+                locale:locale
             }
         })
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_ORDER_DATA,
             order:data,
-            data:data
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_ORDER_DATA,
             order:null,
-            data:null
         })
     }
 }
@@ -791,14 +812,12 @@ export const printfulCancelAnOrder = (id:number) => async(dispatch:Dispatch) =>{
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_CANCEL_AN_ORDER,
-            order:data,
             data:data
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_CANCEL_AN_ORDER,
-            order:null,
             data:null
         })
     }
@@ -814,14 +833,12 @@ export const printfulUpdateOrderData = (id:number,confirm:boolean,query:any) => 
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_UPDATE_ORDER_DATA,
-            order:data,
             data:data
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_UPDATE_ORDER_DATA,
-            order:null,
             data:null
         })
     }
@@ -834,14 +851,12 @@ export const printfulConfirmDraftForFulfillment = (id:number) => async(dispatch:
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_CONFIRM_DRAFT_FOR_FULLFILMENT,
-            order:data,
             data:data
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_CONFIRM_DRAFT_FOR_FULLFILMENT,
-            order:null,
             data:null
         })
     }
@@ -855,14 +870,12 @@ export const printfulEstimateOrderCost = (order_data:any) => async(dispatch:Disp
         dispatch({
             type:PrintfulTypes.PRINTFUL_ESTIMATE_ORDER_COST,
             informationCost:data,
-            data:data
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_ESTIMATE_ORDER_COST,
             informationCost:null,
-            data:null
         })
     }
 }
@@ -874,14 +887,12 @@ export const printfulAddANewFile = (query:any) => async(dispatch:Dispatch) =>{
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_ADD_A_NEW_FILE,
-            file:data,
             data:data
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_ADD_A_NEW_FILE,
-            file:null,
             data:null
         })
     }
@@ -897,14 +908,12 @@ export const printfulGetFile = (id:number) => async(dispatch:Dispatch) =>{
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_FILE,
             file:data,
-            data:data
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_FILE,
             file:null,
-            data:null
         })
     }
 }
@@ -916,14 +925,12 @@ export const printfulReturnAvailableColorsFromImageUrl = (file_url:string) => as
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_AVAILABLE_THREDS_COLORS_FROM_IMAGE_URL,
-            file:data,
             data:data
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_AVAILABLE_THREDS_COLORS_FROM_IMAGE_URL,
-            file:null,
             data:null
         })
     }
@@ -937,22 +944,22 @@ export const printfulShippingRateAPI = (query:any) => async(dispatch:Dispatch) =
         dispatch({
             type:PrintfulTypes.PRINTFUL_SHIPPING_RATE_API,
             shipping:data,
-            data:data
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_SHIPPING_RATE_API,
             shipping:null,
-            data:null
         })
     }
 }
 export const printfulGetListOfSyncProductsEcommerce = (query:any) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/sync-products-ecommerce',{
             params:{
-                ...query
+                ...query,
+                locale:locale
             }
         })
         const data = await res.data
@@ -969,10 +976,12 @@ export const printfulGetListOfSyncProductsEcommerce = (query:any) => async(dispa
     }
 }
 export const printfulGetListOfSyncProductEcommerce = (id:number) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/sync-products-ecommerce',{
             params:{
-                id:id
+                id:id,
+                locale:locale
             }
         })
         const data = await res.data
@@ -998,21 +1007,23 @@ export const printfulDeleteListOfSyncProductEcommerce = (id:number) => async(dis
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_DELETE_SYNC_PRODUCT_ECOMMERCE,
-            product:data,
+            data:data,
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_DELETE_SYNC_PRODUCT_ECOMMERCE,
-            product:null,
+            data:null,
         })
     }
 }
 export const printfulGetSyncVariantEcommerce = (id:number) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/sync-variant-ecommerce',{
             params:{
-                id:id
+                id:id,
+                locale:locale
             }
         })
         const data = await res.data
@@ -1040,13 +1051,13 @@ export const printfulModifySyncVariantEcommerce = (id:number,query:any) => async
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_MODIFY_SYNC_VARIANT_ECOMMERCE,
-            variant:data,
+            data:data,
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_MODIFY_SYNC_VARIANT_ECOMMERCE,
-            variant:null,
+            data:null,
         })
     }
 }
@@ -1060,19 +1071,24 @@ export const printfulDeleteSyncVariantEcommerce = (id:number) => async(dispatch:
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_DELETE_SYNC_VARIANT_ECOMMERCE,
-            variant:data,
+            data:data,
         })
     }catch(err){
         console.log(err)
         dispatch({
             type:PrintfulTypes.PRINTFUL_DELETE_SYNC_VARIANT_ECOMMERCE,
-            variant:null,
+            data:null,
         })
     }
 }
 export const printfulGetCountries = () => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
-        const res = await printful.get('/countries')
+        const res = await printful.get('/countries',{
+            params:{
+                locale:locale
+            }
+        })
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_COUNTRIES,
@@ -1087,8 +1103,13 @@ export const printfulGetCountries = () => async(dispatch:Dispatch) =>{
     }
 }
 export const printfulTaxRate = () => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
-        const res = await printful.get('/tax-countries')
+        const res = await printful.get('/tax-countries',{
+            params:{
+                locale:locale
+            }
+        })
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_TAX_API,
@@ -1103,8 +1124,13 @@ export const printfulTaxRate = () => async(dispatch:Dispatch) =>{
     }
 }
 export const printfulCalculateTaxRate = (recipient:any) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
-        const res = await printful.post('/tax-rates',recipient)
+        const res = await printful.post('/tax-rates',recipient,{
+            params:{
+                locale:locale
+            }
+        })
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_CALCULATE_TAX_RATE,
@@ -1135,8 +1161,13 @@ export const printfulDisableWebhookSupport = () => async(dispatch:Dispatch) =>{
     }
 }
 export const printfulStoreInformationAPI = (query:any) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
-        const res = await printful.post('/store-packing-slip',{query:query})
+        const res = await printful.post('/store-packing-slip',{query:query},{
+            params:{
+                locale:locale
+            }
+        })
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_CHANGE_PACKING_SLIP,
@@ -1151,8 +1182,13 @@ export const printfulStoreInformationAPI = (query:any) => async(dispatch:Dispatc
     }
 }
 export const printfulGetBasicInformationAboutStores = () => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
-        const res = await printful.get('/stores')
+        const res = await printful.get('/stores',{
+            params:{
+                locale:locale
+            }
+        })
         const data = await res.data
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_BASIC_INFORMATION_ABOUT_STORES,
@@ -1167,10 +1203,12 @@ export const printfulGetBasicInformationAboutStores = () => async(dispatch:Dispa
     }
 }
 export const printfulGetBasicInformationAboutStore = (id:number) => async(dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
     try{
         const res = await printful.get('/stores',{
             params:{
-                id:id
+                id:id,
+                locale:locale
             }
         })
         const data = await res.data

@@ -3,13 +3,25 @@ import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import gsap from 'gsap'
+import { useDispatch, useSelector } from 'react-redux'
+import * as ApiActions from '@/app/controller/action-creators/api.action-creators'
+import { State } from '@/app/controller/reducers/root.reducer'
+import { bindActionCreators } from 'redux'
 
 const Nav = () => {
+
+  const [locale,setLocale] = useState<string>('EN')
+  const [isLanguageMenu,setIsLanguageMenu] = useState<boolean>(false)
+  
+  const { countries } = useSelector((state:State) => state.api)
 
   const [isPlaying,setIsPlaying] = useState<boolean>(false)
   const menuWrapperRef = useRef() as MutableRefObject<HTMLDivElement>
   const overlayRef = useRef() as MutableRefObject<HTMLDivElement>
   const imageRef = useRef() as MutableRefObject<HTMLImageElement>
+
+  const dispatch = useDispatch()
+  const APIActions = bindActionCreators(ApiActions,dispatch)
 
   const handleMenuInit = () =>{
     if(typeof window !== 'undefined'){
@@ -84,8 +96,17 @@ const Nav = () => {
   }
 
   useEffect(()=>{
+    APIActions.printfulGetCountries()
+  },[])
+
+  useEffect(()=>{
+    console.log(countries)
+  },[countries])
+
+  useEffect(()=>{
     handleMenuInit()
   },[menuWrapperRef.current])
+
 
   return (
     <div className='nav absolute top-0 left-0'>
@@ -98,10 +119,21 @@ const Nav = () => {
         </div>
         <Image ref={imageRef} className='opacity-70' src="/assets/nav-bg.png" alt='nav-background' width={1920} height={400} />
         <div ref={menuWrapperRef} className="nav-menus-wrapper z-50 overflow-hidden md:overflow-visible absolute w-[100%] md:w-fit md:max-w-[100vw] bg-neutral-900/70 md:bg-transparent h-[195px] md:h-max rounded-md top-[150px] md:top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col md:flex-row justify-between items-center">
-          <div className="nav-menu relative z-30 -left-[10%] md:-left-[5%] lg:-left-[15%] xl:-left-[10%] -top-4 w-1/3 flex gap-5">
-            <Link className="relative z-50 top-0 left-0 hover:underline text-white" href="/home">Home</Link>
-            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/products">Products</Link>
-            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-4" href="/about">About Us</Link>
+          <div className="nav-menu relative z-30 -left-[10%] md:-left-[5%] lg:-left-[15%] xl:-left-[20%] -top-4 w-1/3 flex gap-5">
+            <div className="nav__language relative top-0 left-0">
+              <p className='text-white cursor-pointer' onClick={()=>setIsLanguageMenu(!isLanguageMenu)}>{locale}</p>
+              {isLanguageMenu &&
+                <div className="nav-language-menu bg-white p-3 rounded-md text-black absolute top-10 left-1/2 -translate-x-1/2">
+                {countries?.result?.map((c:any)=> <p className='p-2 rounded-md hover:bg-gray-200 w-[200px] cursor-pointer' onClick={()=>{
+                  setLocale(c.code)
+                  setIsLanguageMenu(false)
+                  }}>{c.name}</p>)}
+              </div>}
+            </div>
+            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/home">Home</Link>
+            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-4" href="/products">Products</Link>
+            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-6" href="/about">About Us</Link>
+           
           </div>
           <div className="nav-logo relative -left-[30%] md:left-0 -top-[10%] w-1/3 flex gap-3 items-center">
             <div className="nav-logo min-w-[40px] md:min-w-[0px] md:w-[30px] lg:w-[50px] xl:w-[70px]">
@@ -120,5 +152,4 @@ const Nav = () => {
     </div>
   )
 }
-
 export default Nav

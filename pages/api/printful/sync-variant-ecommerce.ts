@@ -6,7 +6,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     const params = req.query
     if(req.method === 'GET'){
         if(params['id']){
-            const data = await APIController.printfulGetSyncVariantEcommerce(Number(params['id']))
+            const data = await APIController.printfulGetSyncVariantEcommerce(params['locale'] as string,Number(params['id']))
             if(data){
                 res.status(200).json(data)
             }else{

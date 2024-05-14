@@ -6,7 +6,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(req.method === 'GET'){
         const params = req.query
         if(params['category_id']){
-            const products = await APIController.printfulGetProducts(params['category_id'] as string)
+            const products = await APIController.printfulGetProducts(params['locale'] as string,params['category_id'] as string)
             if(products){
                 res.status(200).json(products)
             }else{
@@ -14,7 +14,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
             }
         }
         if(params['id']){
-            const product = await APIController.printfulGetProduct(Number(params['id']))
+            const product = await APIController.printfulGetProduct(params['locale'] as string,Number(params['id']))
             if(product){
                 res.status(200).json(product)
             }else{
