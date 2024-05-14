@@ -2,12 +2,16 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import products from '@/public/assets/tmp/db/products.json'
 import Product from '../global/product.component'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import { State } from '@/app/controller/reducers/root.reducer'
+import * as ApiActions from '@/app/controller/action-creators/api.action-creators'
+import { bindActionCreators } from 'redux'
 
 const ProductCarousel = () => {
 
-  const { products } = useSelector((state:State) => state.api)
+  const dispatch = useDispatch()
+  const APIActions = bindActionCreators(ApiActions,dispatch)
+  const { products, locale } = useSelector((state:State) => state.api)
 
   const [count,setCount] = useState<number>(0)
   const viewRef = useRef() as MutableRefObject<HTMLDivElement>
@@ -67,9 +71,13 @@ const ProductCarousel = () => {
     handleMove()
   },[count])
 
+  useEffect(()=>{
+    console.log(products)
+  },[products.length])
+
   return (
     <div className='home-product-carousel relative top-0 left-0'>
-      <div className="home-product-carousel-controls absolute top-[40%] left-1/2 -translate-y-1/2 -translate-x-1/2 flex justify-between items-center z-10 w-[90%]">
+      <div className="home-product-carousel-controls absolute top-[50%] left-1/2 -translate-y-1/2 -translate-x-1/2 flex justify-between items-center z-10 w-[90%]">
         <div onMouseEnter={()=>handleControl(prevRef)} onMouseLeave={()=>handleControl(prevRef)} className="cursor-pointer transition-all home-carousel-prev rounded-full bg-neutral-900 p-3" onClick={()=>handlePrev()}>
             <svg ref={prevRef} className='relative -left-1 top-0' width="41" height="42" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M30.6521 0.281265C31.9402 0.29029 33.214 0.502194 34.3997 0.904695C35.5854 1.30719 36.6595 1.89228 37.5596 2.62608C39.3926 4.11158 40.3904 6.07705 40.3676 8.15495C40.3448 10.2329 39.304 12.1793 37.4354 13.633L27.951 21.0113L37.2714 28.5674C39.1076 30.0529 40.1055 32.0184 40.0826 34.0963C40.0598 36.1742 39.019 38.1207 37.1505 39.5743C33.4167 42.4764 26.961 42.4189 23.2886 39.4426L0.227172 20.7531L23.6977 2.49697C24.613 1.77993 25.6991 1.21484 26.8929 0.834478C28.0867 0.454116 29.3645 0.266073 30.6521 0.281265ZM30.2531 36.5992C30.6827 36.6049 31.1093 36.5429 31.508 36.4169C31.9068 36.2908 32.2699 36.1032 32.5764 35.8648C32.8828 35.6264 33.1265 35.3419 33.2934 35.0279C33.4603 34.714 33.547 34.3766 33.5486 34.0355C33.5562 33.3428 33.2236 32.6885 32.6115 32.1925L18.7119 20.9253L32.8562 9.91924C33.4791 9.4347 33.826 8.78933 33.8336 8.0941C33.8412 7.39887 33.5086 6.74717 32.8965 6.25113C32.2802 5.77278 31.456 5.50107 30.5955 5.49257C29.735 5.48407 28.9045 5.73944 28.277 6.20551L9.46626 20.8392L27.9517 35.8176C28.2514 36.0623 28.6091 36.2575 29.0042 36.3917C29.3993 36.5258 29.8239 36.5964 30.2531 36.5992Z" strokeWidth={3} stroke='gray'/>
@@ -81,7 +89,7 @@ const ProductCarousel = () => {
             </svg>
         </div>
       </div>
-      <div className="home-carousel-items-wrapper h-[400px] w-[100vw] overflow-hidden">
+      <div className="home-carousel-items-wrapper flex flex-col justify-center items-center h-[550px] w-[100vw] overflow-hidden">
         <div ref={viewRef} className="home-carousel-view flex justify-center items-center">
             {products?.result?.map((p:any) => <Product key={`product-home-carousel-${p.id}`} productRef={itemRef} product={p}/>)}
         </div>

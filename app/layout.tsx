@@ -25,9 +25,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="container">
           <WithRedux>
-            <Nav />
-            {children}
-            <Footer />
+            <InitStateProvider>
+              <Nav />
+              {children}
+              <Footer />
+            </InitStateProvider>
           </WithRedux>
         </div>
       </body>
@@ -45,7 +47,8 @@ const InitStateProvider:React.FC<{children:React.ReactNode}> = ({children}) =>{
   const APIActions = bindActionCreators(ApiActions,dispatch)
 
   useEffect(()=>{
-    APIActions.printfulGetSyncProducts(1,'all')
+    APIActions.printfulGetSyncProducts(4,'all')
+    // APIActions.printfulGetProducts(1)
   },[])
 
   return children

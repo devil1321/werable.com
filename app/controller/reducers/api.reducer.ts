@@ -9,11 +9,11 @@ interface InitState {
     html:any;
     data:any;
     user:any;
-    products:Interfaces.Product[]
-    matches:Interfaces.Product[]
+    products:any[]
+    product:any;
+    matches:any[]
     token:any;
     paymentLink:string;
-    product:any;
     categories:any[];
     category:any;
     sizes:any[];

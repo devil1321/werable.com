@@ -7,7 +7,6 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(req.method === 'GET'){
         if(params['category_id'] && params['status']){
             const products = await APIController.printfulGetSyncProducts(params['locale'] as string,params['category_id'] as string,params['status'] as string)
-            console.log(params)
             if(products){
                 res.status(200).json(products)
             }else{

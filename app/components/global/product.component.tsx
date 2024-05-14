@@ -4,16 +4,19 @@ import Image from 'next/image'
 import gsap from 'gsap'
 import  MotionPathPlugin  from 'gsap/dist/MotionPathPlugin'
 import SplitTextJS from 'split-text-js'
+import useSyncProduct from '@/app/hooks/useSyncProduct'
 
 const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement> }> = ({product,productRef}) => {
 
   const titleRef = useRef() as MutableRefObject<HTMLHeadingElement>
   const pathRef = useRef() as MutableRefObject<SVGPathElement>
+  const pathRefIcons = useRef() as MutableRefObject<SVGPathElement>
   const cartRef = useRef() as MutableRefObject<HTMLDivElement>
   const infoRef = useRef() as MutableRefObject<HTMLDivElement>
   const plusRef = useRef() as MutableRefObject<HTMLDivElement>
   const minusRef = useRef() as MutableRefObject<HTMLDivElement>
   
+  const [item,setItem] = useSyncProduct(product.id)
 
   const handleAnimationOut = () =>{
     if(titleRef.current.classList.contains('--open')){
@@ -97,7 +100,7 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
           alignOrigin: [0.5, 0.5],
           autoRotate: true,
           start: 0,
-          end: index * 2 * 0.02
+          end: index * 2 * 0.012
         }
       })
       gsap.fromTo(cartRef.current,{opacity:0},{
@@ -155,12 +158,19 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
       })
   }
 
+  useEffect(()=>{
+    console.log('item',item)
+  },[item])
+
   return (
-    <div ref={productRef} onMouseEnter={()=>handleAnimationIn()} onMouseLeave={()=>handleAnimationOut()} className='product cursor-pointer my-10 mx-[50px] relative top-0 left-1/2 -translate-x-[58%] md:left-0 md:-translate-x-0'>
-      <svg className='absolute opacity-0 -top-[15%] -left-[9%] md:-left-[12.5%]' width={450} height={450}>
+    <div onMouseLeave={()=>handleAnimationOut()} ref={productRef} className='product cursor-pointer my-10 mx-[50px] h-max relative top-0 left-1/2 -translate-x-[58%] md:left-0 md:-translate-x-0'>
+      <svg className='absolute opacity-0 -top-[15%] -left-[9%] md:-left-[12.5%]' width={600} height={600}>
         <path ref={pathRef} d="M0,140a135,135 0 1,0 270,0a135,135 0 1,0 -270,0" fill="none" stroke="black" strokeWidth={2}/>
       </svg>
-      <h3 ref={titleRef} className="product-title hidden text-neutral-900 text-4xl font-bold absolute top-0 left-0">{product.title}</h3>
+      <svg className='absolute opacity-0 -top-[15%] -left-[9%] md:-left-[12.5%]' width={600} height={600}>
+        <path ref={pathRefIcons} d="M-30,130a150,150 0 1,0 340,0a150,150 0 1,0 -340,0" fill="none" stroke="black" strokeWidth={2}/>
+      </svg>
+      <h3 ref={titleRef} className="product-title hidden text-neutral-900 text-4xl font-bold absolute top-0 left-0">{item?.result?.sync_variants[0]?.name}</h3>
       <div ref={cartRef} className="product-icon-wrapper hover:bg-gray-400 hidden absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         <Image src="/assets/cart-icon.png" alt="icon-cart" width={25} height={25} />
       </div>
@@ -173,9 +183,9 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
       <div ref={minusRef} className="product-icon-wrapper hover:bg-gray-400 hidden absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         <Image src="/assets/minus-icon.png" alt="icon-minus" width={25} height={25} />
       </div>
-      <div className='product-image relative top-0 left-0 bg-gray-300 rounded-full w-[220px] h-[220px] overflow-hidden'>
-        <div className="product-breadcrumb absolute top-1/2 -translate-y-1/2 -right-48 px-8 py-3 bg-green-300 text-white font-bold rounded-l-md">{product.price}$</div>
-        <Image className='rounded-full' src={product.img} alt='product-image' width={500} height={500} />
+      <div onMouseEnter={()=>handleAnimationIn()} className='product-image relative top-0 left-0 bg-gray-300 rounded-full w-[220px] h-[220px] overflow-hidden'>
+        <div className="product-breadcrumb absolute top-1/2 -translate-y-1/2 -right-48 px-8 py-3 bg-green-300 text-white font-bold rounded-l-md">{item?.result?.sync_variants[0]?.retail_price}{item?.result?.sync_variants[0]?.currency}</div>
+        <Image className='rounded-full' src={item?.result?.sync_product?.thumbnail_url} alt='product-image' width={500} height={500} />
       </div>
     </div>
   )

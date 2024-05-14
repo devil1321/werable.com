@@ -342,7 +342,7 @@ export const printfulAuthRedirect = (code:string) => async(dispatch:Dispatch) =>
    } 
 }
 
-export const printfulGetProducts = (category_id:string[]) => async (dispatch:Dispatch) => {
+export const printfulGetProducts = (category_id:number) => async (dispatch:Dispatch) => {
     const { locale } = store.getState().api
     try{
         const res = await printful.get('/products',{
@@ -525,7 +525,7 @@ export const printfulCreateSyncProduct = (sync_product:any,sync_variants:any) =>
 export const printfulGetSyncProduct  = (id:number) => async(dispatch:Dispatch) =>{
     const { locale } = store.getState().api
     try{
-       const res = await printful.get('/sync-product',{
+       const res = await printful.get('/sync-products',{
             params:{
                 id:id,
                 locale:locale

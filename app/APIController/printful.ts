@@ -162,10 +162,7 @@ export const printfulCreateSyncProduct = async(sync_product:any,sync_variants:an
 
 export const printfulGetSyncProduct  = async(locale:string,id:number) => {
     try{
-       const res = await printful.get('/store/products',{
-            params:{
-                id:id
-            },
+       const res = await printful.get(`/store/products/${id}`,{
             headers:{
                 "X-PF-Language":locale,
                 'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID,

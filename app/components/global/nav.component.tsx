@@ -100,10 +100,6 @@ const Nav = () => {
   },[])
 
   useEffect(()=>{
-    console.log(countries)
-  },[countries])
-
-  useEffect(()=>{
     handleMenuInit()
   },[menuWrapperRef.current])
 
@@ -127,6 +123,7 @@ const Nav = () => {
                 {countries?.result?.map((c:any)=> <p className='p-2 rounded-md hover:bg-gray-200 w-[200px] cursor-pointer' onClick={()=>{
                   setLocale(c.code)
                   setIsLanguageMenu(false)
+                  APIActions.printfulSetLocale(c.code)
                   }}>{c.name}</p>)}
               </div>}
             </div>
