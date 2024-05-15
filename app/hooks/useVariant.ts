@@ -9,15 +9,16 @@ import APIPrintful from '../controller/lib/APIPrintful'
 
 
 const useSyncProduct = (id:number) => {
-
+    
   const { products,locale } = useSelector((state:State) => state.api)
-  const [item,setItem] = useState<any>(null)
+  const [variant,setVariant] = useState<any>(null)
 
-  const handleFetchProduct = async() =>{
-    const res = await APIPrintful.get(`/sync-products`,{
-      params:{
-        id:id,
-        details:true
+  const handleFetchVariant = async() =>{
+    try{
+      const res = await APIPrintful.get(`/sync-products`,{
+        params:{
+          id:id,
+          details:true
       },
       headers:{
           "X-PF-Language":locale,
@@ -26,14 +27,26 @@ const useSyncProduct = (id:number) => {
       }
     })
     const data = await res.data
-    setItem(data)
+    const variantRes = await APIPrintful.get(`/variant`,{
+      params:{
+        id:data?.result?.sync_variants[0].variant_id
+      },
+      headers:{
+          'X-PF-Language':locale
+      }
+    })
+    const variantData = variantRes.data
+    setVariant(variantData)
+  }catch(err){
+    console.log(err)
   }
+}
 
   useEffect(()=>{
-    handleFetchProduct()
+    handleFetchVariant()
   },[products,id])
 
-  return [item,setItem]
+  return [variant,setVariant]
 }
 
 export default useSyncProduct

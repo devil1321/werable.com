@@ -120,6 +120,27 @@ export const printfulGetCategory = async(locale:string,id:number) =>{
     }
 }
 
+export const printfulGetAllSyncProducts = async(locale:string,offset:number,limit:number) =>{
+    try {
+        const res = await printful.get('/store/products',{
+            params:{
+                offset:offset,
+                limit:limit
+            },
+            headers:{
+                "X-PF-Language":locale,
+                'X-PF-Store-Id':process.env.PRINTFUL_DOMINIK_STORE_ID,
+                'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`
+            }
+        })
+        const data = await res.data
+        return data
+    }catch(err){
+        console.log(err)
+        return err
+    }
+}
+
 export const printfulGetSyncProducts = async(locale:string,category_id:string,status:string) =>{
     try {
         const res = await printful.get('/store/products',{

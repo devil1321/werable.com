@@ -185,6 +185,11 @@ export default (state:InitState = initState,action:APIActions) =>{
                 ...state,
                 countries:action.countries
             }
+        case PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS:
+            return{
+                ...state,
+                products:action.products
+            }
         case PrintfulTypes.PRINTFUL_GET_SYNC_PRODUCTS:
             return{
                 ...state,

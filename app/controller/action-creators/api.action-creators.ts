@@ -369,7 +369,7 @@ export const printfulGetProducts = (category_id:number) => async (dispatch:Dispa
 export const printfulGetVariant = (id:number) => async (dispatch:Dispatch) =>{
     const { locale } = store.getState().api
     try{
-        const res = await printful.get('/products-variant',{
+        const res = await printful.get('/variant',{
             params:{
                 id:id,
                 locale:locale
@@ -474,6 +474,30 @@ export const printfulGetCategory = (id:number) => async(dispatch:Dispatch) =>{
         dispatch({
             type:PrintfulTypes.PRINTFUL_GET_CATEGORY,
             category:null
+        })
+    }
+}
+
+export const printfulGetAllSyncProducts = (offset:number,limit:number) => async (dispatch:Dispatch) =>{
+    const { locale } = store.getState().api
+    try {
+        const res = await printful.get('/sync-products',{
+            params:{
+                offset:offset,
+                limit:limit,
+                locale:locale
+            }
+        })
+        const data = await res.data
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
+            products:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
+            products:null
         })
     }
 }

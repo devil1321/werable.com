@@ -71,10 +71,6 @@ const ProductCarousel = () => {
     handleMove()
   },[count])
 
-  useEffect(()=>{
-    console.log(products)
-  },[products.length])
-
   return (
     <div className='home-product-carousel relative top-0 left-0'>
       <div className="home-product-carousel-controls absolute top-[50%] left-1/2 -translate-y-1/2 -translate-x-1/2 flex justify-between items-center z-10 w-[90%]">

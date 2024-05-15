@@ -47,7 +47,7 @@ const InitStateProvider:React.FC<{children:React.ReactNode}> = ({children}) =>{
   const APIActions = bindActionCreators(ApiActions,dispatch)
 
   useEffect(()=>{
-    APIActions.printfulGetSyncProducts(4,'all')
+    APIActions.printfulGetAllSyncProducts(0,100)
     // APIActions.printfulGetProducts(1)
   },[])
 
