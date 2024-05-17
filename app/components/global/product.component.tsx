@@ -6,6 +6,7 @@ import  MotionPathPlugin  from 'gsap/dist/MotionPathPlugin'
 import SplitTextJS from 'split-text-js'
 import useSyncProduct from '@/app/hooks/useSyncProduct'
 import useVariant from '@/app/hooks/useVariant'
+import Link from 'next/link'
 
 const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement> }> = ({product,productRef}) => {
 
@@ -13,7 +14,7 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
   const pathRef = useRef() as MutableRefObject<SVGPathElement>
   const pathRefIcons = useRef() as MutableRefObject<SVGPathElement>
   const cartRef = useRef() as MutableRefObject<HTMLDivElement>
-  const infoRef = useRef() as MutableRefObject<HTMLDivElement>
+  const infoRef = useRef() as MutableRefObject<HTMLAnchorElement>
   const plusRef = useRef() as MutableRefObject<HTMLDivElement>
   const minusRef = useRef() as MutableRefObject<HTMLDivElement>
   const breadcrumbRef = useRef() as MutableRefObject<HTMLDivElement>
@@ -217,9 +218,11 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
       <div ref={cartRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         <Image src="/assets/cart-icon.png" alt="icon-cart" width={25} height={25} />
       </div>
-      <div ref={infoRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
-        <Image src="/assets/info-icon.png" alt="icon-info" width={25} height={25} />
-      </div>
+      <Link ref={infoRef} className='absolute top-0 left-0 w-10 h-10' href="/details/[id]" as={`/details/${product.id}`}>
+        <div className="product-icon-wrapper hover:bg-gray-400 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
+          <Image src="/assets/info-icon.png" alt="icon-info" width={25} height={25} />
+        </div>
+      </Link>
       <div ref={plusRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         <Image src="/assets/plus-icon.png" alt="icon-plus" width={25} height={25} />
       </div>
@@ -229,7 +232,7 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
       <div onMouseEnter={(e)=>handleAnimationIn(e)} className='product-image z-50 relative top-0 left-0 bg-gray-300 rounded-full w-[220px] h-[220px] overflow-hidden'>
         <div ref={breadcrumbRef} className="product-breadcrumb pointer-events-none absolute z-50 top-1/2 -translate-y-1/2 -right-56 w-[220px] px-8 py-3 bg-green-300 text-white font-bold rounded-l-md">
           <p className="text-center">{item?.result?.sync_variants[0]?.retail_price}{item?.result?.sync_variants[0]?.currency}</p>
-          <p className="text-center"><span>{variant?.result?.variant?.in_stock ? 'In Stock' : 'Out Of Stock'}</span> / <span classList="italic">In Cart 0</span></p> 
+          <p className="text-center"><span className='italic'>{variant?.result?.variant?.in_stock ? 'In Stock' : 'Out Of Stock'}</span> / <span className="italic">In Cart 0</span></p> 
         </div>
         <Image className='rounded-full relative top-0 left-0 z-20' src={item?.result?.sync_product?.thumbnail_url} alt='product-image' width={500} height={500} />
       </div>

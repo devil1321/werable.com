@@ -77,12 +77,6 @@ const Credentials = () => {
       }
     }
   },[])
-
-
-  useEffect(()=>{
-    APIActions.printfulGetCategories()
-
-  },[user])
   
   return (  
     <div>

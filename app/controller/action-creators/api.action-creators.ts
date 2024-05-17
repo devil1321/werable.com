@@ -450,7 +450,7 @@ export const printfulGetCategories = () => async(dispatch:Dispatch) =>{
         console.log(err)
          dispatch({
             type:PrintfulTypes.PRINTFUL_GET_CATEGORIES,
-            categories:[]
+            categories:err
         })
     }
 }
