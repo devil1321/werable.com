@@ -9,9 +9,8 @@ const useInCart = (id:number) => {
   const [inCart,setInCart] = useState<boolean>(false)
 
   const handleInCart = () =>{
-    const items = cart.filter((p:any) => p?.sync_product?.id === id)
-    const isExits = Boolean(items.length > 0)
-    if(isExits){
+    const item = cart.find((p:any) => p.product_id === id)
+    if(item){
         setInCart(true)
     }else{
         setInCart(false)

@@ -136,7 +136,7 @@ const Nav = () => {
             <div className="nav-logo min-w-[40px] md:min-w-[0px] md:w-[30px] lg:w-[50px] xl:w-[70px]">
               <Image src="/assets/logo-black.svg" alt='nav-background' width={70} height={50} />
             </div>
-            <h2 className="md:text-2xl xl:text-4xl font-bold text-white">Werable</h2>
+            <h2 className="md:text-2xl xl:text-4xl font-bold text-white">Wearable</h2>
           </div>
           <div className="nav-menu relative z-30 -left-[25%] md:-left-[5%] lg:left-[5%] xl:left-[10%] -top-4 w-1/3 flex gap-5">
             <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-6" href="/new-sale">New Sale</Link>

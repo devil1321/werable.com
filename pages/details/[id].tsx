@@ -9,16 +9,23 @@ import useTemplate from '@/app/hooks/useTemplate'
 import useCategory from '@/app/hooks/useCategory'
 import useVariant from '@/app/hooks/useVariant'
 import useInCart from '@/app/hooks/useInCart'
+import * as ShopActions from '@/app/controller/action-creators/shop.action-creators'
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import useQuantity from '@/app/hooks/useQuantity'
 
 const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct}) => {
   
+    const dispatch = useDispatch()
+    const shopActions = bindActionCreators(ShopActions,dispatch)
+
     const [variantIndex,setVariantIndex] = useState<number>(0)
 
     const [template,setTemplate] = useTemplate(syncProduct?.result?.sync_product?.id,0,100)
     const [variantState,setVariantState] = useVariant(syncProduct?.result?.sync_product?.id) 
     const [category,setCategory] = useCategory(syncProduct?.result?.sync_variants[variantIndex]?.main_category_id)
     const [inCart,setInCart] = useInCart(syncProduct?.result?.sync_product?.id)
-
+    const [quantity,setQuantity] = useQuantity(syncProduct?.result?.sync_product?.id)
     
     const [size,setSize] = useState<string>(template?.sizes[0])
     const [color,setColor] = useState<any>(template?.colors[0])
@@ -83,9 +90,27 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
                 </div>
             </div>
             <div className="flex justify-between items-center gap-5 my-3">
-              <div className="w-1/3 text-center hover:text-white p-2 font-bold hover:bg-green-300 cursor-pointer bg-white rounded-full">-</div>
-              <div className="w-1/3 text-center  p-2 font-bold cursor-pointer bg-white rounded-full">1</div>
-              <div className="w-1/3 text-center hover:text-white p-2 font-bold hover:bg-green-300 cursor-pointer bg-white rounded-full">+</div>
+              <div onClick={()=>{
+                if(inCart && quantity > 1){
+                  // @ts-ignore
+                  setQuantity(quantity - 1)
+                  shopActions.decrement(syncProduct?.result?.sync_product?.id,1)
+                }else{
+                  shopActions.removeFromCart(syncProduct?.result?.sync_product?.id)
+                }
+              }} className="w-1/3 text-center hover:text-white p-2 font-bold hover:bg-green-300 cursor-pointer bg-white rounded-full">-</div>
+              <div className="w-1/3 text-center  p-2 font-bold cursor-pointer bg-white rounded-full">{quantity as number}</div>
+              <div onClick={()=>{
+                if(!inCart){
+                  shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex]?.id,1,syncProduct?.result?.sync_variants[variantIndex]?.retail_price)
+                  // @ts-ignore
+                  setQuantity(1)
+                }else{
+                  // @ts-ignore
+                  setQuantity(quantity + 1)
+                  shopActions.increment(syncProduct?.result?.sync_product?.id,1)
+                }
+              }} className="w-1/3 text-center hover:text-white p-2 font-bold hover:bg-green-300 cursor-pointer bg-white rounded-full">+</div>
             </div>
             <h2 className="text-sm rounded-lg bg-white p-2">{variant?.result?.product?.description}</h2>
             <div className="details-product-stock-info flex justify-center items-center">
@@ -107,7 +132,7 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
               {variantState?.result?.variant?.availability_status?.map((s:any) => <div key={`status-key-${s.region}`} className={`min-w-fit px-3 py-2 my-2 font-bold italic text-white rounded-md mr-3 ${s?.status === 'in_stock' ? "bg-green-300" : 'bg-red-500'}`}>{s?.region}</div>)}
             </div>
             {!inCart
-              ? <button className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">Add To Cart</button>
+              ? <button onClick={()=> {if(!inCart) shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex]?.id,1,syncProduct?.result?.sync_variants[variantIndex]?.retail_price)}} className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">Add To Cart</button>
               : <button className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">In Your Cart</button>
             }
           </div>

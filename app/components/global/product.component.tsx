@@ -1,5 +1,5 @@
 'use client'
-import React, { MutableRefObject, useEffect, useRef } from 'react'
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
 import  MotionPathPlugin  from 'gsap/dist/MotionPathPlugin'
@@ -7,12 +7,20 @@ import SplitTextJS from 'split-text-js'
 import useSyncProduct from '@/app/hooks/useSyncProduct'
 import useVariant from '@/app/hooks/useVariant'
 import Link from 'next/link'
+import * as ShopActions  from '@/app/controller/action-creators/shop.action-creators'
+import * as ApiActions from '@/app/controller/action-creators/api.action-creators'
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import useFavoruite from '@/app/hooks/useFavoruite'
+import useInCart from '@/app/hooks/useInCart'
+import useQuantity from '@/app/hooks/useQuantity'
 
 const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement> }> = ({product,productRef}) => {
 
   const titleRef = useRef() as MutableRefObject<HTMLHeadingElement>
   const pathRef = useRef() as MutableRefObject<SVGPathElement>
   const pathRefIcons = useRef() as MutableRefObject<SVGPathElement>
+  const favoruitesRef = useRef() as MutableRefObject<HTMLDivElement>
   const cartRef = useRef() as MutableRefObject<HTMLDivElement>
   const infoRef = useRef() as MutableRefObject<HTMLAnchorElement>
   const plusRef = useRef() as MutableRefObject<HTMLDivElement>
@@ -21,6 +29,13 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
   
   const [item,setItem] = useSyncProduct(product.id)
   const [variant,setVariant] = useVariant(product.id)
+  const [isFavoruite,setIsFavoruite] = useFavoruite(item?.result?.sync_product?.id)
+  const [inCart,setInCart] = useInCart(item?.result?.sync_product?.id)
+  const [quantity,setQuantity] = useQuantity(item?.result?.sync_product?.id)
+
+  const dispatch = useDispatch()
+  const shopActions = bindActionCreators(ShopActions,dispatch)
+  const APIActions = bindActionCreators(ApiActions,dispatch)
 
   const handleAnimationOut = (e:any) =>{
     if(e){
@@ -29,6 +44,13 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
     breadcrumbRef.current.style.right = '-220px'
     if(titleRef.current.classList.contains('--open')){
       titleRef.current.style.opacity = '0'
+      favoruitesRef.current.style.transition = 'opacity 1s ease-in-out'
+      favoruitesRef.current.style.opacity = '0'
+      setTimeout(() => {
+        if(!favoruitesRef.current.classList.contains('hidden')){
+          favoruitesRef.current.classList.add('hidden')
+        }
+      }, 1000);
       cartRef.current.style.transition = 'opacity 1s ease-in-out'
       cartRef.current.style.opacity = '0'
       setTimeout(() => {
@@ -69,6 +91,11 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
     }
     breadcrumbRef.current.style.right = '0px'
     if(!titleRef.current.classList.contains('--open')){
+      favoruitesRef.current.style.transition = 'opacity 0s ease-in-out'
+      favoruitesRef.current.style.opacity = '1'
+      if(favoruitesRef.current.classList.contains('hidden')){
+        favoruitesRef.current.classList.remove('hidden')
+      }
       cartRef.current.style.transition = 'opacity 0s ease-in-out'
       cartRef.current.style.opacity = '1'
       if(cartRef.current.classList.contains('hidden')){
@@ -113,8 +140,22 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
           autoRotate: true,
           start: 0,
           end: index * 2 * 0.012
-        }
+          }
+        })
       })
+      gsap.fromTo(favoruitesRef.current,{opacity:0},{
+        opacity:1,
+        stagger:0.2,
+        duration:1,
+        motionPath: {
+          path: pathRef.current,
+          align: pathRef.current,
+          alignOrigin: [0.5, 0.5],
+          autoRotate: false,
+          start: 0,
+          end:0.75
+        }
+        })
       gsap.fromTo(cartRef.current,{opacity:0},{
         opacity:1,
         stagger:0.2,
@@ -127,8 +168,7 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
           start: 0,
           end:0.7
         }
-      })
-      })
+        })
       gsap.fromTo(infoRef.current,{opacity:0},{
         opacity:1,
         stagger:0.2,
@@ -172,6 +212,13 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
 
   const handleAnimationInit = () =>{
       titleRef.current.style.opacity = '0'
+      favoruitesRef.current.style.transition = 'opacity 1s ease-in-out'
+      favoruitesRef.current.style.opacity = '0'
+      setTimeout(() => {
+        if(!favoruitesRef.current.classList.contains('hidden')){
+          favoruitesRef.current.classList.add('hidden')
+        }
+      }, 1000);
       cartRef.current.style.transition = 'opacity 1s ease-in-out'
       cartRef.current.style.opacity = '0'
       setTimeout(() => {
@@ -215,7 +262,24 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
         <path ref={pathRefIcons} d="M-30,130a150,150 0 1,0 340,0a150,150 0 1,0 -340,0" fill="none" stroke="black" strokeWidth={2}/>
       </svg>
       <h3 ref={titleRef} className="product-title hidden text-neutral-900 text-4xl font-bold absolute top-0 left-0">{item?.result?.sync_variants[0]?.name}</h3>
-      <div ref={cartRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
+      <div onClick={()=>{
+        if(!isFavoruite){
+          shopActions.addFavoruite(item)
+        }else{
+          shopActions.removeFavoruite(item.result?.sync_product?.id)
+        }
+        }} ref={favoruitesRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
+        {isFavoruite 
+         ? <Image src="/assets/heart-solid.svg" alt="icon-cart" width={25} height={25} />
+         : <Image src="/assets/heart-circle-plus-solid.svg" alt="icon-cart" width={25} height={25} />}
+      </div>
+      <div onClick={()=>{
+        if(!inCart){
+          shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[0]?.id,1,item?.result?.sync_variants[0]?.retail_price)
+          // @ts-ignore
+          setQuantity(1)
+        }
+      }} ref={cartRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         <Image src="/assets/cart-icon.png" alt="icon-cart" width={25} height={25} />
       </div>
       <Link ref={infoRef} className='absolute top-0 left-0 w-10 h-10' href="/details/[id]" as={`/details/${product.id}`}>
@@ -223,16 +287,36 @@ const Product:React.FC<{ product:any,productRef?:MutableRefObject<HTMLDivElement
           <Image src="/assets/info-icon.png" alt="icon-info" width={25} height={25} />
         </div>
       </Link>
-      <div ref={plusRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
+      <div onClick={()=>{
+        if(!inCart){
+          shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[0]?.id,1,item?.result?.sync_variants[0]?.retail_price)
+          // @ts-ignore
+          setQuantity(1)
+        }else{
+          shopActions.increment(item?.result?.sync_product?.id,1)
+          // @ts-ignore
+          setQuantity(quantity as number + 1)
+        }
+      }} ref={plusRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         <Image src="/assets/plus-icon.png" alt="icon-plus" width={25} height={25} />
       </div>
-      <div ref={minusRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
+      <div onClick={()=>{
+        if(inCart && quantity as number < 1){
+          shopActions.removeFromCart(item?.result?.sync_product?.id)
+          // @ts-ignore
+          setQuantity(0)
+        }else if(inCart && quantity as number >= 1){
+          shopActions.decrement(item?.result?.sync_product?.id,1)
+          // @ts-ignore
+          setQuantity(quantity as number - 1)
+        }
+      }} ref={minusRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         <Image src="/assets/minus-icon.png" alt="icon-minus" width={25} height={25} />
       </div>
       <div onMouseEnter={(e)=>handleAnimationIn(e)} className='product-image z-50 relative top-0 left-0 bg-gray-300 rounded-full w-[220px] h-[220px] overflow-hidden'>
         <div ref={breadcrumbRef} className="product-breadcrumb pointer-events-none absolute z-50 top-1/2 -translate-y-1/2 -right-56 w-[220px] px-8 py-3 bg-green-300 text-white font-bold rounded-l-md">
           <p className="text-center">{item?.result?.sync_variants[0]?.retail_price}{item?.result?.sync_variants[0]?.currency}</p>
-          <p className="text-center"><span className='italic'>{variant?.result?.variant?.in_stock ? 'In Stock' : 'Out Of Stock'}</span> / <span className="italic">In Cart 0</span></p> 
+          <p className="text-center"><span className='italic'>{variant?.result?.variant?.in_stock ? 'In Stock' : 'Out Of Stock'}</span> / <span className="italic">In Cart {quantity as number}</span></p> 
         </div>
         <Image className='rounded-full relative top-0 left-0 z-20' src={item?.result?.sync_product?.thumbnail_url} alt='product-image' width={500} height={500} />
       </div>

@@ -9,13 +9,17 @@ const useQuantity = (id:number) => {
   const [quantity,setQuantity] = useState<number>(0)
 
   const handleQuantity = () =>{
-    const items = cart.filter((p:any) => p?.sync_product?.id === id)
-    setQuantity(items.length)
+    const item = cart.find((p:any) => p.product_id === id)
+    if(item){
+      setQuantity(item.quantity)
+    }else{
+      setQuantity(0)
+    }
   }
 
   useEffect(()=>{
     handleQuantity()
-  },[cart.length,id])
+  },[cart,id])
 
   return [quantity,setQuantity]
 }

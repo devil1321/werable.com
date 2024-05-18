@@ -36,11 +36,11 @@ const Footer = () => {
         <div className="footer-contact-info relative top-3 left-0 md:top-0">
           <div ref={logoRef} className="footer-logo flex gap-3 items-center">
             <Image src="/assets/logo-white.svg" alt='logo' width={70} height={50} />
-            <h2 className="text-5xl text-white font-bold">Werable</h2>
+            <h2 className="text-5xl text-white font-bold">Wearable</h2>
           </div>
           <div className="footer-contact-item my-1 md:my-5 flex gap-3 items-center">
             <Image src="/assets/email-icon.png" alt="email" width={30} height={30} />
-            <p className="text-sm text-white italic">support@werable.com</p>
+            <p className="text-sm text-white italic">support@wearable.com</p>
           </div>
           <div className="footer-contact-item my-1 md:my-5 flex gap-3 items-center">
             <Image src="/assets/email-icon.png" alt="phone" width={30} height={30} />
