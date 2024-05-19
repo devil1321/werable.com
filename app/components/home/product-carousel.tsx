@@ -1,6 +1,4 @@
-'use client'
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
-import products from '@/public/assets/tmp/db/products.json'
 import Product from '../global/product.component'
 import { useSelector,useDispatch } from 'react-redux'
 import { State } from '@/app/controller/reducers/root.reducer'
@@ -10,8 +8,7 @@ import { bindActionCreators } from 'redux'
 const ProductCarousel = () => {
 
   const dispatch = useDispatch()
-  const APIActions = bindActionCreators(ApiActions,dispatch)
-  const { products, locale } = useSelector((state:State) => state.api)
+  const { products } = useSelector((state:State) => state.api)
 
   const [count,setCount] = useState<number>(0)
   const viewRef = useRef() as MutableRefObject<HTMLDivElement>

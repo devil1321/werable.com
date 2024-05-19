@@ -3,10 +3,11 @@ import { ShopTypes } from "../types"
 import store from "../store"
 import * as Interfaces from '@/app/controller/interfaces'
 
-export const addToCart = (product_id:number,sync_product_id:number,quantity:number,retail_price:number) => (dispatch:Dispatch) =>{
+
+export const addToCart = (id:number,sync_product_id:number,quantity:number,retail_price:number) => (dispatch:Dispatch) =>{
     const { cart } = store.getState().shop
     let tmpCart = cart
-    tmpCart.push({product_id,sync_product_id,quantity,retail_price})
+    tmpCart.push({id,sync_product_id,quantity,retail_price})
     console.log(cart)
     dispatch({
         type:ShopTypes.SHOP_ADD_TO_CART,
@@ -21,7 +22,7 @@ export const setCart = (cart:Interfaces.CartItem[]) => (dispatch:Dispatch) =>{
 }
 export const increment = (id:number,count:number) => (dispatch:Dispatch) =>{
     const { cart } = store.getState().shop
-    const cartItem = cart.find((i:any) =>  i.product_id === id) as any
+    const cartItem = cart.find((i:any) =>  i.id === id) as any
     if(cartItem){
         cartItem.quantity += count
     }
@@ -33,11 +34,11 @@ export const increment = (id:number,count:number) => (dispatch:Dispatch) =>{
 export const decrement = (id:number,count:number) => (dispatch:Dispatch) =>{
     const { cart } = store.getState().shop
     let tmpCart = cart
-    const cartItem = cart.find((i:any) =>  i.product_id === id) as any
+    const cartItem = cart.find((i:any) =>  i.id === id) as any
     if(cartItem.quantity > 1){
         cartItem.quantity -= count
     }else{
-        tmpCart = tmpCart.filter((i:any) => i.product_id !== id)
+        tmpCart = tmpCart.filter((i:any) => i.id !== id)
     }
     dispatch({
         type:ShopTypes.SHOP_DECREMENT,
@@ -46,7 +47,7 @@ export const decrement = (id:number,count:number) => (dispatch:Dispatch) =>{
 }
 export const removeFromCart = (id:number) => (dispatch:Dispatch) =>{
     const { cart } = store.getState().shop
-    const tmpCart = cart.filter((i:any) =>  i.product_id !== id) as any
+    const tmpCart = cart.filter((i:any) =>  i.id !== id) as any
     dispatch({
         type:ShopTypes.SHOP_REMOVE_FROM_CART,
         cart:tmpCart

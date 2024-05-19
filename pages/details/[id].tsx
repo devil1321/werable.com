@@ -91,7 +91,7 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
             </div>
             <div className="flex justify-between items-center gap-5 my-3">
               <div onClick={()=>{
-                if(inCart && quantity > 1){
+                if(inCart && quantity as number > 1){
                   // @ts-ignore
                   setQuantity(quantity - 1)
                   shopActions.decrement(syncProduct?.result?.sync_product?.id,1)

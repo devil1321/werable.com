@@ -1,15 +1,13 @@
-import { createStore,compose, applyMiddleware } from 'redux'
-import { reducers } from './reducers/root.reducer'
-import * as thunk from 'redux-thunk'
+// store.ts
+import { createStore, applyMiddleware, compose } from 'redux';
+import * as thunkMiddleware from 'redux-thunk'; // If you're using thunk middleware
+import { reducers as rootReducer, State as RootState } from './reducers/root.reducer'; // Import your root reducer and state
 
-const middleware = [thunk.thunk]
+// Define middleware you want to use
+const middleware = [thunkMiddleware.thunk]; // Example with thunk middleware, you can add more middleware as needed
 
-const initState = {}
+const enhancer = compose(applyMiddleware(...middleware));
 
-export default createStore(
-    reducers,
-    initState,
-    compose(
-        applyMiddleware(...middleware)
-    )
-)
+export default createStore(rootReducer,{}, enhancer);
+
+

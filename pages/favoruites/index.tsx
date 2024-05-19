@@ -1,9 +1,11 @@
-'use client'
-import { GlobalComponents } from "../components/global";
 import products from '@/public/assets/tmp/db/products.json'
 import gsap from 'gsap'
-import { ScrollTrigger } from "gsap/all";
+import ScrollTrigger  from "gsap/dist/ScrollTrigger";
 import { useEffect } from "react";
+import Hero from "@/app/components/global/hero.component";
+import Search from "@/app/components/global/search.component";
+import Item from "@/app/components/global/item.component";
+import Foot from "@/app/components/global/foot.component";
 
 export default function Page() {
 
@@ -22,14 +24,14 @@ export default function Page() {
 
     return (
       <div className="favoruites">
-        <GlobalComponents.Hero 
+        <Hero 
           img="/assets/banner-people.jpg"
           title="Your Favorites Await"
           paragraph="Explore our curated selection of top-rated products, handpicked to suit your style and needs"
         />
-        <GlobalComponents.Search title="Favoruites" />
-        {products.map((p:any)=><GlobalComponents.Item key={`item-key-fav-${p.id}`} product={p} />)}
-        <GlobalComponents.Foot />
+        <Search title="Favoruites" />
+        {products.map((p:any)=><Item key={`item-key-fav-${p.id}`} product={p} />)}
+        <Foot />
       </div>
     )     
   }

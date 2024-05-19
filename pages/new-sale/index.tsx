@@ -1,10 +1,15 @@
 'use client'
-import { GlobalComponents } from "../components/global";
+import { GlobalComponents } from "../../app/components/global";
 import products from '@/public/assets/tmp/db/products.json'
-import { HomeComponents } from "../components/home";
+import { HomeComponents } from "../../app/components/home";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useEffect } from "react";
+import Search from "@/app/components/global/search.component";
+import Hero from "@/app/components/global/hero.component";
+import Product from "@/app/components/global/product.component";
+import Title from "@/app/components/global/title.component";
+import ProductCarousel from "@/app/components/home/product-carousel";
 
 export default function Page() {
 
@@ -29,17 +34,17 @@ export default function Page() {
 
     return (
       <div className="products">
-        <GlobalComponents.Hero 
+        <Hero 
           img="/assets/about.jpg"
           title="Explore Our Cutting-Edge Products"
           paragraph="Discover a range of innovative products designed to enhance your lifestyle and redefine the way you interact with technology"
         />
-        <GlobalComponents.Search  title="Products"/>
+        <Search title="New Sale"/>
         <div className="products-items xl:px-10 flex justify-center items-start flex-wrap">
-          {products.map((p:any) => <GlobalComponents.Product key={`product-key-${p.id}`} product={p} />)}
+          {products.map((p:any) => <Product product={p} />)}
         </div>
-        <GlobalComponents.Title isLeft={false} title="Hot" />
-        <HomeComponents.ProductCarousel />
+        <Title isLeft={false} title="Hot" />
+        <ProductCarousel />
       </div>
     )     
   }

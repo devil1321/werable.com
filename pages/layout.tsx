@@ -8,7 +8,6 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
     <div className='container'>
       <Nav />
       {children}
-      <Foot />
       <Footer />
     </div>
   )

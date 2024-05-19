@@ -7,6 +7,7 @@ import store from "../store"
 import  printful  from "../lib/APIPrintful"
 import { PrintfulTypes } from "../types"
 
+
 export const changeCurrency = (currency:string) => async(dispatch:Dispatch) =>{
     try{
         const res = await axios.get('/assets/db/products.json')

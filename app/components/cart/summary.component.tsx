@@ -7,6 +7,10 @@ const Summary = () => {
         <h3 className="font-bold text-2xl">Total</h3>
         <h3 className="font-bold text-2xl">$999</h3>
       </div>
+      <div className="flex justify-between items-start">
+        <h3 className="font-bold text-2xl">Shipping</h3>
+        <h3 className="font-bold text-2xl">$100</h3>
+      </div>
       <button className="font-bold text-md text-white block w-[100%] hover:opacity-70 my-5 rounded-full py-2">Checkout</button>
     </div>
   )

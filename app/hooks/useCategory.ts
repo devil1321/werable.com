@@ -9,7 +9,6 @@ const useCategory = (categoryNumber:number) => {
     const [category,setCategory] = useState<any>(null)
 
     const handleCategory = () =>{
-        console.log(categories)
         const current = categories.result?.categories?.find((c:any) => c.id === categoryNumber)
         setCategory(current)
     }

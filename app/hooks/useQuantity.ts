@@ -9,7 +9,7 @@ const useQuantity = (id:number) => {
   const [quantity,setQuantity] = useState<number>(0)
 
   const handleQuantity = () =>{
-    const item = cart.find((p:any) => p.product_id === id)
+    const item = cart.find((p:any) => p.id === id)
     if(item){
       setQuantity(item.quantity)
     }else{

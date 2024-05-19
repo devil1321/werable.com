@@ -1,10 +1,9 @@
-'use client'
-import { GlobalComponents } from "../components/global";
+import { GlobalComponents } from "../../app/components/global";
 import products from '@/public/assets/tmp/db/products.json'
 import gsap from 'gsap'
 import { ScrollTrigger } from "gsap/all";
 import { useEffect } from "react";
-import { CartComponents } from "../components/cart";
+import { CartComponents } from "../../app/components/cart";
 
 export default function Page() {
 

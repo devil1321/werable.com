@@ -1,4 +1,3 @@
-'use client'
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import Item from './item.component'
 
