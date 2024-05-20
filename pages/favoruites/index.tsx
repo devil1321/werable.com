@@ -6,8 +6,12 @@ import Hero from "@/app/components/global/hero.component";
 import Search from "@/app/components/global/search.component";
 import Item from "@/app/components/global/item.component";
 import Foot from "@/app/components/global/foot.component";
+import { useSelector } from 'react-redux';
+import { State } from '@/app/controller/reducers/root.reducer';
 
 export default function Page() {
+
+    const { favoruites } = useSelector((state:State) => state.shop)
 
     const handleAnimate = () =>{
       gsap.registerPlugin(ScrollTrigger)
@@ -30,7 +34,9 @@ export default function Page() {
           paragraph="Explore our curated selection of top-rated products, handpicked to suit your style and needs"
         />
         <Search title="Favoruites" />
-        {products.map((p:any)=><Item key={`item-key-fav-${p.id}`} product={p} />)}
+        {favoruites?.length > 0
+          ? favoruites.map((id:number)=><Item key={`item-key-fav-${id}`} id={id} />)
+          : <button className='block rounded-md mx-auto  px-6 py-2 font-bold text-white text-5xl'>Nothing In Favoruites</button>}
         <Foot />
       </div>
     )     

@@ -27,7 +27,7 @@ interface CLEAR_CART {
     cart:Interfaces.CartItem[]
 }
 interface SET_FAVORUITES {
-    type:ShopTypes.SHOP_SET_FAVORUITE,    
+    type:ShopTypes.SHOP_SET_FAVORUITES,    
     favoruites:any[]
 }
 interface ADD_FAVORUITE {

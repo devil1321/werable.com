@@ -19,7 +19,7 @@ const useQuantity = (id:number) => {
 
   useEffect(()=>{
     handleQuantity()
-  },[cart,id])
+  },[cart.length,id])
 
   return [quantity,setQuantity]
 }

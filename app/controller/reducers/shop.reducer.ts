@@ -46,7 +46,7 @@ export default (state:InitState = initState,action:ShopActions) =>{
                 ...state,
                 cart:action.cart
             }
-        case ShopTypes.SHOP_SET_FAVORUITE:
+        case ShopTypes.SHOP_SET_FAVORUITES:
             return{
                 ...state,
                 favoruites:action.favoruites

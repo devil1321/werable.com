@@ -1,11 +1,17 @@
-import { GlobalComponents } from "../../app/components/global";
 import products from '@/public/assets/tmp/db/products.json'
 import gsap from 'gsap'
-import { ScrollTrigger } from "gsap/all";
+import ScrollTrigger  from "gsap/dist/ScrollTrigger";
 import { useEffect } from "react";
-import { CartComponents } from "../../app/components/cart";
+import Search from '@/app/components/global/search.component';
+import Hero from '@/app/components/global/hero.component';
+import Summary from '@/app/components/cart/summary.component';
+import Item from '@/app/components/global/item.component';
+import { useSelector } from 'react-redux';
+import { State } from '@/app/controller/reducers/root.reducer';
 
 export default function Page() {
+
+    const { cart } = useSelector((state:State) => state.shop)
 
     const handleDetails = () =>{
       const heading = document.querySelector('h1') as HTMLHeadingElement
@@ -30,15 +36,16 @@ export default function Page() {
 
     return (
       <div className="cart">
-        <GlobalComponents.Hero 
+        <Hero 
           img="/assets/clothes.jpg"
           title="Your Favorites Await"
           paragraph="Explore our curated selection of top-rated products, handpicked to suit your style and needs"
         />
-        <GlobalComponents.Search title="Favoruites" />
-        {products.map((p:any)=><GlobalComponents.Item key={`item-key-${p.id}`} product={p} />)}  
-        <CartComponents.Summary />
-        <GlobalComponents.Foot />
+        <Search title="Favoruites" />
+        {cart?.length > 0
+         ? cart.map((p:any)=><Item key={`item-key-${p.id}`} product={p} />)
+         : <button className='block rounded-md mx-auto my-12  px-6 py-2 font-bold text-white text-5xl'>Nothing In Cart</button>}
+        <Summary />
       </div>
     )     
   }

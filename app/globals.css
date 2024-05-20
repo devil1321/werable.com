@@ -84,10 +84,13 @@
       margin-top: 100px !important;
     }
   }
-  .item-detailsm,.cart-summary{
+  .item-details,.cart-summary{
     background: linear-gradient(180deg,#D9D9D9,#FFFFFF);
   }
   .cart-summary button{
     background: gray  ;
+  }
+  .item-favoruite svg{
+    fill:white;
   }
 }

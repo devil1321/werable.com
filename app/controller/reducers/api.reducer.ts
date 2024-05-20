@@ -29,6 +29,7 @@ interface InitState {
     informationCost:any;
     packing:any;
     tax:any;
+    shipping:any;
 }
 
 const initState:InitState = {
@@ -57,7 +58,8 @@ const initState:InitState = {
     template:null,
     informationCost:null,
     packing:null,
-    tax:null
+    tax:null,
+    shipping:null
 }
 
 export default (state:InitState = initState,action:APIActions) =>{
