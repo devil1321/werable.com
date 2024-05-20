@@ -3,7 +3,7 @@ import { GlobalComponents } from "../../app/components/global";
 import products from '@/public/assets/tmp/db/products.json'
 import { HomeComponents } from "../../app/components/home";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
+import  ScrollTrigger  from "gsap/dist/ScrollTrigger";
 import { useEffect } from "react";
 import Search from "@/app/components/global/search.component";
 import Hero from "@/app/components/global/hero.component";
