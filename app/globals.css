@@ -16,6 +16,9 @@
     left:0px;
     background-color: #f3f3f3;
   }
+  .credentials-register,.credentials-login{
+    background: #f1f1f1;
+  }
   @media (max-width:1366px) {
     .container{
       min-width: 100vw;

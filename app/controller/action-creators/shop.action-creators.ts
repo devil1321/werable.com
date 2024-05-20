@@ -4,10 +4,10 @@ import store from "../store"
 import * as Interfaces from '@/app/controller/interfaces'
 
 
-export const addToCart = (id:number,sync_product_id:number,variant_id:number,warehouse_product_variant_id:number,external_variant_id:number,quantity:number,retail_price:number) => (dispatch:Dispatch) =>{
+export const addToCart = (id:number,sync_product_id:number,variant_id:number,warehouse_product_variant_id:number,external_variant_id:number,quantity:number,retail_price:number,currency:string) => (dispatch:Dispatch) =>{
     const { cart } = store.getState().shop
     let tmpCart = cart
-    tmpCart.push({id,sync_product_id,variant_id,warehouse_product_variant_id,external_variant_id,quantity,retail_price})
+    tmpCart.push({id,sync_product_id,variant_id,warehouse_product_variant_id,external_variant_id,quantity,retail_price,currency})
     if(typeof window !== undefined){
         localStorage.setItem('wearable-cart',JSON.stringify(tmpCart))
     }

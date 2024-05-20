@@ -10,8 +10,8 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     // console.log(prisma)
     if(req.method === 'POST'){
         try {
-            const { nickname, email, password_1, password_2,first_name,last_name, city, zip , phone } = req.body
-                const User = await client.usershop.findFirst({where:{
+            const { nickname, email, password_1, password_2,first_name,last_name, city, zip , phone, address_1,address_2,state_code,country_code } = req.body
+                const User = await client.wearableUser.findFirst({where:{
                     // @ts-ignore
                     email:email
                 }})
@@ -20,7 +20,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                         bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS as string),(err:any,salt:any)=>{
                             bcrypt.hash(password_1 as string, salt, async function(err:any, hash:any) {
                                 try{
-                                    const User = await client.usershop.create({
+                                    const User = await client.wearableUser.create({
                                         data:{
                                             nickname,
                                             email,
@@ -29,7 +29,11 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                                             last_name,
                                             city,
                                             zip,
-                                            phone
+                                            phone,
+                                            address_1,
+                                            address_2,
+                                            country_code,
+                                            state_code
                                         }
                                     }) as Interfaces.User
                                     const token = jwt.sign({

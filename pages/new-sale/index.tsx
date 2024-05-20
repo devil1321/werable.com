@@ -10,6 +10,7 @@ import Hero from "@/app/components/global/hero.component";
 import Product from "@/app/components/global/product.component";
 import Title from "@/app/components/global/title.component";
 import ProductCarousel from "@/app/components/home/product-carousel";
+import Layout from "../layout";
 
 export default function Page() {
 
@@ -33,6 +34,7 @@ export default function Page() {
     },[])
 
     return (
+    <Layout>
       <div className="products">
         <Hero 
           img="/assets/about.jpg"
@@ -46,6 +48,7 @@ export default function Page() {
         <Title isLeft={false} title="Hot" />
         <ProductCarousel />
       </div>
+    </Layout>
     )     
   }
   

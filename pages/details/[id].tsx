@@ -102,7 +102,7 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
               <div className="w-1/3 text-center  p-2 font-bold cursor-pointer bg-white rounded-full">{quantity as number}</div>
               <div onClick={()=>{
                 if(!inCart){
-                  shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex]?.id,syncProduct?.result?.sync_variants[variantIndex]?.variant_id,syncProduct?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex]?.retail_price)
+                  shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex]?.id,syncProduct?.result?.sync_variants[variantIndex]?.variant_id,syncProduct?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex]?.retail_price,syncProduct?.result?.sync_variants[variantIndex]?.currency)
                   // @ts-ignore
                   setQuantity(1)
                 }else{
@@ -132,7 +132,7 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
               {variantState?.result?.variant?.availability_status?.map((s:any) => <div key={`status-key-${s.region}`} className={`min-w-fit px-3 py-2 my-2 font-bold italic text-white rounded-md mr-3 ${s?.status === 'in_stock' ? "bg-green-300" : 'bg-red-500'}`}>{s?.region}</div>)}
             </div>
             {!inCart
-              ? <button onClick={()=> {if(!inCart) shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex]?.id,syncProduct?.result?.sync_variants[variantIndex]?.variant_id,syncProduct?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex]?.retail_price)}} className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">Add To Cart</button>
+              ? <button onClick={()=> {if(!inCart) shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex]?.id,syncProduct?.result?.sync_variants[variantIndex]?.variant_id,syncProduct?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex]?.retail_price,syncProduct?.result?.sync_variants[variantIndex]?.currency)}} className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">Add To Cart</button>
               : <button className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">In Your Cart</button>
             }
           </div>

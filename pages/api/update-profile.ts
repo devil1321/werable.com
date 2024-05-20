@@ -10,13 +10,13 @@ import { IncomingForm } from 'formidable'
 
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(req.method === 'POST'){
-        const user = req.body as Interfaces.User
+        const user = req.body as any
         try{
             // @ts-ignore
             bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS as string),(err,salt)=>{
                 // @ts-ignore
                 bcrypt.hash(user.password as string, salt, async function(err, hash){ 
-                    const User = await client.usershop.update({
+                    const User = await client.wearableUser.update({
                         where:{
                             id:user.id
                         },
@@ -29,7 +29,11 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                             last_name:user.last_name,
                             city:user.city,
                             zip:user.zip,
-                            phone:user.phone
+                            phone:user.phone,
+                            address_1:user.address_1,
+                            address_2:user.address_2,
+                            state_code:user.state_code,
+                            country_code:user.country_code
                         }
                     })
                     const disconnected = await client.$disconnect()

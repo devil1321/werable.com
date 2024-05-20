@@ -3,9 +3,11 @@ import Categories from "@/app/components/home/categories.component"
 import Title from "@/app/components/global/title.component"
 import AboutFeature from "@/app/components/global/about-feature.component"
 import ProductCarousel from "@/app/components/home/product-carousel"
+import Layout from "../layout"
 
 export default function Page() {
     return (
+    <Layout>
       <div className="home">
         <Carousel />
         <Categories />
@@ -25,6 +27,7 @@ export default function Page() {
         <Title isLeft={false} title="Hot"/>
         <ProductCarousel />
       </div>
+    </Layout>
     )     
   }
   

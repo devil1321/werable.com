@@ -2,9 +2,11 @@ import React from 'react'
 import AboutFeature from '@/app/components/global/about-feature.component'
 import Form from '@/app/components/contact/form.component'
 import Foot from '@/app/components/global/foot.component'
+import Layout from '../layout'
 
 const Page = () => {
   return (
+  <Layout>
     <div className="contact md:pt-[150px]">
       <AboutFeature 
         className='mt-0 mb-12'
@@ -24,6 +26,7 @@ const Page = () => {
       />
       <Foot />
     </div>
+  </Layout>
   )
 }
 

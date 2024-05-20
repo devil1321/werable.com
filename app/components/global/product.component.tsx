@@ -364,7 +364,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         </div>
       <div onClick={()=>{
         if(!inCart){
-          shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex]?.id,item?.result?.sync_variants[variantIndex]?.variant_id,item?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex]?.external_id,1,item?.result?.sync_variants[variantIndex]?.retail_price)
+          shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex]?.id,item?.result?.sync_variants[variantIndex]?.variant_id,item?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex]?.external_id,1,item?.result?.sync_variants[variantIndex]?.retail_price,item?.result?.sync_variants[variantIndex]?.currency)
           // @ts-ignore
           setQuantity(1)
         }
@@ -378,7 +378,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
       </Link>
       <div onClick={()=>{
         if(!inCart){
-          shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex]?.id,item?.result?.sync_variants[variantIndex]?.variant_id,item?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex]?.external_id,1,item?.result?.sync_variants[variantIndex]?.retail_price)
+          shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex]?.id,item?.result?.sync_variants[variantIndex]?.variant_id,item?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex]?.external_id,1,item?.result?.sync_variants[variantIndex]?.retail_price,item?.result?.sync_variants[variantIndex]?.currency)
           // @ts-ignore
           setQuantity(1)
         }else{

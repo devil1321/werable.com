@@ -13,11 +13,19 @@ const Footer = () => {
     if(typeof window !== 'undefined'){
       const makeVisible = () =>{
         if(window.innerWidth >= 768){
-          formRef.current.style.display = 'block'
-          logoRef.current.style.display = 'flex'
+          if(formRef.current){
+            formRef.current.style.display = 'block'
+          }
+          if(logoRef.current){
+            logoRef.current.style.display = 'flex'
+          }
         }else{
-          formRef.current.style.display = 'none'
-          logoRef.current.style.display = 'none'
+          if(formRef.current){
+            formRef.current.style.display = 'none'
+          }
+          if(logoRef.current){
+            logoRef.current.style.display = 'none'
+          }
         }
       }
       makeVisible()

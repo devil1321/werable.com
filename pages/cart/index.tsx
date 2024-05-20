@@ -8,6 +8,7 @@ import Summary from '@/app/components/cart/summary.component';
 import Item from '@/app/components/global/item.component';
 import { useSelector } from 'react-redux';
 import { State } from '@/app/controller/reducers/root.reducer';
+import Layout from '../layout';
 
 export default function Page() {
 
@@ -35,6 +36,7 @@ export default function Page() {
     },[])
 
     return (
+    <Layout>
       <div className="cart">
         <Hero 
           img="/assets/clothes.jpg"
@@ -47,6 +49,7 @@ export default function Page() {
          : <button className='block rounded-md mx-auto my-12  px-6 py-2 font-bold text-white text-5xl'>Nothing In Cart</button>}
         <Summary />
       </div>
+    </Layout>
     )     
   }
   

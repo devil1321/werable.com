@@ -8,6 +8,7 @@ import Search from '@/app/components/global/search.component';
 import Title from '@/app/components/global/title.component';
 import ProductCarousel from '@/app/components/home/product-carousel';
 import Product from '@/app/components/global/product.component';
+import Layout from '../layout';
 
 export default function Page() {
 
@@ -31,12 +32,13 @@ export default function Page() {
     },[])
 
     return (
+    <Layout>
       <div className="products">
         <Hero 
           img="/assets/about.jpg"
           title="Explore Our Cutting-Edge Products"
           paragraph="Discover a range of innovative products designed to enhance your lifestyle and redefine the way you interact with technology"
-        />
+          />
         <Search  title="Products"/>
         <div className="products-items xl:px-10 flex justify-center items-start flex-wrap">
           {products.map((p:any) => <Product key={`product-key-${p.id}`} product={p} />)}
@@ -44,6 +46,7 @@ export default function Page() {
         <Title isLeft={false} title="Hot" />
         <ProductCarousel />
       </div>
+    </Layout>
     )     
   }
   

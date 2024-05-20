@@ -8,6 +8,7 @@ import Item from "@/app/components/global/item.component";
 import Foot from "@/app/components/global/foot.component";
 import { useSelector } from 'react-redux';
 import { State } from '@/app/controller/reducers/root.reducer';
+import Layout from '../layout';
 
 export default function Page() {
 
@@ -27,6 +28,7 @@ export default function Page() {
     },[])
 
     return (
+    <Layout>
       <div className="favoruites">
         <Hero 
           img="/assets/banner-people.jpg"
@@ -39,6 +41,7 @@ export default function Page() {
           : <button className='block rounded-md mx-auto  px-6 py-2 font-bold text-white text-5xl'>Nothing In Favoruites</button>}
         <Foot />
       </div>
+    </Layout>
     )     
   }
   

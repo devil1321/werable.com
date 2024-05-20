@@ -44,7 +44,7 @@ const Item:React.FC<{ product?:any, id?:number }> = ({product,id}) => {
         <div className="item-controls flex gap-3 items-center">
           <button className='px-8 py-2 font-bold text-white min-w-fit rounded-md' onClick={()=>{
             if(!inCart){
-              shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex]?.id,item?.result?.sync_variants[variantIndex]?.variant_id,item?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex]?.external_id,1,item?.result?.sync_variants[variantIndex]?.retail_price)
+              shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex]?.id,item?.result?.sync_variants[variantIndex]?.variant_id,item?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex]?.external_id,1,item?.result?.sync_variants[variantIndex]?.retail_price,item?.result?.sync_variants[variantIndex]?.currency)
             }
           }}>{inCart ? 'In Cart' : 'Add To Cart'}</button>
           <button className='px-8 py-2 font-bold text-white rounded-md'>{item?.result?.sync_variants[variantIndex]?.retail_price}{item?.result?.sync_variants[variantIndex]?.currency}</button>
@@ -64,7 +64,7 @@ const Item:React.FC<{ product?:any, id?:number }> = ({product,id}) => {
               setQuantity(quantity as number + 1)
               shopActions.increment(item?.result?.sync_product?.id,1)
               if(!inCart){
-                shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex]?.id,item?.result?.sync_variants[variantIndex]?.variant_id,item?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex]?.external_id,1,item?.result?.sync_variants[variantIndex]?.retail_price)
+                shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex]?.id,item?.result?.sync_variants[variantIndex]?.variant_id,item?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex]?.external_id,1,item?.result?.sync_variants[variantIndex]?.retail_price,item?.result?.sync_variants[variantIndex]?.currency)
               }
             }}>+</button>
           </div>
