@@ -1,16 +1,13 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { useSelector,useDispatch } from 'react-redux'
 import { State } from '../controller/reducers/root.reducer'
-import * as ApiActions from  '../controller/action-creators/api.action-creators'
-import { bindActionCreators } from 'redux'
 import APIPrintful from '../controller/lib/APIPrintful'
 
 
 const useSyncProduct = (id:number) => {
 
-  const { products,locale } = useSelector((state:State) => state.api)
+  const { locale } = useSelector((state:State) => state.api)
   const [item,setItem] = useState<any>(null)
 
   const handleFetchProduct = async() =>{
@@ -31,7 +28,7 @@ const useSyncProduct = (id:number) => {
 
   useEffect(()=>{
     handleFetchProduct()
-  },[products,id])
+  },[id])
 
   return [item,setItem]
 }

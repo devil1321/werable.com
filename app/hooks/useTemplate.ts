@@ -7,7 +7,7 @@ import APIPrintful from '../controller/lib/APIPrintful'
 
 const useTemplate = (id:number,offset:number,limit:number) => {
     
-  const { products,locale } = useSelector((state:State) => state.api)
+  const { locale } = useSelector((state:State) => state.api)
   const [template,setTemplate] = useState<any>(null)
 
   const handleFetchTemplate = async() =>{
@@ -54,7 +54,7 @@ const useTemplate = (id:number,offset:number,limit:number) => {
 
   useEffect(()=>{
     handleFetchTemplate()
-  },[products,id])
+  },[id])
 
   return [template,setTemplate]
 }

@@ -292,10 +292,21 @@ export const pay = (total:number,currency:string,description:string) => async(di
 /*---------------------PRINTFUL API-----------------------*/
 
 export const printfulSetLocale = (locale:string) => (dispatch:Dispatch) =>{
-    dispatch({
-        type:PrintfulTypes.PRINTFUL_SET_LOCALE,
-        locale:locale
-    })
+    if(typeof window !== 'undefined'){
+        const storedLocale = localStorage.getItem('wearable-locale')
+        if(storedLocale){
+            dispatch({
+                type:PrintfulTypes.PRINTFUL_SET_LOCALE,
+                locale:storedLocale
+            })
+        }else{
+            localStorage.setItem('wearable-locale',locale)
+            dispatch({
+                type:PrintfulTypes.PRINTFUL_SET_LOCALE,
+                locale:locale
+            })
+        }
+    }
 }
 
 export const printfulAuth = () => async(dispatch:Dispatch) =>{

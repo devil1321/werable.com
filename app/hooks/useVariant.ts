@@ -10,7 +10,7 @@ import APIPrintful from '../controller/lib/APIPrintful'
 
 const useSyncProduct = (id:number) => {
     
-  const { products,locale } = useSelector((state:State) => state.api)
+  const { locale } = useSelector((state:State) => state.api)
   const [variant,setVariant] = useState<any>(null)
 
   const handleFetchVariant = async() =>{
@@ -44,7 +44,7 @@ const useSyncProduct = (id:number) => {
 
   useEffect(()=>{
     handleFetchVariant()
-  },[products,id])
+  },[id])
 
   return [variant,setVariant]
 }

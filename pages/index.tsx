@@ -11,7 +11,7 @@ import axios from 'axios'
 
 const Credentials = () => {
 
-  const { data,countries } = useSelector((state:State) => state.api)
+  const { data,countries,locale:language } = useSelector((state:State) => state.api)
   
   const dispatch = useDispatch()
   const APIActions = bindActionCreators(ApiActions,dispatch)
@@ -19,6 +19,8 @@ const Credentials = () => {
   const router = useRouter()
   const pathname = usePathname()
 
+  const [locale,setLocale] = useState<string>('EN')
+  const [isLanguageMenu,setIsLanguageMenu] = useState<boolean>(false)
   const [isRegister,setIsRegister] = useState<boolean>(false)
   const [registerFormData,setRegisterFormData] = useState<any>({
     nickname:'',
@@ -74,7 +76,7 @@ const Credentials = () => {
   
   useEffect(()=>{
     APIActions.printfulGetCountries()
-  },[])
+  },[language])
 
   useEffect(()=>{
     if(typeof window !== 'undefined'){
@@ -90,6 +92,18 @@ const Credentials = () => {
     <div>
       {!isRegister
         ? <div className='credentials-login relative top-0 -left-[4%] w-[100vw] flex flex-col justify-center items-center'>
+            <div onClick={()=>setIsLanguageMenu(!isLanguageMenu)} className="bg-white px-3 py-2 rounded-md relative top-0 left-0">
+              <h3>{locale}</h3>
+              {isLanguageMenu &&
+                <div className="creadentials-language-menu h-[400px] overflow-y-scroll bg-white p-3 rounded-md text-black absolute top-12 left-1/2 -translate-x-1/2">
+                {countries?.result?.map((c:any)=> <p className='p-2 rounded-md hover:bg-gray-200 w-[200px] cursor-pointer' onClick={()=>{
+                  setLocale(c.code)
+                  setIsLanguageMenu(false)
+                  APIActions.printfulSetLocale(c.code)
+                  console.log(c.code)
+                  }}>{c.name}</p>)}
+              </div>}
+            </div>
             <Image className='block mx-auto' src="/assets/login.svg" alt='login-image' width={300} height={300}/>
             {data?.msg && <div className='w-1/3 p-5 bg-red-300 text-red-700'>{data.msg}</div>}
             <form className='w-1/3' action="" onSubmit={(e)=>handleSubmitLogin(e)} encType='multipart/form-data'>
@@ -106,6 +120,17 @@ const Credentials = () => {
             </form>
           </div>
         : <div className='credentials-register w-[100vw] flex flex-col justify-center items-center'>
+          <div onClick={()=>setIsLanguageMenu(!isLanguageMenu)} className="bg-white px-3 py-2 rounded-md relative top-0 left-0">
+              <h3>{locale}</h3>
+              {isLanguageMenu &&
+                <div className="creadentials-language-menu h-[400px] overflow-y-scroll bg-white p-3 rounded-md text-black absolute top-12 left-1/2 -translate-x-1/2">
+                {countries?.result?.map((c:any)=> <p className='p-2 rounded-md hover:bg-gray-200 w-[200px] cursor-pointer' onClick={()=>{
+                  setLocale(c.code)
+                  setIsLanguageMenu(false)
+                  APIActions.printfulSetLocale(c.code)
+                  }}>{c.name}</p>)}
+              </div>}
+            </div>
           <Image className='block mx-auto mb-2' src="/assets/sign-up.svg" alt='login-image' width={250} height={250}/>
           {data?.msg && <div className='w-1/2 p-5 bg-red-300 text-red-700'>{data.msg}</div>}
           <form className='flex flex-wrap justify-between w-1/2' action="" onSubmit={(e)=>handleSubmitRegister(e)} encType='multipart/form-data'>
@@ -155,25 +180,22 @@ const Credentials = () => {
             </div>
             <div className="credentials-register-field w-[49%] mb-10">
               <label className="block mb-2 text-green-500 italic" htmlFor="">State Code</label>
-              <select name="state_code" id="" value={registerFormData.state_code}>
+              <select className='w-[100%]' name="state_code" id="" onChange={(e)=>handleChangeRegister(e)} value={registerFormData.state_code}>
+                  <optgroup label="Undefined">
+                    <option value={''}>Undefined</option>
+                  </optgroup>
                 {countries?.result?.map((c:any) =>{
-                  return c?.states?.map((s:any)=> <option onClick={()=>setRegisterFormData((prevState:any) => ({
-                    ...prevState,
-                    state_code:s.code
-                  }))}
-                  value={s.code}>{s.name}</option>)
-                })}
+                  return c?.states?.map((s:any)=> 
+                  <optgroup label={c.name}>
+                    <option value={s.code}>{s.name}</option>
+                  </optgroup>
+                )})}
               </select>
             </div>
             <div className="credentials-register-field w-[49%] mb-10">
               <label className="block mb-2 text-green-500 italic" htmlFor="">Country Code</label>
-              <select name="country_code" id="" value={registerFormData.state_code}>
-                {countries?.result?.map((c:any) => <option onClick={()=>setRegisterFormData((prevState:any) => ({
-                    ...prevState,
-                    country_code:c.code
-                  }))}
-                  value={c.code}>{c.name}</option>
-                )}
+              <select className='w-[100%]' name="country_code" id="" value={registerFormData.country_code} onChange={(e)=>handleChangeRegister(e)} required>
+                {countries?.result?.map((c:any) => <option value={c.code}>{c.name}</option>)}
               </select>
             </div>
             <Link href="#" className='block text-center p-2 rounded-md hover:opacity-70 text-white font-bold cursor-pointer bg-green-300 my-2 w-[100%]' onClick={()=>setIsRegister(false)}>Login</Link>

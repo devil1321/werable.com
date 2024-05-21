@@ -119,7 +119,7 @@ const Nav = () => {
             <div className="nav__language relative top-0 left-0">
               <p className='text-white cursor-pointer' onClick={()=>setIsLanguageMenu(!isLanguageMenu)}>{locale}</p>
               {isLanguageMenu &&
-                <div className="nav-language-menu bg-white p-3 rounded-md text-black absolute top-10 left-1/2 -translate-x-1/2">
+                <div className="nav-language-menu h-[400px] overflow-y-scroll bg-white p-3 rounded-md text-black absolute top-10 left-1/2 -translate-x-1/2">
                 {countries?.result?.map((c:any)=> <p className='p-2 rounded-md hover:bg-gray-200 w-[200px] cursor-pointer' onClick={()=>{
                   setLocale(c.code)
                   setIsLanguageMenu(false)

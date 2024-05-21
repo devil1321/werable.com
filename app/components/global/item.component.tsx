@@ -31,17 +31,12 @@ const Item:React.FC<{ product?:any, id?:number }> = ({product,id}) => {
     }
   }
 
-  useEffect(()=>{
-    console.log(variant)
-    console.log(item)
-  },[variant,item])
-
   return (
-    <div className="item md:flex justify-center items-center">
+    <div className="item p-2 my-5 md:flex justify-center items-center">
       {item?.result?.sync_variants[variantIndex]?.retail_price && <Product product={product} id={id} />}
       {item?.result?.sync_variants[variantIndex]?.retail_price &&
       <div className="item-details w-[100%] xl:w-[50%] md:w-[70%] rounded-md md:ml-12 py-3 px-2 md:px-12">
-        <div className="item-controls flex gap-3 items-center">
+        <div className="item-controls flex gap-3 items-center flex-wrap md:flex-nowrap">
           <button className='px-8 py-2 font-bold text-white min-w-fit rounded-md' onClick={()=>{
             if(!inCart){
               shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex]?.id,item?.result?.sync_variants[variantIndex]?.variant_id,item?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex]?.external_id,1,item?.result?.sync_variants[variantIndex]?.retail_price,item?.result?.sync_variants[variantIndex]?.currency)

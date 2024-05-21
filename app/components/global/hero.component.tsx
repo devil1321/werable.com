@@ -16,18 +16,19 @@ const Hero:React.FC<HeroProps> = ({img,title,paragraph}) => {
   const imageWrapperRef = useRef() as MutableRefObject<HTMLDivElement>
 
   const handleSknew = () =>{
-    const rect = imageWrapperRef.current.getBoundingClientRect()
-    let offsetTop = rect.top
-    console.log(offsetTop,rect.top)
-    if(window.innerWidth >= 768){
-      offsetTop = 450 - rect.top
-      if(offsetTop > 200 && rect.top < -250){
-        gsap.to(imageWrapperRef.current,{ clipPath:`polygon(0 0, 100% 0, 100% ${(offsetTop) / 10}%, 0% 100%)`})
-      }
-    }else{
-      offsetTop = 550 - rect.top
-      if(offsetTop > 550 && rect.top < -80){
-        gsap.to(imageWrapperRef.current,{ clipPath:`polygon(0 0, 100% 0, 100% ${(offsetTop) / 9}%, 0% 100%)`})
+    if(imageWrapperRef.current){
+      const rect = imageWrapperRef.current.getBoundingClientRect()
+      let offsetTop = rect.top
+      if(window.innerWidth >= 768){
+        offsetTop = 450 - rect.top
+        if(offsetTop > 200 && rect.top < -250){
+          gsap.to(imageWrapperRef.current,{ clipPath:`polygon(0 0, 100% 0, 100% ${(offsetTop) / 10}%, 0% 100%)`})
+        }
+      }else{
+        offsetTop = 550 - rect.top
+        if(offsetTop > 550 && rect.top < -80){
+          gsap.to(imageWrapperRef.current,{ clipPath:`polygon(0 0, 100% 0, 100% ${(offsetTop) / 9}%, 0% 100%)`})
+        }
       }
     }
   }

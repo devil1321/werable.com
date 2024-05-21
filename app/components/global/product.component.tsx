@@ -17,6 +17,8 @@ import useQuantity from '@/app/hooks/useQuantity'
 
 const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<HTMLDivElement> }> = ({product,id,productRef}) => {
 
+  const [isMobile,setIsMobile] = useState<boolean>(false)
+
   const titleRef = useRef() as MutableRefObject<HTMLHeadingElement>
   const pathRef = useRef() as MutableRefObject<SVGPathElement>
   const pathRefIcons = useRef() as MutableRefObject<SVGPathElement>
@@ -102,7 +104,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
       }, 1000);
     }
   }
-  const handleAnimationIn = (e:any) =>{
+  const handleAnimationIn = (e?:any) =>{
     if(e){
       e.stopPropagation()
     }
@@ -332,16 +334,45 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
     }
   }
 
+  const handleMobile = () =>{
+    if(typeof window !== undefined){
+      if(window.innerWidth < 768){
+        setIsMobile(true)
+        window.addEventListener('resize',()=>{
+          if(window.innerWidth < 768){
+            setIsMobile(true)
+          }else{
+            setIsMobile(false)
+          }
+        })
+      }
+    }
+  }
+
   useEffect(()=>{
-    handleAnimationInit()
+    handleMobile()
+  },[])
+
+  useEffect(()=>{
+    if(isMobile){
+      setTimeout(() => {
+        handleAnimationIn()
+      }, 1000);
+    }
+  },[isMobile,item])
+
+  useEffect(()=>{
+    if(!isMobile){
+      handleAnimationInit()
+    }
   },[item])
 
   return (
     <div onMouseLeave={(e)=>handleAnimationOut(e)} ref={productRef} className='product relative top-0 left-0 z-50 cursor-pointer my-10 mx-[50px] h-max relative top-0 left-1/2 -translate-x-[58%] md:left-0 md:-translate-x-0'>
-      <svg className='absolute opacity-0 -top-[15%] -left-[9%] md:-left-[12.5%]' width={600} height={600}>
+      <svg className='absolute opacity-0 -top-[15%] -left-[10%] md:-left-[12.5%]' width={600} height={600}>
         <path ref={pathRef} d="M0,140a135,135 0 1,0 270,0a135,135 0 1,0 -270,0" fill="none" stroke="black" strokeWidth={2}/>
       </svg>
-      <svg className='absolute opacity-0 -top-[15%] -left-[9%] md:-left-[12.5%]' width={600} height={600}>
+      <svg className='absolute opacity-0 -top-[15%] -left-[10%] md:-left-[12.5%]' width={600} height={600}>
         <path ref={pathRefIcons} d="M-30,130a150,150 0 1,0 340,0a150,150 0 1,0 -340,0" fill="none" stroke="black" strokeWidth={2}/>
       </svg>
       <h3 ref={titleRef} id={`title-id-${id ? id : product.id}`} className="product-title hidden text-neutral-900 text-4xl font-bold absolute top-0 left-0">{item?.result?.sync_variants[variantIndex]?.name}</h3>

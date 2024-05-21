@@ -44,9 +44,11 @@ export default function Page() {
           paragraph="Explore our curated selection of top-rated products, handpicked to suit your style and needs"
         />
         <Search title="Favoruites" />
+        <div className="cart-items">
         {cart?.length > 0
-         ? cart.map((p:any)=><Item key={`item-key-${p.id}`} product={p} />)
-         : <button className='block rounded-md mx-auto my-12  px-6 py-2 font-bold text-white text-5xl'>Nothing In Cart</button>}
+          ? cart.map((p:any)=><Item key={`item-key-${p.id}`} product={p} />)
+          : <button className='block rounded-md mx-auto my-12  px-6 py-2 font-bold text-white text-5xl'>Nothing In Cart</button>}
+        </div>
         <Summary />
       </div>
     </Layout>

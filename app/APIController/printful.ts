@@ -652,7 +652,7 @@ export const printfulDeleteSyncVariantEcommerce = async(id:number) => {
         return err
     }
 }
-export const printfulGetCountries = async(locale:string,) => {
+export const printfulGetCountries = async(locale:string) => {
     try{
         const res = await printful.get('/countries',{
             headers:{
@@ -682,7 +682,7 @@ export const printfulTaxRate = async(locale:string,) => {
 }
 export const printfulCalculateTaxRate = async(locale:string,recipient:any) => {
     try{
-        const res = await printful.post('/tax/rates',recipient,{
+        const res = await printful.post('/tax/rates',{ recipient:recipient },{
             headers:{
                 'X-PF-Language':locale
             }
