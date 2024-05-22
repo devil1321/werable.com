@@ -4,10 +4,18 @@ import * as ApiActions from '@/app/controller/action-creators/api.action-creator
 import { useDispatch, useSelector } from 'react-redux'
 import { State } from '@/app/controller/reducers/root.reducer'
 import { bindActionCreators } from 'redux'
-import Link from 'next/link'
+import Image from 'next/image'
 import gsap from 'gsap'
+import Layout from '../layout'
+import { useRouter } from 'next/navigation'
+import Item from '@/app/components/global/item.component'
+import Product from '@/app/components/global/product.component'
+import CheckoutItem from '@/app/components/global/checkout-item.component'
+import Link from 'next/link'
 
-const Summary = () => {
+const Page = () => {
+
+  const router = useRouter()
 
   const shippingMenuRef = useRef() as MutableRefObject<HTMLDivElement>
   const [total,setTotal] = useState<number>(0)
@@ -69,7 +77,7 @@ const Summary = () => {
   }
 
   useEffect(()=>{
-    handleInitMenus()
+    // handleInitMenus()
   },[])
 
   useEffect(()=>{
@@ -88,42 +96,50 @@ const Summary = () => {
   useEffect(()=>{
     handleTotal()
     if(!shippingType){
-      if(shipping?.result[0]){  
-        setShippingType(shipping?.result[0])
-      }
+      setShippingType(shipping?.result[0])
     }
   },[shipping,tax,summary,shippingType])
 
+  useEffect(()=>{
+    setTimeout(() => {
+      if(cart.length === 0){
+        router.push('/cart')
+      }
+    }, 2000);
+  },[cart.length])
   
 
   return (
-    <div className='cart-summary rounded-lg px-12 py-6 w-[90%] mx-auto'>
-      <div className="flex justify-between items-start">
-        <h3 className="font-bold text-2xl">Items</h3>
-        <h3 className="font-bold text-2xl">{summary}{cart[0]?.currency}</h3>
-      </div>
-      <div className="flex justify-between items-start flex-wrap text-center md:flex-nowrap">
-        <h3 className="font-bold text-2xl">Shipping</h3>
-        <button className='px-3 rounded-md py-2 text-white font-bold'>{tax?.result?.shipping_taxable ? 'Taxable' : "Tax Free"}</button>
-        <button onClick={()=>handleMenu(shippingMenuRef)} className='px-3 rounded-md py-2 text-white font-bold relative top-0 left-0'>
-          <h3>{shippingType?.name}</h3>
-          <div ref={shippingMenuRef} className="summary-shipping-menu rounded-md min-w-max text-black p-2 bg-white absolute z-20 left-1/2 top-[70px] md:top-12 -translate-x-1/2">
-            {shipping?.result?.map((s:any) => <div onClick={()=>setShippingType(s)} className='p-2 hover:bg-green-300'>{s?.name}</div>)}
+     <React.Fragment>
+     {cart.length > 0 
+      ? <div className='checkout px-2 md:px-12 py-[100px] md:flex md:justify-between md:items-start md:flex-wrap'>
+        <h1 className="italic text-5xl w-[100%] text-[100px] text-center text-green-300">Checkout</h1>
+        <div className="checkout-info md:w-1/2">
+          <div className="checkout-user-details">
+            <h3 className="my-5 text-5xl text-center w-[100%] font-bold text-orange-300 italic">Recipient</h3>
+            <p className="text-lg italic bg-green-300 text-white px-6 my-2 rounded-md font-bold">{user.first_name} {user.last_name}</p>
+            <p className="text-lg italic bg-green-300 text-white px-6 my-2 rounded-md font-bold">{user.address_1}</p>
+            <p className="text-lg italic bg-green-300 text-white px-6 my-2 rounded-md font-bold">{user.address_2}</p>
+            <p className="text-lg italic bg-green-300 text-white px-6 my-2 rounded-md font-bold">{user.city} {user.zip}</p>
+            <p className="text-lg italic bg-green-300 text-white px-6 my-2 rounded-md font-bold">{user.country_code} {user.state_code}</p>
+            <p className="text-lg italic bg-green-300 text-white px-6 my-2 rounded-md font-bold">{user.phone}</p>
           </div>
-        </button>
-        <h3 className="font-bold text-2xl text-center md:text-right w-[100%] md:w-fit">{shippingType?.rate}{shippingType?.currency}</h3>
+          <div className="user-items">
+            <h3 className="my-5 text-5xl text-center font-bold text-orange-300 italic">Items</h3>
+            {cart?.map((i:any) => <CheckoutItem key={`checkout-itemc-${i.id}`} product={i} />)}      
+          </div>
+        </div>
+        <div className="checkout-controls md:w-1/2">
+          <Image className='block mx-auto' src="/assets/login.svg" alt="image" width={300} height={300} />
+          <h3 className='my-5 mt-[70px] text-5xl font-bold text-center text-orange-300'>Total</h3>
+          <p className="text-4xl font-bold text-center">{total}{shippingType?.currency}</p>
+        </div>
+        <button className="block w-[100%] py-2 rounded-md font-bold text-white text-lg hover:opacity-50">Create An Order</button>
+        <Link className="block w-[100%] my-2" href="/cart"><button className="block w-[100%] py-2 rounded-md font-bold text-white text-lg hover:opacity-50">Return To Cart</button></Link> 
       </div>
-      <div className="flex justify-between items-start">
-        <h3 className="font-bold text-2xl">Tax</h3>
-        <h3 className="font-bold text-2xl">{(tax?.result?.rate * (shippingType?.shipping_taxable ? shippingType.rate : 0) + (summary * tax?.result?.rate))}{shippingType?.currency}</h3>
-      </div>
-      <div className="flex justify-between items-start">
-        <h3 className="font-bold text-2xl">Total</h3>
-        <h3 className="font-bold text-2xl">{total}{shippingType?.currency}</h3>
-      </div>
-      <Link href="/checkout"><button className="font-bold text-md text-white block w-[100%] hover:opacity-70 my-5 rounded-full py-2">Checkout</button></Link>
-    </div>
+      : <h1 className='py-[100px] text-[100px] font-bold italic bg-green-300 px-6 py-2 text-white text-center'>Your Cart Is Empty</h1>}
+      </React.Fragment>
   )
 }
 
-export default Summary
+export default Page

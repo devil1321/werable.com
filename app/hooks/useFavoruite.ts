@@ -9,7 +9,7 @@ const useFavoruite = (id:number) => {
   const [isFavoruite,setIsFavoruite] = useState<boolean>(false)
 
   const handleFavoruite = () =>{
-    const isIn = Boolean(favoruites.filter((f:any) => f === id).length > 0)
+    const isIn = Boolean(favoruites.filter((f:any) => f.id === id).length > 0)
     setIsFavoruite(isIn)
   }
 

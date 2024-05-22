@@ -14,6 +14,7 @@ import { bindActionCreators } from 'redux'
 import useFavoruite from '@/app/hooks/useFavoruite'
 import useInCart from '@/app/hooks/useInCart'
 import useQuantity from '@/app/hooks/useQuantity'
+import useVariantIndex from '@/app/hooks/useVariantIndex'
 
 const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<HTMLDivElement> }> = ({product,id,productRef}) => {
 
@@ -33,11 +34,10 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
   const [item,setItem] = useSyncProduct(id ? id : product.id)
   const [variant,setVariant] = useVariant(id ? id : product.id)
   const [isFavoruite,setIsFavoruite] = useFavoruite(item?.result?.sync_product?.id)
+  const [variantIndex,setVariantIndex] = useVariantIndex(item?.result?.sync_product?.id) 
   const [inCart,setInCart] = useInCart(item?.result?.sync_product?.id)
   const [quantity,setQuantity] = useQuantity(item?.result?.sync_product?.id)
   
-  const [variantIndex,setVariantIndex] = useState(0)
-
   const dispatch = useDispatch()
   const shopActions = bindActionCreators(ShopActions,dispatch)
   
@@ -47,61 +47,69 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
       e.stopPropagation()
     }
     breadcrumbRef.current.style.right = '-220px'
-    if(titleRef.current.classList.contains('--open')){
-      titleRef.current.style.opacity = '0'
-      favoruitesRef.current.style.transition = 'opacity 1s ease-in-out'
-      favoruitesRef.current.style.opacity = '0'
-      setTimeout(() => {
-        if(!favoruitesRef.current.classList.contains('hidden')){
-          favoruitesRef.current.classList.add('hidden')
-        }
-      }, 1000);
-      sizeRef.current.style.transition = 'opacity 1s ease-in-out'
-      sizeRef.current.style.opacity = '0'
-      setTimeout(() => {
-        if(!sizeRef.current.classList.contains('hidden')){
-          sizeRef.current.classList.add('hidden')
-        }
-      }, 1000);
-      favoruitesRef.current.style.transition = 'opacity 1s ease-in-out'
-      favoruitesRef.current.style.opacity = '0'
-      setTimeout(() => {
-        if(!favoruitesRef.current.classList.contains('hidden')){
-          favoruitesRef.current.classList.add('hidden')
-        }
-      }, 1000);
-      cartRef.current.style.transition = 'opacity 1s ease-in-out'
-      cartRef.current.style.opacity = '0'
-      setTimeout(() => {
-        if(!cartRef.current.classList.contains('hidden')){
-          cartRef.current.classList.add('hidden')
-        }
-      }, 1000);
-      infoRef.current.style.transition = 'opacity 1s ease-in-out'
-      infoRef.current.style.opacity = '0'
-      setTimeout(() => {
-        if(!infoRef.current.classList.contains('hidden')){
-          infoRef.current.classList.add('hidden')
-        }
-      }, 1000);
-      plusRef.current.style.transition = 'opacity 1s ease-in-out'
-      plusRef.current.style.opacity = '0'
-      setTimeout(() => {
-        if(!plusRef.current.classList.contains('hidden')){
-          plusRef.current.classList.add('hidden')
-        }
-      }, 1000);
-      minusRef.current.style.transition = 'opacity 1s ease-in-out'
-      minusRef.current.style.opacity = '0'
-      setTimeout(() => {
-        if(!minusRef.current.classList.contains('hidden')){
-          minusRef.current.classList.add('hidden')
-        }
-      }, 1000);
-      setTimeout(() => {
-        titleRef.current.classList.remove('--open')
-        titleRef.current.classList.add('hidden')
-      }, 1000);
+    if(titleRef?.current?.classList.contains('--open')){
+      if(titleRef.current){
+        titleRef.current.style.opacity = '0'
+        setTimeout(() => {
+          titleRef.current.classList.remove('--open')
+          titleRef.current.classList.add('hidden')
+        }, 1000);
+      }
+      if(favoruitesRef.current){
+        favoruitesRef.current.style.transition = 'opacity 1s ease-in-out'
+        favoruitesRef.current.style.opacity = '0'
+        setTimeout(() => {
+          if(!favoruitesRef.current.classList.contains('hidden')){
+            favoruitesRef.current.classList.add('hidden')
+          }
+        }, 1000);
+      }
+      if(sizeRef.current){
+        sizeRef.current.style.transition = 'opacity 1s ease-in-out'
+        sizeRef.current.style.opacity = '0'
+        setTimeout(() => {
+          if(!sizeRef.current.classList.contains('hidden')){
+            sizeRef.current.classList.add('hidden')
+          }
+        }, 1000);
+      }
+      if(cartRef.current){
+        cartRef.current.style.transition = 'opacity 1s ease-in-out'
+        cartRef.current.style.opacity = '0'
+        setTimeout(() => {
+          if(!cartRef.current.classList.contains('hidden')){
+            cartRef.current.classList.add('hidden')
+          }
+        }, 1000);
+      }
+      if(infoRef.current){
+        infoRef.current.style.transition = 'opacity 1s ease-in-out'
+        infoRef.current.style.opacity = '0'
+        setTimeout(() => {
+          if(!infoRef.current.classList.contains('hidden')){
+            infoRef.current.classList.add('hidden')
+          }
+        }, 1000);
+      }
+      if(plusRef.current){
+        plusRef.current.style.transition = 'opacity 1s ease-in-out'
+        plusRef.current.style.opacity = '0'
+        setTimeout(() => {
+          if(!plusRef.current.classList.contains('hidden')){
+            plusRef.current.classList.add('hidden')
+          }
+        }, 1000);
+      }
+      if(minusRef.current){
+        minusRef.current.style.transition = 'opacity 1s ease-in-out'
+        minusRef.current.style.opacity = '0'
+        setTimeout(() => {
+          if(!minusRef.current.classList.contains('hidden')){
+            minusRef.current.classList.add('hidden')
+          }
+        }, 1000);
+      }
+        
     }
   }
   const handleAnimationIn = (e?:any) =>{
@@ -248,49 +256,68 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
   }
 
   const handleAnimationInit = () =>{
+    if(titleRef.current){
       titleRef.current.style.opacity = '0'
+    }
+    if(favoruitesRef.current){
       favoruitesRef.current.style.transition = 'opacity 1s ease-in-out'
       favoruitesRef.current.style.opacity = '0'
       setTimeout(() => {
-        if(!favoruitesRef.current.classList.contains('hidden')){
-          favoruitesRef.current.classList.add('hidden')
+        if(!favoruitesRef?.current?.classList?.contains('hidden')){
+          favoruitesRef?.current?.classList?.add('hidden')
         }
       }, 1000);
+    }
+    if(sizeRef.current){
+
       sizeRef.current.style.transition = 'opacity 1s ease-in-out'
       sizeRef.current.style.opacity = '0'
       setTimeout(() => {
-        if(!sizeRef.current.classList.contains('hidden')){
-          sizeRef.current.classList.add('hidden')
+        if(!sizeRef?.current?.classList?.contains('hidden')){
+          sizeRef?.current?.classList?.add('hidden')
         }
       }, 1000);
+    }
+    if(cartRef.current){
+
       cartRef.current.style.transition = 'opacity 1s ease-in-out'
       cartRef.current.style.opacity = '0'
       setTimeout(() => {
-        if(!cartRef.current.classList.contains('hidden')){
-          cartRef.current.classList.add('hidden')
+        if(!cartRef?.current?.classList?.contains('hidden')){
+          cartRef?.current?.classList?.add('hidden')
         }
       }, 1000);
+    }
+    if(infoRef.current){
+
       infoRef.current.style.transition = 'opacity 1s ease-in-out'
       infoRef.current.style.opacity = '0'
       setTimeout(() => {
-        if(!infoRef.current.classList.contains('hidden')){
-          infoRef.current.classList.add('hidden')
+        if(!infoRef?.current?.classList?.contains('hidden')){
+          infoRef?.current?.classList?.add('hidden')
         }
       }, 1000);
+    }
+    if(plusRef.current){
+
       plusRef.current.style.transition = 'opacity 1s ease-in-out'
       plusRef.current.style.opacity = '0'
       setTimeout(() => {
-        if(!plusRef.current.classList.contains('hidden')){
-          plusRef.current.classList.add('hidden')
+        if(!plusRef?.current?.classList?.contains('hidden')){
+          plusRef?.current?.classList?.add('hidden')
         }
       }, 1000);
+    }
+    if(minusRef.current){
+
       minusRef.current.style.transition = 'opacity 1s ease-in-out'
       minusRef.current.style.opacity = '0'
       setTimeout(() => {
-        if(!minusRef.current.classList.contains('hidden')){
-          minusRef.current.classList.add('hidden')
+        if(!minusRef?.current?.classList?.contains('hidden')){
+          minusRef?.current?.classList?.add('hidden')
         }
       }, 1000);
+    }
   }
 
   const handleText = () =>{
@@ -327,9 +354,11 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
 
   const handleSize = () =>{
     const len = item?.result?.sync_variants?.length - 1
-    if(variantIndex < len){
+    if(variantIndex as number < len){
+      // @ts-ignore
       setVariantIndex(variantIndex + 1)
     }else{
+      // @ts-ignore
       setVariantIndex(0)
     }
   }
@@ -375,10 +404,10 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
       <svg className='absolute opacity-0 -top-[15%] -left-[10%] md:-left-[12.5%]' width={600} height={600}>
         <path ref={pathRefIcons} d="M-30,130a150,150 0 1,0 340,0a150,150 0 1,0 -340,0" fill="none" stroke="black" strokeWidth={2}/>
       </svg>
-      <h3 ref={titleRef} id={`title-id-${id ? id : product.id}`} className="product-title hidden text-neutral-900 text-4xl font-bold absolute top-0 left-0">{item?.result?.sync_variants[variantIndex]?.name}</h3>
+      <h3 ref={titleRef} id={`title-id-${id ? id : product.id}`} className="product-title hidden text-neutral-900 text-4xl font-bold absolute top-0 left-0">{item?.result?.sync_variants[variantIndex as number]?.name}</h3>
       <div onClick={()=>{
         if(!isFavoruite){
-          shopActions.addFavoruite(item.result?.sync_product?.id)
+          shopActions.addFavoruite(item.result?.sync_product?.id,variantIndex as number)
         }else{
           shopActions.removeFavoruite(item.result?.sync_product?.id)
         }
@@ -395,7 +424,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         </div>
       <div onClick={()=>{
         if(!inCart){
-          shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex]?.id,item?.result?.sync_variants[variantIndex]?.variant_id,item?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex]?.external_id,1,item?.result?.sync_variants[variantIndex]?.retail_price,item?.result?.sync_variants[variantIndex]?.currency)
+          shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex as number]?.id,item?.result?.sync_variants[variantIndex as number]?.variant_id,item?.result?.sync_variants[variantIndex as number]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex as number]?.external_id,1,item?.result?.sync_variants[variantIndex as number]?.retail_price,item?.result?.sync_variants[variantIndex as number]?.currency,variantIndex as number)
           // @ts-ignore
           setQuantity(1)
         }
@@ -409,7 +438,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
       </Link>
       <div onClick={()=>{
         if(!inCart){
-          shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex]?.id,item?.result?.sync_variants[variantIndex]?.variant_id,item?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex]?.external_id,1,item?.result?.sync_variants[variantIndex]?.retail_price,item?.result?.sync_variants[variantIndex]?.currency)
+          shopActions.addToCart(item?.result?.sync_product?.id,item?.result?.sync_variants[variantIndex as number]?.id,item?.result?.sync_variants[variantIndex as number]?.variant_id,item?.result?.sync_variants[variantIndex as number]?.warehouse_product_variant_id,item?.result?.sync_variants[variantIndex as number]?.external_id,1,item?.result?.sync_variants[variantIndex as number]?.retail_price,item?.result?.sync_variants[variantIndex as number]?.currency,variantIndex as number)
           // @ts-ignore
           setQuantity(1)
         }else{
@@ -435,7 +464,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
       </div>
       <div onMouseEnter={(e)=>handleAnimationIn(e)} className='product-image z-50 relative top-0 left-0 bg-gray-300 rounded-full w-[220px] h-[220px] overflow-hidden'>
         <div ref={breadcrumbRef} className="product-breadcrumb pointer-events-none absolute z-50 top-1/2 -translate-y-1/2 -right-56 w-[220px] px-8 py-3 bg-green-300 text-white font-bold rounded-l-md">
-          <p className="text-center">{item?.result?.sync_variants[variantIndex]?.retail_price}{item?.result?.sync_variants[variantIndex]?.currency}</p>
+          <p className="text-center">{item?.result?.sync_variants[variantIndex as number]?.retail_price}{item?.result?.sync_variants[variantIndex as number]?.currency}</p>
           <p className="text-center"><span className='italic'>{variant?.result?.variant?.in_stock ? 'In Stock' : 'Out Of Stock'}</span> / <span className="italic">In Cart {quantity as number}</span></p> 
         </div>
         <Image className='rounded-full relative top-0 left-0 z-20' src={item?.result?.sync_product?.thumbnail_url} alt='product-image' width={500} height={500} />

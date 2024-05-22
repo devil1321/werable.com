@@ -13,17 +13,18 @@ import * as ShopActions from '@/app/controller/action-creators/shop.action-creat
 import { useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import useQuantity from '@/app/hooks/useQuantity'
+import useVariantIndex from '@/app/hooks/useVariantIndex'
 
 const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct}) => {
   
     const dispatch = useDispatch()
     const shopActions = bindActionCreators(ShopActions,dispatch)
 
-    const [variantIndex,setVariantIndex] = useState<number>(0)
+    const [variantIndex,setVariantIndex] = useVariantIndex(syncProduct?.result?.sync_product?.id)
 
     const [template,setTemplate] = useTemplate(syncProduct?.result?.sync_product?.id,0,100)
     const [variantState,setVariantState] = useVariant(syncProduct?.result?.sync_product?.id) 
-    const [category,setCategory] = useCategory(syncProduct?.result?.sync_variants[variantIndex]?.main_category_id)
+    const [category,setCategory] = useCategory(syncProduct?.result?.sync_variants[variantIndex as number]?.main_category_id)
     const [inCart,setInCart] = useInCart(syncProduct?.result?.sync_product?.id)
     const [quantity,setQuantity] = useQuantity(syncProduct?.result?.sync_product?.id)
     
@@ -55,6 +56,7 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
     const handleSize = (size:string) =>{
       const variant = syncProduct?.result.sync_variants.find((v:any) => v?.size?.toLowerCase() === size.toLowerCase())
       const index = syncProduct?.result.sync_variants.indexOf(variant)
+      // @ts-ignore
       setVariantIndex(index)
     }
 
@@ -68,11 +70,11 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
     <Layout>
       <div className='details pt-[200px]'>
         <div className="details-main flex justify-between items-center">
-          <Image className ="md:w-1/2" src={syncProduct?.result?.sync_variants[variantIndex]?.files[1]?.preview_url} width={1920} height={768} alt='product-image' />
+          <Image className ="md:w-1/2" src={syncProduct?.result?.sync_variants[variantIndex as number]?.files[1]?.preview_url} width={1920} height={768} alt='product-image' />
           <div className="details-info p-5 md:w-1/2">
-            <h2 className="text-5xl font-bold rounded-lg p-2">{syncProduct?.result?.sync_variants[variantIndex]?.name}</h2>
+            <h2 className="text-5xl font-bold rounded-lg p-2">{syncProduct?.result?.sync_variants[variantIndex as number]?.name}</h2>
             <div className="flex justify-between items-center gap-5 my-3">
-              <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold italic">Price: <span className='text-green-300'>{syncProduct?.result?.sync_variants[variantIndex]?.retail_price}{syncProduct?.result?.sync_variants[variantIndex]?.currency}</span></div>
+              <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold italic">Price: <span className='text-green-300'>{syncProduct?.result?.sync_variants[variantIndex as number]?.retail_price}{syncProduct?.result?.sync_variants[variantIndex as number]?.currency}</span></div>
               <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold relative top-0 left-0">
                 <p onClick={()=>handleMenu(colorsMenuRef)} className='hover:opacity-50 cursor-pointer italic font-bold'>Color: <span className='text-green-300'>{color?.color_name as string}</span></p>
                 <div ref={colorsMenuRef} className="details-color-menu absolute top-12 left-1/2 -translate-x-1/2 w-[160px] p-3 rounded-lg bg-white shadow-lg shadow-gray-300">
@@ -102,7 +104,7 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
               <div className="w-1/3 text-center  p-2 font-bold cursor-pointer bg-white rounded-full">{quantity as number}</div>
               <div onClick={()=>{
                 if(!inCart){
-                  shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex]?.id,syncProduct?.result?.sync_variants[variantIndex]?.variant_id,syncProduct?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex]?.retail_price,syncProduct?.result?.sync_variants[variantIndex]?.currency)
+                  shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex as number]?.retail_price,syncProduct?.result?.sync_variants[variantIndex as number]?.currency,variantIndex as number)
                   // @ts-ignore
                   setQuantity(1)
                 }else{
@@ -119,7 +121,7 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
                 {category?.image_url && <Image className='mr-2' src={category.image_url} alt="category-image" width={25} height={25} />}
                 <span>{category?.title}</span>
               </div>}
-              {syncProduct?.result?.sync_variants[variantIndex]?.availability_status 
+              {syncProduct?.result?.sync_variants[variantIndex as number]?.availability_status 
                 ? <div className='mx-2 px-6 py-2 my-2 w-[100%] rounded-md bg-green-300 text-white font-bold text-md text-center'>Available</div>
                 : <div className='mx-2 px-6 py-2 my-2 w-[100%] rounded-md bg-red-500 text-white font-bold text-md text-center'>Unavailable</div>}
             </div>
@@ -132,7 +134,7 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
               {variantState?.result?.variant?.availability_status?.map((s:any) => <div key={`status-key-${s.region}`} className={`min-w-fit px-3 py-2 my-2 font-bold italic text-white rounded-md mr-3 ${s?.status === 'in_stock' ? "bg-green-300" : 'bg-red-500'}`}>{s?.region}</div>)}
             </div>
             {!inCart
-              ? <button onClick={()=> {if(!inCart) shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex]?.id,syncProduct?.result?.sync_variants[variantIndex]?.variant_id,syncProduct?.result?.sync_variants[variantIndex]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex]?.retail_price,syncProduct?.result?.sync_variants[variantIndex]?.currency)}} className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">Add To Cart</button>
+              ? <button onClick={()=> {if(!inCart) shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex as number]?.retail_price,syncProduct?.result?.sync_variants[variantIndex as number]?.currency,variantIndex as number)}} className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">Add To Cart</button>
               : <button className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">In Your Cart</button>
             }
           </div>

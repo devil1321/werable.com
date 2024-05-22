@@ -4,6 +4,7 @@ import Nav from '@/app/components/global/nav.component'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ApiActions from '@/app/controller/action-creators/api.action-creators'
+import * as ShopActions from '@/app/controller/action-creators/shop.action-creators'
 import { bindActionCreators } from 'redux'
 import { usePathname, useRouter } from 'next/navigation'
 import { State } from '@/app/controller/reducers/root.reducer'
@@ -15,9 +16,11 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
   const pathname = usePathname()
 
   const { user } = useSelector((state:State) => state.api)
+  const { cart } = useSelector((state:State) => state.shop)
 
   const dispatch = useDispatch()
   const APIActions  = bindActionCreators(ApiActions,dispatch)
+  const shopActions  = bindActionCreators(ShopActions,dispatch)
 
   const handleInit = () =>{
     if(typeof window !== 'undefined'){
@@ -36,10 +39,18 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
       if(token){
         APIActions.getUser()
         APIActions.printfulGetAllSyncProducts(0,100)
+        shopActions.setCart()
       }
     }
   },[])
 
+  useEffect(()=>{
+    handleInit()
+  },[user])
+  
+  useEffect(()=>{
+    console.log(cart)
+  },[cart])
   useEffect(()=>{
     handleInit()
   },[user])
