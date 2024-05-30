@@ -378,6 +378,20 @@ export const printfulGetListOfOrders = async(locale:string,offset:number,limit:n
         return err
     }
 }
+export const printfulGetAllOrders = async() =>{
+    try{
+        const res = await printful.get('/orders',{
+            headers:{
+                'Authorization':`Bearer ${process.env.PRINTFUL_TOKEN}`
+            }
+        })
+        const data = await res.data
+        return data
+    }catch(err){
+        console.log(err)
+        return err
+    }
+}
 export const printfulCreateNewOrder = async(confirm:boolean,update_existing:boolean,query:any) => {
     try{
         const res = await printful.post('/orders',{

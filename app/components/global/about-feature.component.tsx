@@ -21,7 +21,6 @@ const AboutFeature:React.FC<AboutFeatureProps> = ({isLeft,img,title,paragraph,op
 
   const handleAnimate = () =>{
     if(typeof window !== 'undefined'){
-      if(window.innerWidth < 768){
         gsap.registerPlugin(ScrollTrigger)
         if(isLeft){
           gsap.fromTo(imageRef.current,{x:-1000},{x:0,duration:1,scrollTrigger:{
@@ -46,7 +45,6 @@ const AboutFeature:React.FC<AboutFeatureProps> = ({isLeft,img,title,paragraph,op
             end:'-=250px'
           }})
         }
-      }
     }
   }
 

@@ -8,66 +8,6 @@ import  printful  from "../lib/APIPrintful"
 import { PrintfulTypes } from "../types"
 
 
-export const changeCurrency = (currency:string) => async(dispatch:Dispatch) =>{
-    try{
-        const res = await axios.get('/assets/db/products.json')
-        const products = await res.data
-        let actualCurrency = 0
-        switch(currency){
-            case 'USD':
-                actualCurrency = 1
-                break
-            case 'EU':
-                actualCurrency = 0.92
-                break
-            case 'PLN':
-                actualCurrency = 0.25 
-                break
-            default:
-                actualCurrency = 1
-        }
-    
-        const tmpProducts = products.map((p:Interfaces.Product) =>({
-            ...p,
-            prevPrice:(p.prevPrice / actualCurrency).toFixed(2),
-            price:(p.price / actualCurrency).toFixed(2)
-        }))
-        dispatch({
-            type:APITypes.API_CHANGE_CURRENCY,
-            currency:actualCurrency,
-            products:tmpProducts
-        })
-    }catch(err){
-        console.log(err)
-    }
-}
-export const test = () => async(dispatch:Dispatch) =>{
-    try{
-        const res = await axios.post('/api/test-app',{},{
-            headers:{
-                'Content-Type':'application/json'
-            }
-        })
-        const data = await res.data
-        if(typeof window !== 'undefined'){
-            if(data){
-                localStorage.setItem('jwt',data.token)
-            }
-        }
-        dispatch({
-            type:APITypes.API_TEST,
-            data:data,
-            user:data.user,
-            token:data.token,
-        })
-    }catch(err){
-        dispatch({
-            type:APITypes.API_TEST,
-            data:err
-        })
-    }
-
-}
 export const getUser = () => async (dispatch:Dispatch)=>{
     const token = getToken() as string
     const { user } = store.getState().api
@@ -272,23 +212,38 @@ export const searchProducts = (term:string) => async(dispatch:Dispatch) =>{
         })
     }
 }
-export const pay = (total:number,currency:string,description:string) => async(dispatch:Dispatch) =>{
+export const getCard = (user_id:number) => async(dispatch:Dispatch) =>{
     try{
-        const res = await axios.post('/api/pay',{total,currency,description})
+        const res = await axios.post('/api/get-card',{ user_id:user_id })
         const data = await res.data
         dispatch({
-            type:APITypes.API_PAY,
-            paymentLink:data?.paymentLink
+            type:APITypes.API_GET_CARD,
+            card:data
         })
     }catch(err){
         console.log(err)
         dispatch({
-            type:APITypes.API_PAY,
-            paymentLink:''
+            type:APITypes.API_GET_CARD,
+            card:null
         })
     }
 }
-
+export const updateCard = (query:any) => async(dispatch:Dispatch) =>{
+    try{
+        const res = await axios.post('/api/update-card',{ ...query })
+        const data = await res.data
+        dispatch({
+            type:APITypes.API_UPDATE_CARD,
+            card:data
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:APITypes.API_UPDATE_CARD,
+            card:null
+        })
+    }
+}
 /*---------------------PRINTFUL API-----------------------*/
 
 export const printfulSetLocale = (locale:string) => (dispatch:Dispatch) =>{
@@ -803,6 +758,7 @@ export const printfulCreateNewOrder = (confirm:boolean,update_existing:boolean,q
             query:query
         })
         const data = await res.data
+        console.log(data)
         dispatch({
             type:PrintfulTypes.PRINTFUL_CREATE_NEW_ORDER,
             data:data

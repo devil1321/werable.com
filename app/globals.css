@@ -91,7 +91,7 @@
     background: linear-gradient(180deg,#D9D9D9,#FFFFFF);
   }
   .cart-summary button{
-    background: gray  ;
+    background: rgb(166, 166, 255)  ;
   }
   .item-favoruite svg{
     fill:white;

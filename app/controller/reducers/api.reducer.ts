@@ -30,6 +30,7 @@ interface InitState {
     packing:any;
     tax:any;
     shipping:any;
+    card:any;
 }
 
 const initState:InitState = {
@@ -59,17 +60,12 @@ const initState:InitState = {
     informationCost:null,
     packing:null,
     tax:null,
-    shipping:null
+    shipping:null,
+    card:null
 }
 
 export default (state:InitState = initState,action:APIActions) =>{
     switch(action.type){
-        case APITypes.API_CHANGE_CURRENCY:
-            return{
-                ...state,
-                products:action.products,
-                currency:action.currency
-            }
         case APITypes.API_SET_PRODUCTS:
             return{
                 ...state,
@@ -83,13 +79,6 @@ export default (state:InitState = initState,action:APIActions) =>{
                 data:action.data,
             }
         case APITypes.API_LOGIN:
-            return{
-                ...state,
-                user:action.user,
-                token:action.token,
-                data:action.data,
-            }
-        case APITypes.API_TEST:
             return{
                 ...state,
                 user:action.user,
@@ -114,10 +103,15 @@ export default (state:InitState = initState,action:APIActions) =>{
                 user:action.user,
                 image:action.image
             }
-        case APITypes.API_PAY:
-            return{
+        case APITypes.API_GET_CARD:
+            return {
                 ...state,
-                paymentLink:action.paymentLink
+                card:action.card
+            }
+        case APITypes.API_UPDATE_CARD:
+            return {
+                ...state,
+                card:action.card
             }
         case APITypes.API_FILTER_PRODUCTS:
                 return{

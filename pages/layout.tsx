@@ -42,19 +42,12 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
         shopActions.setCart()
       }
     }
-  },[])
+  },[user])
 
   useEffect(()=>{
     handleInit()
   },[user])
   
-  useEffect(()=>{
-    console.log(cart)
-  },[cart])
-  useEffect(()=>{
-    handleInit()
-  },[user])
-
   return (
     <div className='container'>
       <Nav />

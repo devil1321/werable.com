@@ -88,7 +88,7 @@ const Summary = () => {
   useEffect(()=>{
     handleTotal()
     if(!shippingType){
-      if(shipping?.result[0]){  
+      if(shipping?.result){  
         setShippingType(shipping?.result[0])
       }
     }
@@ -108,7 +108,7 @@ const Summary = () => {
         <button onClick={()=>handleMenu(shippingMenuRef)} className='px-3 rounded-md py-2 text-white font-bold relative top-0 left-0'>
           <h3>{shippingType?.name}</h3>
           <div ref={shippingMenuRef} className="summary-shipping-menu rounded-md min-w-max text-black p-2 bg-white absolute z-20 left-1/2 top-[70px] md:top-12 -translate-x-1/2">
-            {shipping?.result?.map((s:any) => <div onClick={()=>setShippingType(s)} className='p-2 hover:bg-green-300'>{s?.name}</div>)}
+            {shipping?.result?.map((s:any) => <div onClick={()=>setShippingType(s)} className='p-2 rounded-md hover:bg-green-300'>{s?.name}</div>)}
           </div>
         </button>
         <h3 className="font-bold text-2xl text-center md:text-right w-[100%] md:w-fit">{shippingType?.rate}{shippingType?.currency}</h3>

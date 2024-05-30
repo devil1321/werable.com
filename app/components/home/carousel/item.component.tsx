@@ -39,9 +39,7 @@ const Item:React.FC<ItemProps> = ({itemRef,img,title,paragraph,count}) => {
   }
 
   useEffect(()=>{
-    setTimeout(() => {
-      handleAnimate()
-    }, 1000);
+    handleAnimate()
   },[count])
 
   return (

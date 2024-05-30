@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { MutableRefObject, useEffect, useRef } from 'react'
 import Image from 'next/image'
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/dist/ScrollTrigger';
 
 interface TitleProps{
   className?:string;
@@ -8,8 +10,28 @@ interface TitleProps{
 }
 
 const Title:React.FC<TitleProps> = ({className,isLeft,title}) => {
+
+  const titleRef = useRef() as MutableRefObject<HTMLDivElement>
+
+  const handleAnimate = () =>{
+    gsap.registerPlugin(ScrollTrigger)
+    gsap.fromTo(titleRef.current,{ opacity:0 },{
+      opacity:1,
+      duration:1,
+      scrollTrigger:{
+        trigger:titleRef.current,
+        start:'-=200px',
+        end:'-=200px'
+      }
+    })
+  }
+
+  useEffect(()=>{
+    handleAnimate()
+  },[])
+
   return (
-    <div className={`title mx-auto relative top-0 left-0 my-12 w-[300px] md:w-[500px] ${className}`}>
+    <div ref={titleRef} className={`title mx-auto relative top-0 left-0 my-12 w-[300px] md:w-[500px] ${className}`}>
       {isLeft
       ? <Image src="/assets/title-right.png" alt='title-background' width={500} height={300} />
       : <Image className="-translate-x-[5%]" src="/assets/title-left.png" alt='title-background' width={500} height={300} />}

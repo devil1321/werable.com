@@ -7,11 +7,10 @@ import { bindActionCreators } from 'redux'
 import { usePathname, useRouter } from 'next/navigation'
 import { State } from '@/app/controller/reducers/root.reducer'
 import Link from 'next/link'
-import axios from 'axios'
 
 const Credentials = () => {
 
-  const { data,countries,locale:language } = useSelector((state:State) => state.api)
+  const { data,countries,locale:language,user } = useSelector((state:State) => state.api)
   
   const dispatch = useDispatch()
   const APIActions = bindActionCreators(ApiActions,dispatch)
@@ -63,6 +62,8 @@ const Credentials = () => {
     e.preventDefault()
     APIActions.register(registerFormData)
   }
+  
+  
   const handleInit = () =>{
     if(typeof window !== 'undefined'){
       const token = localStorage.getItem('jwt')
@@ -75,18 +76,12 @@ const Credentials = () => {
   }
   
   useEffect(()=>{
-    APIActions.printfulGetCountries()
-  },[language])
+    handleInit()
+  },[user])
 
   useEffect(()=>{
-    if(typeof window !== 'undefined'){
-      const token = localStorage.getItem('jwt')
-      if(token){
-        APIActions.getUser()
-        APIActions.setProducts()
-      }
-    }
-  },[])
+    APIActions.printfulGetCountries()
+  },[language])
   
   return (  
     <div>

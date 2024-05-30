@@ -12,17 +12,20 @@ import Item from '@/app/components/global/item.component'
 import Product from '@/app/components/global/product.component'
 import CheckoutItem from '@/app/components/global/checkout-item.component'
 import Link from 'next/link'
+import { v4 as uuidv4 } from 'uuid';
+import usePaymentMethod from '@/app/hooks/usePaymentMethod'
 
 const Page = () => {
 
   const router = useRouter()
 
-  const shippingMenuRef = useRef() as MutableRefObject<HTMLDivElement>
+  const paymentMenuRef = useRef() as MutableRefObject<HTMLDivElement>
   const [total,setTotal] = useState<number>(0)
   const [shippingType,setShippingType] = useState<any>(null)
+  const [paymentMethod,setPaymentMethod] = usePaymentMethod()
 
   const { summary, cart } = useSelector((state:State) => state.shop)
-  const { tax, shipping, user, locale } = useSelector((state:State) => state.api)
+  const { tax, shipping, user, card, locale } = useSelector((state:State) => state.api)
 
   const dispatch = useDispatch()
   const APIActions = bindActionCreators(ApiActions,dispatch)
@@ -54,13 +57,87 @@ const Page = () => {
     })
   }
 
+  const handleCreateAnOrder = () => {
+    const items = cart.map((i:any) => { 
+      return {
+      external_variant_id:String(i.external_variant_id),
+      quantity:i.quantity,
+    }})
+    if(paymentMethod === 'paypal'){
+      APIActions.printfulCreateNewOrder(true,true,{
+        recipient:{
+          address1:String(user.address_1),
+          city:String(user.city),
+          country_code:String(user.country_code),
+          state_code:String(user.state_code),
+          zip:String(user.zip),
+          phone:String(user.phone)
+        },
+        items:items,
+        shipping:shippingType?.id,
+        gift:{  
+          subject:"To customer",
+          message:'We are proud you were chosen wearable :)'
+        },
+        packing_slip:{
+          email:user.email,
+          phone:user.phone,
+          message:`To Ms/Mr ${user.first_name} ${user.last_name}`,
+          logo_url:'https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_1280.png',
+          store_name:'Wearable',
+          custom_order_id:uuidv4().slice(0,20)
+        },
+        confirm:true,
+        payment:{
+          method:"paypal"
+        }
+      })
+    }else if(paymentMethod === 'card'){
+      APIActions.printfulCreateNewOrder(true,true,{
+        recipient:{
+          address1:String(user.address_1),
+          city:String(user.city),
+          country_code:String(user.country_code),
+          state_code:String(user.state_code),
+          zip:String(user.zip),
+          phone:String(user.phone)
+        },
+        items:items,
+        shipping:shippingType?.id,
+        gift:{  
+          subject:"To customer",
+          message:'We are proud you were chosen wearable :)'
+        },
+        packing_slip:{
+          email:user.email,
+          phone:user.phone,
+          message:`To Ms/Mr ${user.first_name} ${user.last_name}`,
+          logo_url:'https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_1280.png',
+          store_name:'Wearable',
+          custom_order_id:uuidv4().slice(0,20)
+        },
+        confirm:true,
+        payment:{
+          method:"card",
+          card:{
+            number:card.card_number,
+            exp_month:card.card_exp_month,
+            exp_year:card.card_exp_year,
+            cvc:card.card_cvc,
+            name:card.card_owner_name
+          }
+        }
+      })
+    }
+  }
+
   const handleTotal = () =>{
     setTotal(Number(summary) + Number(shippingType?.rate) + (Number(tax?.result?.rate) * (shippingType?.shipping_taxable ? Number(shippingType.rate) : 0) + (Number(tax?.result?.rate) * Number(summary))))
   }
 
 
   const handleInitMenus = () =>{
-    shippingMenuRef.current.style.display = 'none'
+    paymentMenuRef.current.style.display = 'none'
   }
 
   const handleMenu = (ref:MutableRefObject<HTMLDivElement>) =>{
@@ -77,17 +154,11 @@ const Page = () => {
   }
 
   useEffect(()=>{
-    // handleInitMenus()
+    handleInitMenus()
   },[])
 
   useEffect(()=>{
     if(user){
-      APIActions.printfulCalculateTaxRate({
-        country_code:user.country_code,
-        state_code:user.state_code,
-        city:user.city,
-        zip:user.zip
-      })
       handleShipping()
       shopActions.summary()
     }
@@ -134,7 +205,16 @@ const Page = () => {
           <h3 className='my-5 mt-[70px] text-5xl font-bold text-center text-orange-300'>Total</h3>
           <p className="text-4xl font-bold text-center">{total}{shippingType?.currency}</p>
         </div>
-        <button className="block w-[100%] py-2 rounded-md font-bold text-white text-lg hover:opacity-50">Create An Order</button>
+        <div onClick={()=>handleMenu(paymentMenuRef)} className="checkout-payment z-50 cursor-pointer relative top-0 left-0">
+          <h3 className="text-md font-bold text-white my-2 bg-blue-300 rounded-md p-3">Payment Method: <span className="p-2 rounded-md ml-2 bg-red-300">{paymentMethod.toString().toLocaleUpperCase() as string}</span></h3>
+          <div ref={paymentMenuRef} className="checkout-payment-method-menu shadow-lg shadow-gray-300 cursor-pointer rounded-md z-50 bg-white p-2 w-[240px] text-center absolute top-[64px] left-1/2 -translate-x-1/2">
+            {/* @ts-ignore */}
+            <div className='p-2 hover:bg-green-300 rounded-md font-bold' onClick={()=>setPaymentMethod('paypal')}>Paypal</div>
+            {/* @ts-ignore */}
+            <div className='p-2 hover:bg-green-300 rounded-md font-bold' onClick={()=>setPaymentMethod('card')}>Card</div>
+          </div>
+        </div>
+        <button onClick={()=>handleCreateAnOrder()} className="block w-[100%] py-2 rounded-md font-bold text-white text-lg hover:opacity-50">Create An Order</button>
         <Link className="block w-[100%] my-2" href="/cart"><button className="block w-[100%] py-2 rounded-md font-bold text-white text-lg hover:opacity-50">Return To Cart</button></Link> 
       </div>
       : <h1 className='py-[100px] text-[100px] font-bold italic bg-green-300 px-6 py-2 text-white text-center'>Your Cart Is Empty</h1>}

@@ -13,7 +13,7 @@ const Nav = () => {
   const [locale,setLocale] = useState<string>('EN')
   const [isLanguageMenu,setIsLanguageMenu] = useState<boolean>(false)
   
-  const { countries } = useSelector((state:State) => state.api)
+  const { countries,user } = useSelector((state:State) => state.api)
 
   const [isPlaying,setIsPlaying] = useState<boolean>(false)
   const menuWrapperRef = useRef() as MutableRefObject<HTMLDivElement>
@@ -117,9 +117,9 @@ const Nav = () => {
         <div ref={menuWrapperRef} className="nav-menus-wrapper z-50 overflow-hidden md:overflow-visible absolute w-[100%] md:w-fit md:max-w-[100vw] bg-neutral-900/70 md:bg-transparent h-[195px] md:h-max rounded-md top-[150px] md:top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col md:flex-row justify-between items-center">
           <div className="nav-menu relative z-30 -left-[10%] md:-left-[5%] lg:-left-[15%] xl:-left-[20%] -top-4 w-1/3 flex gap-5">
             <div className="nav__language relative top-0 left-0">
-              <p className='text-white cursor-pointer' onClick={()=>setIsLanguageMenu(!isLanguageMenu)}>{locale}</p>
+              <p className='text-red-500 cursor-pointer min-w-max translate-y-2' onClick={()=>setIsLanguageMenu(!isLanguageMenu)}>{locale}</p>
               {isLanguageMenu &&
-                <div className="nav-language-menu h-[400px] overflow-y-scroll bg-white p-3 rounded-md text-black absolute top-10 left-1/2 -translate-x-1/2">
+                <div className="nav-language-menu h-[400px] overflow-y-scroll  bg-white p-3 rounded-md text-black absolute top-10 left-1/2 -translate-x-1/2">
                 {countries?.result?.map((c:any)=> <p className='p-2 rounded-md hover:bg-gray-200 w-[200px] cursor-pointer' onClick={()=>{
                   setLocale(c.code)
                   setIsLanguageMenu(false)
@@ -128,21 +128,23 @@ const Nav = () => {
               </div>}
             </div>
             <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/home">Home</Link>
-            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-4" href="/products">Products</Link>
-            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-6" href="/about">About Us</Link>
+            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/products">Products</Link>
+            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/about">About Us</Link>
+            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/profile">Profile</Link>
            
           </div>
-          <div className="nav-logo relative -left-[30%] md:left-0 -top-[10%] w-1/3 flex gap-3 items-center">
+          <div className="nav-logo relative -left-[30%] md:left-0 -top-[10%] -translate-y-[10%] w-1/3 flex gap-3 items-center">
             <div className="nav-logo min-w-[40px] md:min-w-[0px] md:w-[30px] lg:w-[50px] xl:w-[70px]">
-              <Image src="/assets/logo-black.svg" alt='nav-background' width={70} height={50} />
+              <Image src="/assets/logo-white.svg" alt='nav-background' width={70} height={50} />
             </div>
             <h2 className="md:text-2xl xl:text-4xl font-bold text-white">Wearable</h2>
           </div>
           <div className="nav-menu relative z-30 -left-[25%] md:-left-[5%] lg:left-[5%] xl:left-[10%] -top-4 w-1/3 flex gap-5">
-            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-6" href="/new-sale">New Sale</Link>
-            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-4" href="/cart">Cart</Link>
+            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/new-sale">New Sale</Link>
+            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/cart">Cart</Link>
             <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/favoruites">Favoruites</Link>
-            <Link className="relative z-50 top-0 left-0 hover:underline text-white" href="/contact">Contact</Link>
+            <Link className="relative z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/contact">Contact</Link>
+            {user && <Link onClick={()=>APIActions.logout()} className="relative z-50 top-0 left-0 hover:underline text-white translate-y-2" href="#">Logout</Link>}
           </div>
         </div>
       </div>

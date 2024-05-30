@@ -8,19 +8,31 @@ datasource db {
 }
 
 model WearableUser {
-  id            Int      @id @default(autoincrement())
-  nickname      String   @db.VarChar(255)
-  email         String   @unique @db.VarChar(255)
-  password      String   @db.VarChar(5000)
-  first_name    String   @db.VarChar(255)
-  last_name     String   @db.VarChar(255)
-  address_1     String   @db.VarChar(255)
-  address_2     String?  @db.VarChar(255)
-  country_code  String   @db.VarChar(255)
-  state_code    String?  @db.VarChar(255)
-  city          String   @db.VarChar(255)
-  zip           String   @db.VarChar(255)
-  phone         String   @unique @db.VarChar(255)
-  created_at    DateTime @default(dbgenerated("CURRENT_TIMESTAMP(6)")) @db.Timestamp(6)
-  last_modified DateTime @default(dbgenerated("CURRENT_TIMESTAMP(6)")) @db.Timestamp(6)
+  id            Int       @id @default(autoincrement())
+  nickname      String    @db.VarChar(255)
+  email         String    @unique @db.VarChar(255)
+  password      String    @db.VarChar(5000)
+  first_name    String    @db.VarChar(255)
+  last_name     String    @db.VarChar(255)
+  address_1     String    @db.VarChar(255)
+  address_2     String?   @db.VarChar(255)
+  country_code  String    @db.VarChar(255)
+  state_code    String?   @db.VarChar(255)
+  city          String    @db.VarChar(255)
+  zip           String    @db.VarChar(255)
+  phone         String    @unique @db.VarChar(255)
+  created_at    DateTime? @default(dbgenerated("CURRENT_TIMESTAMP(6)")) @db.Timestamp(6)
+  last_modified DateTime? @default(dbgenerated("CURRENT_TIMESTAMP(6)")) @db.Timestamp(6)
+  Card          Card[]
+}
+
+model Card {
+  id              Int          @id @default(autoincrement())
+  card_number     Int
+  card_exp_month  Int
+  card_exp_year   Int
+  card_cvc        Int
+  card_owner_name String       @db.VarChar(255)
+  user_id         Int
+  WearableUser    WearableUser @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
