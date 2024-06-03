@@ -29,12 +29,6 @@ interface FILTER_PRODUCTS{
     products:Interfaces.Product[]
 }
 
-interface CHANGE_CURRENCY{
-    type:APITypes.API_CHANGE_CURRENCY,
-    currency:number;
-    products:Interfaces.Product[]
-}
-
 interface LOGIN{
     type:APITypes.API_LOGIN,
     user:any;
@@ -53,16 +47,11 @@ interface REGISTER {
     token:string;
     data:any;
 }
-
-
 interface UPDATE_PROFILE {
     type:APITypes.API_UPDATE_PROFILE,
     data:any;
     image:string;
 }
-interface PAY {
-    type:APITypes.API_PAY,
-    paymentLink:string;
-}
 
-export type APIActions = GET_USER | TEST | SET_PRODUCTS | FILTER_PRODUCTS | SEARCH_PRODUCTS | CHANGE_CURRENCY | REGISTER | LOGIN | LOGOUT  | UPDATE_PROFILE | PAY | any
+
+export type APIActions = GET_USER | TEST | SET_PRODUCTS | FILTER_PRODUCTS | SEARCH_PRODUCTS | REGISTER | LOGIN | LOGOUT  | UPDATE_PROFILE | any
