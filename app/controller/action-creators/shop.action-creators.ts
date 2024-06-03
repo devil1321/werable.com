@@ -17,16 +17,24 @@ export const addToCart = (id:number,sync_product_id:number,variant_id:number,war
         cart:tmpCart
     })
 }
-export const setCart = () => (dispatch:Dispatch) =>{
+export const setCart = (items?:any) => (dispatch:Dispatch) =>{
     if(typeof window !== 'undefined'){
         const { user } = store.getState().api
         const cartJSON = localStorage.getItem(`wearable-cart-${user?.id}`)
         const cart = JSON.parse(cartJSON as string)
         if(cart){
-            dispatch({
-                type:ShopTypes.SHOP_SET_CART,
-                cart:cart
-            })
+            if(items){
+                localStorage.setItem(`wearable-cart-${user?.id}`,JSON.stringify([]))
+                dispatch({
+                    type:ShopTypes.SHOP_SET_CART,
+                    cart:items
+                })     
+            }else{
+                dispatch({
+                    type:ShopTypes.SHOP_SET_CART,
+                    cart:cart
+                })                
+            }
         }else{
             dispatch({
                 type:ShopTypes.SHOP_SET_CART,
@@ -138,7 +146,7 @@ export const removeFavoruite = (id:number) => (dispatch:Dispatch) =>{
     const { favoruites } = store.getState().shop
     const { user } = store.getState().api
     let tmpFavoruites = favoruites
-    tmpFavoruites = tmpFavoruites.filter((f:any) => f !== id)
+    tmpFavoruites = tmpFavoruites.filter((f:any) => f.id !== id)
     if(typeof window !== 'undefined'){
         localStorage.setItem(`wearable-favoruites-${user?.id}`,JSON.stringify(tmpFavoruites))
     }

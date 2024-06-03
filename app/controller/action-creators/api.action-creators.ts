@@ -758,7 +758,6 @@ export const printfulCreateNewOrder = (confirm:boolean,update_existing:boolean,q
             query:query
         })
         const data = await res.data
-        console.log(data)
         dispatch({
             type:PrintfulTypes.PRINTFUL_CREATE_NEW_ORDER,
             data:data

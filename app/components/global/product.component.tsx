@@ -397,7 +397,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
   },[item])
 
   return (
-    <div onMouseLeave={(e)=>handleAnimationOut(e)} ref={productRef} className='product relative top-0 left-0 z-50 cursor-pointer my-10 mx-[50px] h-max relative top-0 left-1/2 -translate-x-[58%] md:left-0 md:-translate-x-0'>
+    <div onMouseLeave={(e)=>handleAnimationOut(e)} ref={productRef} className='product cursor-pointer my-10 mx-[50px] h-max relative top-0 left-1/2 z-50 -translate-x-[58%] md:left-0 md:-translate-x-0'>
       <svg className='absolute opacity-0 -top-[15%] -left-[10%] md:-left-[12.5%]' width={600} height={600}>
         <path ref={pathRef} d="M0,140a135,135 0 1,0 270,0a135,135 0 1,0 -270,0" fill="none" stroke="black" strokeWidth={2}/>
       </svg>

@@ -41,9 +41,5 @@ const WithRedux:React.FC<{ children:React.ReactNode }> = ({children}) =>{
     shopActions.setCart()
   },[])
 
-  useEffect(()=>{
-    console.log(cart)
-  },[cart])
-
   return <>{children}</>
 }

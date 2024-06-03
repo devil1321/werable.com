@@ -31,6 +31,8 @@ interface InitState {
     tax:any;
     shipping:any;
     card:any;
+    orders:any;
+    order:any;
 }
 
 const initState:InitState = {
@@ -61,7 +63,9 @@ const initState:InitState = {
     packing:null,
     tax:null,
     shipping:null,
-    card:null
+    card:null,
+    orders:[],
+    order:null
 }
 
 export default (state:InitState = initState,action:APIActions) =>{

@@ -96,4 +96,21 @@
   .item-favoruite svg{
     fill:white;
   }
+  .orders-nav-button.--active{
+    opacity: 0.5;
+  }
+  .orders-item{
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+  @keyframes fadeIn {
+    0% { 
+      opacity: 0; 
+    }
+    100% { 
+      opacity: 1; 
+    }
+  }
+  .orders-cancel-btn:hover{
+    background: red;
+  }
 }

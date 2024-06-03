@@ -1,14 +1,10 @@
 
 import { UITypes } from "../types"
 
-interface CHANGE_LANGUAGE{
-    type:UITypes.UI_CHANGE_LANGUAGE,
-    language:string;
-}
-interface CHANGE_CURRENCY{
-    type:UITypes.UI_CHANGE_CURRENCY_STRING,
-    currency:string;
+interface SET_TAB{
+    type:UITypes.UI_SET_TAB;
+    tab:number;
 }
 
 
-export type UIActions = CHANGE_LANGUAGE | CHANGE_CURRENCY  | any
+export type UIActions = SET_TAB | any

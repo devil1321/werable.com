@@ -22,7 +22,6 @@ const Summary = () => {
 
   const handleShipping = () => {
     const items = cart.map((i:any) => { 
-      console.log(i.external_variant_id)
       return {
       variant_id:String(i.variant_id),
       external_variant_id:String(i.external_variant_id),
@@ -52,7 +51,9 @@ const Summary = () => {
 
 
   const handleInitMenus = () =>{
-    shippingMenuRef.current.style.display = 'none'
+    if(shippingMenuRef.current){
+      shippingMenuRef.current.style.display = 'none'
+    }
   }
 
   const handleMenu = (ref:MutableRefObject<HTMLDivElement>) =>{
@@ -70,7 +71,7 @@ const Summary = () => {
 
   useEffect(()=>{
     handleInitMenus()
-  },[])
+  },[shippingMenuRef.current])
 
   useEffect(()=>{
     if(user){
@@ -105,12 +106,13 @@ const Summary = () => {
       <div className="flex justify-between items-start flex-wrap text-center md:flex-nowrap">
         <h3 className="font-bold text-2xl">Shipping</h3>
         <button className='px-3 rounded-md py-2 text-white font-bold'>{tax?.result?.shipping_taxable ? 'Taxable' : "Tax Free"}</button>
+        {shipping?.result?.length > 0 && 
         <button onClick={()=>handleMenu(shippingMenuRef)} className='px-3 rounded-md py-2 text-white font-bold relative top-0 left-0'>
           <h3>{shippingType?.name}</h3>
-          <div ref={shippingMenuRef} className="summary-shipping-menu rounded-md min-w-max text-black p-2 bg-white absolute z-20 left-1/2 top-[70px] md:top-12 -translate-x-1/2">
-            {shipping?.result?.map((s:any) => <div onClick={()=>setShippingType(s)} className='p-2 rounded-md hover:bg-green-300'>{s?.name}</div>)}
-          </div>
-        </button>
+            <div ref={shippingMenuRef} className="summary-shipping-menu rounded-md min-w-max text-black p-2 bg-white absolute z-20 left-1/2 top-[70px] md:top-12 -translate-x-1/2">
+              {shipping?.result?.map((s:any) => <div onClick={()=>setShippingType(s)} className='p-2 rounded-md hover:text-white hover:bg-green-300'>{s?.name}</div>)}
+            </div>
+        </button>}
         <h3 className="font-bold text-2xl text-center md:text-right w-[100%] md:w-fit">{shippingType?.rate}{shippingType?.currency}</h3>
       </div>
       <div className="flex justify-between items-start">
@@ -121,7 +123,7 @@ const Summary = () => {
         <h3 className="font-bold text-2xl">Total</h3>
         <h3 className="font-bold text-2xl">{total}{shippingType?.currency}</h3>
       </div>
-      <Link href="/checkout"><button className="font-bold text-md text-white block w-[100%] hover:opacity-70 my-5 rounded-full py-2">Checkout</button></Link>
+      <Link className='relative top-0 left-0 z-50' href="/checkout"><button className="font-bold text-md text-white block w-[100%] hover:opacity-70 my-5 rounded-full py-2">Checkout</button></Link>
     </div>
   )
 }

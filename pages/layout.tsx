@@ -39,12 +39,12 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
       if(token){
         APIActions.getUser()
         APIActions.printfulGetAllSyncProducts(0,100)
-        shopActions.setCart()
       }
     }
-  },[user])
+  },[])
 
   useEffect(()=>{
+    shopActions.setCart()
     handleInit()
   },[user])
   

@@ -25,7 +25,7 @@ const Page = () => {
   const [paymentMethod,setPaymentMethod] = usePaymentMethod()
 
   const { summary, cart } = useSelector((state:State) => state.shop)
-  const { tax, shipping, user, card, locale } = useSelector((state:State) => state.api)
+  const { tax, shipping, user, card, locale, data } = useSelector((state:State) => state.api)
 
   const dispatch = useDispatch()
   const APIActions = bindActionCreators(ApiActions,dispatch)
@@ -66,6 +66,8 @@ const Page = () => {
     if(paymentMethod === 'paypal'){
       APIActions.printfulCreateNewOrder(true,true,{
         recipient:{
+          name:`${String(user?.first_name)} ${String(user?.last_name)}`,
+          email:String(user?.email),
           address1:String(user.address_1),
           city:String(user.city),
           country_code:String(user.country_code),
@@ -76,7 +78,7 @@ const Page = () => {
         items:items,
         shipping:shippingType?.id,
         gift:{  
-          subject:"To customer",
+          subject:"To Customer",
           message:'We are proud you were chosen wearable :)'
         },
         packing_slip:{
@@ -95,6 +97,8 @@ const Page = () => {
     }else if(paymentMethod === 'card'){
       APIActions.printfulCreateNewOrder(true,true,{
         recipient:{
+          name:`${String(user?.first_name)} ${String(user?.last_name)}`,
+          email:String(user?.email),
           address1:String(user.address_1),
           city:String(user.city),
           country_code:String(user.country_code),
@@ -105,7 +109,7 @@ const Page = () => {
         items:items,
         shipping:shippingType?.id,
         gift:{  
-          subject:"To customer",
+          subject:"To Customer",
           message:'We are proud you were chosen wearable :)'
         },
         packing_slip:{
@@ -154,8 +158,10 @@ const Page = () => {
   }
 
   useEffect(()=>{
-    handleInitMenus()
-  },[])
+    if(paymentMenuRef.current){
+      handleInitMenus()
+    }
+  },[paymentMenuRef.current])
 
   useEffect(()=>{
     if(user){
@@ -178,7 +184,14 @@ const Page = () => {
       }
     }, 2000);
   },[cart.length])
-  
+
+  useEffect(()=>{
+    if(data?.result?.external_id){
+      router.push('/success')
+    }else if(data?.result.status === 'pending'){
+      router.push('/pending')
+    }
+  },[data])
 
   return (
      <React.Fragment>
@@ -209,9 +222,9 @@ const Page = () => {
           <h3 className="text-md font-bold text-white my-2 bg-blue-300 rounded-md p-3">Payment Method: <span className="p-2 rounded-md ml-2 bg-red-300">{paymentMethod.toString().toLocaleUpperCase() as string}</span></h3>
           <div ref={paymentMenuRef} className="checkout-payment-method-menu shadow-lg shadow-gray-300 cursor-pointer rounded-md z-50 bg-white p-2 w-[240px] text-center absolute top-[64px] left-1/2 -translate-x-1/2">
             {/* @ts-ignore */}
-            <div className='p-2 hover:bg-green-300 rounded-md font-bold' onClick={()=>setPaymentMethod('paypal')}>Paypal</div>
+            <div className='p-2 hover:bg-green-300 rounded-md font-bold hover:text-white' onClick={()=>setPaymentMethod('paypal')}>Paypal</div>
             {/* @ts-ignore */}
-            <div className='p-2 hover:bg-green-300 rounded-md font-bold' onClick={()=>setPaymentMethod('card')}>Card</div>
+            <div className='p-2 hover:bg-green-300 rounded-md font-bold hover:text-white' onClick={()=>setPaymentMethod('card')}>Card</div>
           </div>
         </div>
         <button onClick={()=>handleCreateAnOrder()} className="block w-[100%] py-2 rounded-md font-bold text-white text-lg hover:opacity-50">Create An Order</button>

@@ -25,7 +25,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(req.method === "POST"){
         const { confirm,update_existing,query } = req.body
         if(confirm && update_existing && query){
-            const data = await APIController.printfulCreateNewOrder(confirm,update_existing,{...query})
+            const data = await APIController.printfulCreateNewOrder(confirm,update_existing,query)
             if(data){
                 res.status(200).json(data)
             }else{

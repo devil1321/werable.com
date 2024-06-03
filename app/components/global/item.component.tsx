@@ -38,7 +38,7 @@ const Item:React.FC<{ product?:any, id?:number }> = ({product,id}) => {
     <div className="item p-2 my-5 md:flex justify-center items-center">
       {item?.result?.sync_variants[variantIndex as number]?.retail_price && <Product product={product} id={id} />}
       {item?.result?.sync_variants[variantIndex as number]?.retail_price &&
-      <div className="item-details w-[100%] xl:w-[50%] md:w-[70%] rounded-md md:ml-12 py-3 px-2 md:px-12">
+      <div className="item-details relative top-0 left-0 z-50 w-[100%] xl:w-[50%] md:w-[70%] rounded-md md:ml-12 py-3 px-2 md:px-12">
         <div className="item-controls flex gap-3 items-center flex-wrap md:flex-nowrap">
           <button className='px-8 py-2 font-bold text-white min-w-fit rounded-md' onClick={()=>{
             if(!inCart){
