@@ -5,12 +5,12 @@ import "../app/globals.css";
 import 'animate.css'
 import * as ApiActions from '@/app/controller/action-creators/api.action-creators'
 import * as ShopActions from '@/app/controller/action-creators/shop.action-creators'
-
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { State } from '@/app/controller/reducers/root.reducer';
 import { AppProps } from 'next/app';
-import Layout from './layout';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
 
@@ -18,6 +18,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <Provider store={store}>
       <WithRedux>
         <Component {...pageProps} />
+        <Analytics />
+        <SpeedInsights />
       </WithRedux>
     </Provider>
   );
