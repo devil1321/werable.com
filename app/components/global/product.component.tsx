@@ -467,7 +467,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
           <p className="text-center">{item?.result?.sync_variants[variantIndex as number]?.retail_price}{item?.result?.sync_variants[variantIndex as number]?.currency}</p>
           <p className="text-center"><span className='italic'>{variant?.result?.variant?.in_stock ? 'In Stock' : 'Out Of Stock'}</span> / <span className="italic">In Cart {quantity as number}</span></p> 
         </div>
-        <Image className='rounded-full relative top-0 left-0 z-20' src={item?.result?.sync_product?.thumbnail_url} alt='product-image' width={500} height={500} />
+        {item?.result?.sync_product?.thumbnail_url && <Image className='rounded-full relative top-0 left-0 z-20' src={item?.result?.sync_product?.thumbnail_url} alt='product-image' width={500} height={500} />}
       </div>
     </div>
   )
