@@ -456,10 +456,21 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
             }
         })
         const data = await res.data
-        dispatch({
-            type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
-            products:data
-        })
+        if(typeof window !== 'undefined'){
+            const storage = localStorage.getItem('wearable-products')
+            if(JSON.stringify(storage) === JSON.stringify(data)){
+                dispatch({
+                    type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
+                    products:storage
+                })
+            }else{
+                localStorage.setItem('wearable-products',JSON.stringify(data))
+                dispatch({
+                    type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
+                    products:data
+                })
+            }
+        }
     }catch(err){
         console.log(err)
         dispatch({

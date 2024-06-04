@@ -53,11 +53,14 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
       }
     }
 
-    const handleSize = (size:string) =>{
-      const variant = syncProduct?.result.sync_variants.find((v:any) => v?.size?.toLowerCase() === size.toLowerCase())
-      const index = syncProduct?.result.sync_variants.indexOf(variant)
-      // @ts-ignore
-      setVariantIndex(index)
+    const handleItem = (size:string,color:string) =>{
+      if(size && color){
+        const variants = syncProduct?.result.sync_variants.filter((v:any) => v?.size?.toLowerCase() === size.toLowerCase())
+        const variant = variants.find((v:any) => v?.color?.toLowerCase() === color.toLowerCase())
+        const index = syncProduct?.result.sync_variants.indexOf(variant)
+        // @ts-ignore
+        setVariantIndex(index)
+      }
     }
 
     useEffect(()=>{
@@ -66,19 +69,25 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
       handleInitMenus()
     },[template])
 
+    useEffect(()=>{
+      handleItem(size,color?.color_name)
+    },[size,color])
+
     return ( 
     <Layout>
       <div className='details pt-[200px]'>
-        <div className="details-main flex justify-between items-center">
+        <div className="details-main flex justify-between items-start">
           <Image className ="md:w-1/2" src={syncProduct?.result?.sync_variants[variantIndex as number]?.files[1]?.preview_url} width={1920} height={768} alt='product-image' />
           <div className="details-info p-5 md:w-1/2">
-            <h2 className="text-5xl font-bold rounded-lg p-2">{syncProduct?.result?.sync_variants[variantIndex as number]?.name}</h2>
-            <div className="flex justify-between items-center gap-5 my-3">
+            <h2 className="text-xl font-bold rounded-lg p-2">{syncProduct?.result?.sync_variants[variantIndex as number]?.name}</h2>
+            <div className="flex justify-between items-center gap-1 my-3">
               <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold italic">Price: <span className='text-green-300'>{syncProduct?.result?.sync_variants[variantIndex as number]?.retail_price}{syncProduct?.result?.sync_variants[variantIndex as number]?.currency}</span></div>
               <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold relative top-0 left-0">
-                <p onClick={()=>handleMenu(colorsMenuRef)} className='hover:opacity-50 cursor-pointer italic font-bold'>Color: <span className='text-green-300'>{color?.color_name as string}</span></p>
+                <p onClick={()=>handleMenu(colorsMenuRef)} className='hover:opacity-50 min-w-max cursor-pointer italic font-bold'>Color: <span className='text-green-300'>{color?.color_name as string}</span></p>
                 <div ref={colorsMenuRef} className="details-color-menu absolute top-12 left-1/2 -translate-x-1/2 w-[160px] p-3 rounded-lg bg-white shadow-lg shadow-gray-300">
-                  {template?.colors?.map((c:any) => <p onClick={()=>setColor(c)} className={`p-2 cursor-pointer italic hover:bg-green-300 rounded-lg`}>{c?.color_name}</p>)}
+                  {template?.colors?.map((c:any) => <p onClick={()=>{
+                    setColor(c)
+                  }} className={`p-2 cursor-pointer italic hover:bg-green-300 rounded-lg hover:text-white`}>{c?.color_name}</p>)}
                 </div>
                 </div>
               <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold relative top-0 left-0">
@@ -86,12 +95,11 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
                 <div ref={sizesMenuRef} className="details-sizes-menu absolute top-12 left-1/2 -translate-x-1/2 w-[160px] p-3 rounded-lg bg-white shadow-lg shadow-gray-300">
                   {template?.sizes?.map((s:string) => <p onClick={()=>{
                     setSize(s)
-                    handleSize(s)
-                  }} className='p-2 cursor-pointer hover:bg-green-300 rounded-lg'>{s}</p>)}
+                  }} className='p-2 cursor-pointer hover:bg-green-300 rounded-lg hover:text-white'>{s}</p>)}
                 </div>
                 </div>
             </div>
-            <div className="flex justify-between items-center gap-5 my-3">
+            <div className="flex justify-between items-center gap-1 my-3">
               <div onClick={()=>{
                 if(inCart && quantity as number > 1){
                   // @ts-ignore
@@ -117,7 +125,7 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
             <h2 className="text-sm rounded-lg bg-white p-2">{variant?.result?.product?.description}</h2>
             <div className="details-product-stock-info flex justify-center items-center">
             {category && 
-              <div className='px-6 mx-2 py-2 my-2 w-[100%] rounded-md bg-orange-300 text-white font-bold text-md text-center flex justify-center items-center'>
+              <div className='px-6 min-w-max mx-2 py-2 my-2 w-[100%] rounded-md bg-orange-300 text-white font-bold text-md text-center flex justify-center items-center'>
                 {category?.image_url && <Image className='mr-2' src={category.image_url} alt="category-image" width={25} height={25} />}
                 <span>{category?.title}</span>
               </div>}

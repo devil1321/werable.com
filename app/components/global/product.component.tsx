@@ -51,8 +51,8 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
       if(titleRef.current){
         titleRef.current.style.opacity = '0'
         setTimeout(() => {
-          titleRef.current.classList.remove('--open')
-          titleRef.current.classList.add('hidden')
+          titleRef?.current?.classList.remove('--open')
+          titleRef?.current?.classList.add('hidden')
         }, 1000);
       }
       if(favoruitesRef.current){
@@ -171,7 +171,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
           alignOrigin: [0.5, 0.5],
           autoRotate: true,
           start: 0,
-          end: index * 2 * 0.012
+          end: index * 0.012
           }
         })
       })
@@ -343,7 +343,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
                 alignOrigin: [0.5, 0.5],
                 autoRotate: true,
                 start: 0,
-                end: index / 2 * 0.012
+                end: index * 0.012
               }
             })
           })
@@ -404,7 +404,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
       <svg className='absolute opacity-0 -top-[15%] -left-[10%] md:-left-[12.5%]' width={600} height={600}>
         <path ref={pathRefIcons} d="M-30,130a150,150 0 1,0 340,0a150,150 0 1,0 -340,0" fill="none" stroke="black" strokeWidth={2}/>
       </svg>
-      <h3 ref={titleRef} id={`title-id-${id ? id : product.id}`} className="product-title hidden text-neutral-900 text-xl font-bold absolute top-0 left-0">{item?.result?.sync_product?.name}</h3>
+      <h3 ref={titleRef} id={`title-id-${id ? id : product.id}`} className="product-title hidden text-neutral-900 text-xl font-bold absolute top-0 left-0">{item?.result?.sync_variants[variantIndex]?.name}</h3>
       <div onClick={()=>{
         if(!isFavoruite){
           shopActions.addFavoruite(item.result?.sync_product?.id,variantIndex as number)
