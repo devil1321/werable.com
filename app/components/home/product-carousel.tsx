@@ -44,18 +44,24 @@ const ProductCarousel = () => {
   }
 
   const handlePrev = () =>{
-    if(count < 1){
-        setCount(3)
-    }else{
+    if(typeof window !== 'undefined'){
+      const productsItems = document.querySelectorAll('.product')
+      if(count < 1){
+        setCount(productsItems.length - 6)
+      }else{
         setCount(count - 1)
+      }
     }
   }
 
   const handleNext = () =>{
-    if(count > 2){
+    if(typeof window !== 'undefined'){
+      const productsItems = document.querySelectorAll('.product')
+      if(count > productsItems.length - 6){
         setCount(0)
-    }else{
+      }else{
         setCount(count + 1)
+      }
     }
   }
 
