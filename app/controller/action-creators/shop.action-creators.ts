@@ -1,7 +1,6 @@
 import { Dispatch } from "redux"
 import { ShopTypes } from "../types"
 import store from "../store"
-import * as Interfaces from '@/app/controller/interfaces'
 
 
 export const addToCart = (id:number,sync_product_id:number,variant_id:number,warehouse_product_variant_id:number,external_variant_id:number,quantity:number,retail_price:number,currency:string,variantIndex:number) => (dispatch:Dispatch) =>{

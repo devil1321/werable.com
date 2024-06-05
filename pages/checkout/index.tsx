@@ -6,10 +6,7 @@ import { State } from '@/app/controller/reducers/root.reducer'
 import { bindActionCreators } from 'redux'
 import Image from 'next/image'
 import gsap from 'gsap'
-import Layout from '../layout'
 import { useRouter } from 'next/navigation'
-import Item from '@/app/components/global/item.component'
-import Product from '@/app/components/global/product.component'
 import CheckoutItem from '@/app/components/global/checkout-item.component'
 import Link from 'next/link'
 import { v4 as uuidv4 } from 'uuid';
@@ -33,7 +30,6 @@ const Page = () => {
 
   const handleShipping = () => {
     const items = cart.map((i:any) => { 
-      console.log(i.external_variant_id)
       return {
       variant_id:String(i.variant_id),
       external_variant_id:String(i.external_variant_id),

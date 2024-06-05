@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import useQuantity from '@/app/hooks/useQuantity'
 import useVariantIndex from '@/app/hooks/useVariantIndex'
+import store from '@/app/controller/store'
 
 const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct}) => {
   
@@ -36,8 +37,12 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
     const colorsMenuRef = useRef() as MutableRefObject<HTMLDivElement>
 
     const handleInitMenus = () =>{
-      sizesMenuRef.current.style.display = 'none'
-      colorsMenuRef.current.style.display = 'none'
+      if(sizesMenuRef.current){
+        sizesMenuRef.current.style.display = 'none'
+      }
+      if(colorsMenuRef.current){
+        colorsMenuRef.current.style.display = 'none'
+      }
     }
 
     const handleMenu = (ref:MutableRefObject<HTMLDivElement>) =>{
@@ -67,7 +72,7 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
       setSize(template?.sizes[0])
       setColor(template?.colors[0])
       handleInitMenus()
-    },[template])
+    },[template,sizesMenuRef.current,colorsMenuRef.current])
 
     useEffect(()=>{
       handleItem(size,color?.color_name)
@@ -82,22 +87,24 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
             <h2 className="text-xl font-bold rounded-lg p-2">{syncProduct?.result?.sync_variants[variantIndex as number]?.name}</h2>
             <div className="flex justify-between items-center gap-1 my-3">
               <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold italic">Price: <span className='text-green-300'>{syncProduct?.result?.sync_variants[variantIndex as number]?.retail_price}{syncProduct?.result?.sync_variants[variantIndex as number]?.currency}</span></div>
-              <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold relative top-0 left-0">
-                <p onClick={()=>handleMenu(colorsMenuRef)} className='hover:opacity-50 min-w-max cursor-pointer italic font-bold'>Color: <span className='text-green-300'>{color?.color_name as string}</span></p>
-                <div ref={colorsMenuRef} className="details-color-menu absolute top-12 left-1/2 -translate-x-1/2 w-[160px] p-3 rounded-lg bg-white shadow-lg shadow-gray-300">
-                  {template?.colors?.map((c:any) => <p onClick={()=>{
-                    setColor(c)
-                  }} className={`p-2 cursor-pointer italic hover:bg-green-300 rounded-lg hover:text-white`}>{c?.color_name}</p>)}
-                </div>
-                </div>
-              <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold relative top-0 left-0">
-                <p onClick={()=>handleMenu(sizesMenuRef)} className='hover:opacity-50 cursor-pointer italic font-bold'>Size: <span className='text-green-300'>{size}</span></p>
-                <div ref={sizesMenuRef} className="details-sizes-menu absolute top-12 left-1/2 -translate-x-1/2 w-[160px] p-3 rounded-lg bg-white shadow-lg shadow-gray-300">
-                  {template?.sizes?.map((s:string) => <p onClick={()=>{
-                    setSize(s)
-                  }} className='p-2 cursor-pointer hover:bg-green-300 rounded-lg hover:text-white'>{s}</p>)}
-                </div>
-                </div>
+              {template && 
+                <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold relative top-0 left-0">
+                  <p onClick={()=>handleMenu(colorsMenuRef)} className='hover:opacity-50 min-w-max cursor-pointer italic font-bold'>Color: <span className='text-green-300'>{color?.color_name as string}</span></p>
+                  <div ref={colorsMenuRef} className="details-color-menu absolute top-12 left-1/2 -translate-x-1/2 w-[160px] p-3 rounded-lg bg-white shadow-lg shadow-gray-300">
+                    {template?.colors?.map((c:any) => <p onClick={()=>{
+                      setColor(c)
+                    }} className={`p-2 cursor-pointer italic hover:bg-green-300 rounded-lg hover:text-white`}>{c?.color_name}</p>)}
+                  </div>
+                </div>}
+              {template && 
+                <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold relative top-0 left-0">
+                  <p onClick={()=>handleMenu(sizesMenuRef)} className='hover:opacity-50 cursor-pointer italic font-bold'>Size: <span className='text-green-300'>{size}</span></p>
+                  <div ref={sizesMenuRef} className="details-sizes-menu absolute top-12 left-1/2 -translate-x-1/2 w-[160px] p-3 rounded-lg bg-white shadow-lg shadow-gray-300">
+                    {template?.sizes?.map((s:string) => <p onClick={()=>{
+                      setSize(s)
+                    }} className='p-2 cursor-pointer hover:bg-green-300 rounded-lg hover:text-white'>{s}</p>)}
+                  </div>
+                </div>}
             </div>
             <div className="flex justify-between items-center gap-1 my-3">
               <div onClick={()=>{

@@ -15,7 +15,7 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
   const router = useRouter()
   const pathname = usePathname()
 
-  const { user } = useSelector((state:State) => state.api)
+  const { user,locale } = useSelector((state:State) => state.api)
   const { cart } = useSelector((state:State) => state.shop)
 
   const dispatch = useDispatch()
@@ -41,7 +41,7 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
         APIActions.printfulGetAllSyncProducts(0,100)
       }
     }
-  },[])
+  },[locale])
 
   useEffect(()=>{
     shopActions.setCart()

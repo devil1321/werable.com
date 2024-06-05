@@ -18,8 +18,6 @@ import useVariantIndex from '@/app/hooks/useVariantIndex'
 
 const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<HTMLDivElement> }> = ({product,id,productRef}) => {
 
-  const [isMobile,setIsMobile] = useState<boolean>(false)
-
   const titleRef = useRef() as MutableRefObject<HTMLHeadingElement>
   const pathRef = useRef() as MutableRefObject<SVGPathElement>
   const pathRefIcons = useRef() as MutableRefObject<SVGPathElement>
@@ -363,41 +361,12 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
     }
   }
 
-  const handleMobile = () =>{
-    if(typeof window !== undefined){
-      if(window.innerWidth < 768){
-        setIsMobile(true)
-        window.addEventListener('resize',()=>{
-          if(window.innerWidth < 768){
-            setIsMobile(true)
-          }else{
-            setIsMobile(false)
-          }
-        })
-      }
-    }
-  }
-
   useEffect(()=>{
-    handleMobile()
-  },[])
-
-  useEffect(()=>{
-    if(isMobile){
-      setTimeout(() => {
-        handleAnimationIn()
-      }, 1000);
-    }
-  },[isMobile,item])
-
-  useEffect(()=>{
-    if(!isMobile){
-      handleAnimationInit()
-    }
+    handleAnimationInit()
   },[item])
 
   return (
-    <div onMouseLeave={(e)=>handleAnimationOut(e)} ref={productRef} className='product cursor-pointer my-10 mx-[50px] h-max relative top-0 left-1/2 z-50 -translate-x-[58%] md:left-0 md:-translate-x-0'>
+    <div onMouseLeave={(e)=>handleAnimationOut(e)} ref={productRef} className='product cursor-pointer my-12 mx-[50px] h-max relative top-0 left-0 z-50 '>
       <svg className='absolute opacity-0 -top-[15%] -left-[10%] md:-left-[12.5%]' width={600} height={600}>
         <path ref={pathRef} d="M0,140a135,135 0 1,0 270,0a135,135 0 1,0 -270,0" fill="none" stroke="black" strokeWidth={2}/>
       </svg>
@@ -442,6 +411,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
           // @ts-ignore
           setQuantity(1)
         }else{
+          shopActions.summary()
           shopActions.increment(item?.result?.sync_product?.id,1)
           // @ts-ignore
           setQuantity(quantity as number + 1)
@@ -455,6 +425,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
           // @ts-ignore
           setQuantity(0)
         }else if(inCart && quantity as number >= 1){
+          shopActions.summary()
           shopActions.decrement(item?.result?.sync_product?.id,1)
           // @ts-ignore
           setQuantity(quantity as number - 1)
