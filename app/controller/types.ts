@@ -1,5 +1,6 @@
 export enum UITypes {
     UI_SET_TAB = 'UI_SET_TAB',
+    UI_SET_IS_SIDEBAR = 'UI_SET_IS_SIDEBAR',
 }
 
 export enum ShopTypes {
@@ -17,6 +18,7 @@ export enum ShopTypes {
 
 export enum APITypes {
     API_TEST = 'API_TEST',
+    API_GET_ALL_USERS = 'API_GET_ALL_USERS',
     API_GET_USER = 'API_GET_USER',
     API_GET_CARD = 'API_GET_CARD',
     API_UPDATE_CARD = 'API_UPDATE_CARD',

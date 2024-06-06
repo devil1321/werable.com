@@ -36,6 +36,22 @@ export const getUser = () => async (dispatch:Dispatch)=>{
         })
     }
 }
+export const getUsers = () => async(dispatch:Dispatch) =>{
+    try{
+        const res = await axios.get('/api/get-users')
+        const data = await res.data
+        dispatch({
+            type:APITypes.API_GET_ALL_USERS,
+            users:data?.users
+        })
+    }catch(err){
+        console.log(err)
+        dispatch({
+            type:APITypes.API_GET_ALL_USERS,
+            users:[]
+        })
+    }
+}
 export const setProducts = () => async(dispatch:Dispatch)=>{
     try{
         const res = await axios.get('/assets/db/products.json')

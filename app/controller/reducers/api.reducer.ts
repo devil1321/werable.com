@@ -33,6 +33,7 @@ interface InitState {
     card:any;
     orders:any;
     order:any;
+    users:any;
 }
 
 const initState:InitState = {
@@ -65,7 +66,8 @@ const initState:InitState = {
     shipping:null,
     card:null,
     orders:[],
-    order:null
+    order:null,
+    users:[]
 }
 
 export default (state:InitState = initState,action:APIActions) =>{
@@ -100,6 +102,11 @@ export default (state:InitState = initState,action:APIActions) =>{
             return{
                 ...state,
                 token:action.token,
+            }
+        case APITypes.API_GET_ALL_USERS:
+            return{
+                ...state,
+                users:action.users,
             }
         case APITypes.API_GET_USER:
             return{

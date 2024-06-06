@@ -1,12 +1,12 @@
-import AdminLayout from '@/pages/admin-layout'
 import React from 'react'
+import AdminLayout from '../admin-layout'
 
 const Page = () => {
   return (
     <AdminLayout>
-      <div>
+        <div className='admin-login'>
       
-      </div>
+        </div>
     </AdminLayout>
   )
 }

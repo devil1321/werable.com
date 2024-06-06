@@ -15,7 +15,6 @@ const useVariantIndex = (id:number) => {
     if(pathname === '/favoruites'){
         const item = favoruites.find((f:any) => f.id === id)
         if(item){
-            item.variantIndex = variantIndex
             setVariantIndex(item.variantIndex)
         }else{
             setVariantIndex(0)
@@ -23,16 +22,31 @@ const useVariantIndex = (id:number) => {
     }else{
         const item = cart.find((i:any) => i.id === id)
         if(item){
-            item.variantIndex = variantIndex
             setVariantIndex(item.variantIndex)
         }else{
             setVariantIndex(0)
         }
     }
   }
+
+  const handleItemVariantIndex = () =>{
+    const item_fav = favoruites.find((f:any) => f.id === id)
+    const item_cart = cart.find((i:any) => i.id === id)
+    if(item_fav){
+      item_fav.variantIndex = variantIndex
+    }
+    if(item_cart){
+      item_cart.variantIndex = variantIndex
+    }
+  }
+
+  useEffect(()=>{
+    handleItemVariantIndex()
+  },[variantIndex])
+
   useEffect(()=>{
     handleVariantIndex()
-  },[id,variantIndex])
+  },[id])
 
   return [variantIndex,setVariantIndex]
 }

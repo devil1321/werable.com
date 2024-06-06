@@ -1,10 +1,13 @@
+import AdminLayout from '@/pages/admin-layout'
 import React from 'react'
 
 const Page = () => {
   return (
-    <div>
+    <AdminLayout>
+      <div>
       
-    </div>
+      </div>
+    </AdminLayout>
   )
 }
 
