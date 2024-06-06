@@ -53,8 +53,10 @@ const useTemplate = (id:number,offset:number,limit:number) => {
 }
 
   useEffect(()=>{
-    handleFetchTemplate()
-  },[id])
+    if(typeof id === 'number'){
+      handleFetchTemplate()
+    }
+  },[id,locale])
 
   return [template,setTemplate]
 }

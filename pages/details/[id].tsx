@@ -15,6 +15,7 @@ import { bindActionCreators } from 'redux'
 import useQuantity from '@/app/hooks/useQuantity'
 import useVariantIndex from '@/app/hooks/useVariantIndex'
 import store from '@/app/controller/store'
+import axios from 'axios'
 
 const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct}) => {
   
@@ -165,12 +166,18 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
   }
 
   export async function getStaticProps({params}:any){
-    const syncProduct = await APIController.printfulGetSyncProduct('en_US',Number(params.id))
-    const variant = await APIController.printfulGetVariant('en_US',syncProduct?.result?.sync_variants[0].variant_id)
-    return {
-      props:{
-        syncProduct,
-        variant
+    let syncProduct = await APIController.printfulGetSyncProduct('en_US',Number(params.id))
+    let variant = await APIController.printfulGetVariant('en_US',syncProduct?.result?.sync_variants[0].variant_id)
+    if(syncProduct && variant){
+      return {
+        props:{
+          syncProduct,
+          variant
+        }
+      }   
+    }else{
+      return {
+        props:{}
       }
     }
   }

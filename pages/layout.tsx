@@ -36,6 +36,12 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
   useEffect(()=>{
     if(typeof window !== 'undefined'){
       const token = localStorage.getItem('jwt')
+      const language = localStorage.getItem('wearable-locale')
+
+      if(language){
+        APIActions.printfulSetLocale(language)
+      }
+
       if(token){
         APIActions.getUser()
         APIActions.printfulGetAllSyncProducts(0,100)

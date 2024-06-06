@@ -265,16 +265,17 @@ export const updateCard = (query:any) => async(dispatch:Dispatch) =>{
 export const printfulSetLocale = (locale:string) => (dispatch:Dispatch) =>{
     if(typeof window !== 'undefined'){
         const storedLocale = localStorage.getItem('wearable-locale')
-        if(storedLocale){
-            dispatch({
-                type:PrintfulTypes.PRINTFUL_SET_LOCALE,
-                locale:storedLocale
-            })
-        }else{
+        if(storedLocale !== locale){
             localStorage.setItem('wearable-locale',locale)
             dispatch({
                 type:PrintfulTypes.PRINTFUL_SET_LOCALE,
                 locale:locale
+            })
+        }else{
+            const storedLocale = localStorage.getItem('wearable-locale')
+            dispatch({
+                type:PrintfulTypes.PRINTFUL_SET_LOCALE,
+                locale:storedLocale
             })
         }
     }

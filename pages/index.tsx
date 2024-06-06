@@ -101,7 +101,7 @@ const Credentials = () => {
             </div>
             <Image className='block mx-auto' src="/assets/login.svg" alt='login-image' width={300} height={300}/>
             {data?.msg && <div className='w-1/3 p-5 bg-red-300 text-red-700'>{data.msg}</div>}
-            <form className='w-1/3' action="" onSubmit={(e)=>handleSubmitLogin(e)} encType='multipart/form-data'>
+            <form className='w-[95%] md:w-1/3' action="" onSubmit={(e)=>handleSubmitLogin(e)} encType='multipart/form-data'>
               <div className="credentials-login-field ">
                 <label className="text-green-500 italic" htmlFor="">Email:</label>
                 <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="email" name="email" onChange={(e)=>handleChangeLogin(e)} value={loginFormData.email} />
@@ -128,36 +128,36 @@ const Credentials = () => {
             </div>
           <Image className='block mx-auto mb-2' src="/assets/sign-up.svg" alt='login-image' width={250} height={250}/>
           {data?.msg && <div className='w-1/2 p-5 bg-red-300 text-red-700'>{data.msg}</div>}
-          <form className='flex flex-wrap justify-between w-1/2' action="" onSubmit={(e)=>handleSubmitRegister(e)} encType='multipart/form-data'>
-            <div className="credentials-register-field w-[49%]">
+          <form className='flex flex-wrap justify-between w-[95%] md:w-1/2 ' action="" onSubmit={(e)=>handleSubmitRegister(e)} encType='multipart/form-data'>
+            <div className="credentials-register-field w-[100%] md:w-[49%]">
               <label className="text-green-500 italic" htmlFor="">Nickname:</label>
               <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="text" name="nickname" onChange={(e)=>handleChangeRegister(e)} value={registerFormData.nickname}/>
             </div>
-            <div className="credentials-register-field w-[49%]">
+            <div className="credentials-register-field w-[100%] md:w-[49%]">
               <label className="text-green-500 italic" htmlFor="">Email:</label>
               <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="email" name="email" onChange={(e)=>handleChangeRegister(e)}  value={registerFormData.email}/>
             </div>
-            <div className="credentials-register-field w-[49%]">
+            <div className="credentials-register-field w-[100%] md:w-[49%]">
               <label className="text-green-500 italic" htmlFor="">Password:</label>
               <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="password" name="password_1" onChange={(e)=>handleChangeRegister(e)} value={registerFormData.password_1}/>
             </div>
-            <div className="credentials-register-field w-[49%]">
+            <div className="credentials-register-field w-[100%] md:w-[49%]">
               <label className="text-green-500 italic" htmlFor="">Confirm Password:</label>
               <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="password" name="password_2" onChange={(e)=>handleChangeRegister(e)} value={registerFormData.password_2}/>
             </div>
-            <div className="credentials-register-field w-[49%]">
+            <div className="credentials-register-field w-[100%] md:w-[49%]">
               <label className="text-green-500 italic" htmlFor="">First Name:</label>
               <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="text" name="first_name" onChange={(e)=>handleChangeRegister(e)} value={registerFormData.first_name}/>
             </div>
-            <div className="credentials-register-field w-[49%]">
+            <div className="credentials-register-field w-[100%] md:w-[49%]">
               <label className="text-green-500 italic" htmlFor="">Last Name:</label>
               <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="text" name='last_name' onChange={(e)=>handleChangeRegister(e)} value={registerFormData.last_name}/>
             </div>
-            <div className="credentials-register-field w-[49%]">
+            <div className="credentials-register-field w-[100%] md:w-[49%]">
               <label className="text-green-500 italic" htmlFor="">City:</label>
               <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="text" name="city" onChange={(e)=>handleChangeRegister(e)} value={registerFormData.city} />
             </div>
-            <div className="credentials-register-field w-[49%]">
+            <div className="credentials-register-field w-[100%] md:w-[49%]">
               <label className="text-green-500 italic" htmlFor="">Zip:</label>
               <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="text" name="zip" onChange={(e)=>handleChangeRegister(e)} value={registerFormData.zip}/>
             </div>
@@ -165,15 +165,15 @@ const Credentials = () => {
               <label className="text-green-500 italic" htmlFor="">Phone:</label>
               <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="text" name="phone" onChange={(e)=>handleChangeRegister(e)} value={registerFormData.phone}/>
             </div>
-            <div className="credentials-register-field w-[49%]">
+            <div className="credentials-register-field w-[100%] md:w-[49%]">
               <label className="text-green-500 italic" htmlFor="">Address 1:</label>
               <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="text" name="address_1" onChange={(e)=>handleChangeRegister(e)} value={registerFormData.address_1}/>
             </div>
-            <div className="credentials-register-field w-[49%]">
+            <div className="credentials-register-field w-[100%] md:w-[49%]">
               <label className="text-green-500 italic" htmlFor="">Address 2:</label>
               <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="text" name="address_2" onChange={(e)=>handleChangeRegister(e)} value={registerFormData.address_2}/>
             </div>
-            <div className="credentials-register-field w-[49%] mb-10">
+            <div className="credentials-register-field w-[100%] md:w-[49%] mb-10">
               <label className="block mb-2 text-green-500 italic" htmlFor="">State Code</label>
               <select className='w-[100%]' name="state_code" id="" onChange={(e)=>handleChangeRegister(e)} value={registerFormData.state_code}>
                   <optgroup label="Undefined">
@@ -187,7 +187,7 @@ const Credentials = () => {
                 )})}
               </select>
             </div>
-            <div className="credentials-register-field w-[49%] mb-10">
+            <div className="credentials-register-field w-[100%] md:w-[49%] mb-10">
               <label className="block mb-2 text-green-500 italic" htmlFor="">Country Code</label>
               <select className='w-[100%]' name="country_code" id="" value={registerFormData.country_code} onChange={(e)=>handleChangeRegister(e)} required>
                 {countries?.result?.map((c:any) => <option value={c.code}>{c.name}</option>)}

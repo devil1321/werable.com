@@ -13,7 +13,7 @@ const Nav = () => {
   const [locale,setLocale] = useState<string>('EN')
   const [isLanguageMenu,setIsLanguageMenu] = useState<boolean>(false)
   
-  const { countries,user } = useSelector((state:State) => state.api)
+  const { countries,user,locale:language } = useSelector((state:State) => state.api)
 
   const [isPlaying,setIsPlaying] = useState<boolean>(false)
   const menuWrapperRef = useRef() as MutableRefObject<HTMLDivElement>
@@ -97,7 +97,8 @@ const Nav = () => {
 
   useEffect(()=>{
     APIActions.printfulGetCountries()
-  },[])
+    setLocale(language)
+  },[language])
 
   useEffect(()=>{
     handleMenuInit()
@@ -133,7 +134,7 @@ const Nav = () => {
             <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/profile">Profile</Link>
            
           </div>
-          <div className="nav-logo-wrapper relative -left-[0%] md:left-[5%] -top-[10%] w-1/3 md:flex gap-3 items-center">
+          <div className="nav-logo-wrapper relative -left-[0%] -top-[10%] w-1/3 md:flex gap-3 items-center">
             <Link className='flex justify-center items-center min-w-max mx-auto' href="/home">
             <div className="nav-logo mr-2 min-w-[40px] md:min-w-[0px] md:w-[30px] lg:w-[50px] xl:w-[70px]">
                 <Image src="/assets/logo-white.svg" alt='nav-background' width={70} height={50} />

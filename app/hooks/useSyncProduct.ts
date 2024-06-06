@@ -14,7 +14,6 @@ const useSyncProduct = (id:number) => {
     const res = await APIPrintful.get(`/sync-products`,{
       params:{
         id:id,
-        details:true
       },
       headers:{
           "X-PF-Language":locale,
@@ -28,7 +27,7 @@ const useSyncProduct = (id:number) => {
 
   useEffect(()=>{
     handleFetchProduct()
-  },[id])
+  },[id,locale])
 
   return [item,setItem]
 }
