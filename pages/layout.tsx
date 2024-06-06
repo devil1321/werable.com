@@ -55,7 +55,7 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
   },[user])
   
   return (
-    <div className='container'>
+    <div className='container w-[100vw] mx-auto'>
       <Nav />
       {children}
       <Foot />
