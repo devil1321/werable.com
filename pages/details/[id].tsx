@@ -166,21 +166,22 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
   }
 
   export async function getStaticProps({params}:any){
-    let syncProduct = await APIController.printfulGetSyncProduct('en_US',Number(params.id))
-    let variant = await APIController.printfulGetVariant('en_US',syncProduct?.result?.sync_variants[0].variant_id)
-    if(syncProduct && variant){
-      return {
-        props:{
+    try{
+      const syncProduct = await APIController.printfulGetSyncProduct('en_US',Number(params.id))
+      const variant = await APIController.printfulGetVariant('en_US',syncProduct?.result?.sync_variants[0].variant_id)
+        return {
+          props:{
           syncProduct,
           variant
         }
-      }   
-    }else{
+      }
+    }catch(err){
+      console.log(err)
       return {
         props:{}
-      }
     }
   }
+}
   
   export default Details
 
