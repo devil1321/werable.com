@@ -87,7 +87,7 @@ const Credentials = () => {
     <div>
       {!isRegister
         ? <div className='credentials-login relative top-0 -left-[4%] w-[100vw] flex flex-col justify-center items-center'>
-            <div onClick={()=>setIsLanguageMenu(!isLanguageMenu)} className="bg-white px-3 py-2 rounded-md relative top-0 left-0">
+            <div onClick={()=>setIsLanguageMenu(!isLanguageMenu)} className="bg-white px-3 py-2 rounded-md z-50 relative top-0 left-0">
               <h3>{locale}</h3>
               {isLanguageMenu &&
                 <div className="creadentials-language-menu h-[400px] overflow-y-scroll bg-white p-3 rounded-md text-black absolute top-12 left-1/2 -translate-x-1/2">
@@ -115,7 +115,7 @@ const Credentials = () => {
             </form>
           </div>
         : <div className='credentials-register w-[100vw] flex flex-col justify-center items-center'>
-          <div onClick={()=>setIsLanguageMenu(!isLanguageMenu)} className="bg-white px-3 py-2 rounded-md relative top-0 left-0">
+          <div onClick={()=>setIsLanguageMenu(!isLanguageMenu)} className="bg-white px-3 py-2 rounded-md relative z-50 top-0 left-0">
               <h3>{locale}</h3>
               {isLanguageMenu &&
                 <div className="creadentials-language-menu h-[400px] overflow-y-scroll bg-white p-3 rounded-md text-black absolute top-12 left-1/2 -translate-x-1/2">
