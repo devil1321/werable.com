@@ -74,7 +74,7 @@ const Credentials = () => {
       }
     }
   }
-  
+
   useEffect(()=>{
     handleInit()
   },[user])
@@ -95,7 +95,6 @@ const Credentials = () => {
                   setLocale(c.code)
                   setIsLanguageMenu(false)
                   APIActions.printfulSetLocale(c.code)
-                  console.log(c.code)
                   }}>{c.name}</p>)}
               </div>}
             </div>
@@ -104,7 +103,7 @@ const Credentials = () => {
             <form className='w-[95%] md:w-1/3' action="" onSubmit={(e)=>handleSubmitLogin(e)} encType='multipart/form-data'>
               <div className="credentials-login-field ">
                 <label className="text-green-500 italic" htmlFor="">Email:</label>
-                <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="email" name="email" onChange={(e)=>handleChangeLogin(e)} value={loginFormData.email} />
+                <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2" type="email" name="email" onChange={(e)=>handleChangeLogin(e)} value={loginFormData.email} />
               </div>
               <div className="credentials-login-field ">
                 <label className="text-green-500 italic" htmlFor="">Password:</label>
