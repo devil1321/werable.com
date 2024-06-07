@@ -1,6 +1,14 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import * as ApiActions from '@/app/controller/action-creators/api.action-creators'
+import { bindActionCreators } from 'redux'
+
 
 const Item:React.FC<{user:any}> = ({user}) => {
+  
+  const dispatch = useDispatch()
+  const APIActions = bindActionCreators(ApiActions,dispatch)
+
   return (
     <React.Fragment>
     {user && 
@@ -9,7 +17,7 @@ const Item:React.FC<{user:any}> = ({user}) => {
         <h3 className="w-[100%] xl:w-max my-2 xl:my-0 font-bold mx-2 px-3 py-2 text-white bg-blue-300 rounded-md">{user.email}</h3>
         <h3 className="w-[100%] xl:w-max my-2 xl:my-0 font-bold mx-2 px-3 py-2 text-white bg-green-300 rounded-md">{user.address_1}</h3>
         <h3 className="w-[100%] xl:w-max my-2 xl:my-0 font-bold mx-2 px-3 py-2 text-white bg-neutral-800 rounded-md">{user.phone}</h3>
-        <button className="block w-[98%] xl:w-max my-2 xl:my-0 font-bold mx-2 px-3 py-2 ml-auto text-white hover:opacity-70 transition-all rounded-md">Remove</button>
+        <button onClick={()=>APIActions.deleteUser(user?.id)} className="block w-[98%] xl:w-max my-2 xl:my-0 font-bold mx-2 px-3 py-2 ml-auto text-white hover:opacity-70 transition-all rounded-md">Remove</button>
       </div>}
     </React.Fragment>
   )

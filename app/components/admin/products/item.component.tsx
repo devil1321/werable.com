@@ -3,11 +3,16 @@ import Image from 'next/image'
 import useSyncProduct from '@/app/hooks/useSyncProduct'
 import useVariantIndex from '@/app/hooks/useVariantIndex'
 import useCategory from '@/app/hooks/useCategory'
+import * as ApiActions from '@/app/controller/action-creators/api.action-creators'
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 const Item:React.FC<{ product:any }> = ({product}) => {
 
   const [item,setItem] = useSyncProduct(product.id)
   const [variantIndex,setVariantIndex] = useVariantIndex(product.id)
+  const dispatch = useDispatch()
+  const APIActions = bindActionCreators(ApiActions,dispatch)
   // @ts-ignore 
   const [category,setCategory] = useCategory(item?.result?.sync_variants[variantIndex]?.main_category_id)
 
@@ -37,7 +42,7 @@ const Item:React.FC<{ product:any }> = ({product}) => {
          {category && <h3 className="flex items-center font-bold mx-2 px-3 py-2 my-2 md:my-0 w-[100%] md:w-max text-white bg-orange-300 rounded-md"><Image className='mr-2' src={category.image_url} alt='category-image' width={25} height={25} />{category.title}</h3>}
          {/* <h3 className="font-bold mx-2 px-3 py-2 text-white bg-neutral-800 rounded-md">{user.phone}</h3> */}
          <button onClick={()=>handleVariant()} className="block font-bold xl:ml-auto mt-2 xl:mt-0 mb-2 xl:mb-0 mx-2 w-[100%] xl:w-max px-3 py-2 text-white hover:opacity-70 transition-all rounded-md">Change Variant</button>
-         <button className="block font-bold px-3 py-2 mx-2 text-white hover:opacity-70 w-[100%] xl:w-max transition-all rounded-md">Remove</button>
+         <button onClick={()=>APIActions.printfulDeleteSyncProduct(item?.result?.sync_product?.id)} className="block font-bold px-3 py-2 mx-2 text-white hover:opacity-70 w-[100%] xl:w-max transition-all rounded-md">Remove</button>
     </div>
   )
 }

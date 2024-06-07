@@ -114,6 +114,11 @@ export default (state:InitState = initState,action:APIActions) =>{
                 user:action.user,
                 image:action.image
             }
+        case APITypes.API_DELETE_USER:
+            return{
+                ...state,
+                data:action.data,
+            }
         case APITypes.API_GET_CARD:
             return {
                 ...state,
