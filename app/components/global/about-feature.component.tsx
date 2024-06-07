@@ -23,23 +23,23 @@ const AboutFeature:React.FC<AboutFeatureProps> = ({isLeft,img,title,paragraph,op
     if(typeof window !== 'undefined'){
         gsap.registerPlugin(ScrollTrigger)
         if(isLeft){
-          gsap.fromTo(imageRef.current,{x:-1000},{x:0,duration:1,force3D:true,scrollTrigger:{
+          gsap.fromTo(imageRef.current,{x:-1500},{x:0,duration:1,force3D:true,scrollTrigger:{
             trigger:featureRef.current,
             start:'-=250px',
             end:'-=250px'
           }})
-          gsap.fromTo(detailsRef.current,{x:1000},{x:0,duration:1,force3D:true,scrollTrigger:{
+          gsap.fromTo(detailsRef.current,{x:1500},{x:0,duration:1,force3D:true,scrollTrigger:{
             trigger:featureRef.current,
             start:'-=250px',
             end:'-=250px'
           }})
         }else{
-          gsap.fromTo(imageRef.current,{x:1000},{x:0,duration:1,force3D:true,scrollTrigger:{
+          gsap.fromTo(imageRef.current,{x:1500},{x:0,duration:1,force3D:true,scrollTrigger:{
             trigger:featureRef.current,
             start:'-=250px',
             end:'-=250px'
           }})
-          gsap.fromTo(detailsRef.current,{x:-1000},{x:0,duration:1,force3D:true,scrollTrigger:{
+          gsap.fromTo(detailsRef.current,{x:-1500},{x:0,duration:1,force3D:true,scrollTrigger:{
             trigger:featureRef.current,
             start:'-=250px',
             end:'-=250px'

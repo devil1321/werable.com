@@ -22,17 +22,6 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
   const APIActions  = bindActionCreators(ApiActions,dispatch)
   const shopActions  = bindActionCreators(ShopActions,dispatch)
 
-  const handleInit = () =>{
-    if(typeof window !== 'undefined'){
-      const token = localStorage.getItem('jwt')
-      if(pathname !== "/" && !token){
-        router.push("/")
-      }else if(pathname === '/' && token){
-        router.push('/home')
-      }
-    }
-  }
-
   useEffect(()=>{
     if(typeof window !== 'undefined'){
       const token = localStorage.getItem('jwt')
@@ -51,7 +40,6 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
 
   useEffect(()=>{
     shopActions.setCart()
-    handleInit()
   },[user])
   
   return (

@@ -7,8 +7,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as ApiActions from '@/app/controller/action-creators/api.action-creators'
 import { State } from '@/app/controller/reducers/root.reducer'
 import { bindActionCreators } from 'redux'
+import { useRouter } from 'next/navigation'
 
 const Nav = () => {
+
+  const router = useRouter()
 
   const [locale,setLocale] = useState<string>('EN')
   const [isLanguageMenu,setIsLanguageMenu] = useState<boolean>(false)
@@ -128,10 +131,10 @@ const Nav = () => {
                   }}>{c.name}</p>)}
               </div>}
             </div>
-            <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/home">Home</Link>
+            <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/">Home</Link>
             <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/products">Products</Link>
             <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/about">About Us</Link>
-            <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/profile">Profile</Link>
+            {user && <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/profile">Profile</Link>}
            
           </div>
           <div className="nav-logo-wrapper relative -left-[0%] -top-[10%] w-1/3 md:flex gap-3 items-center">
@@ -144,10 +147,18 @@ const Nav = () => {
           </div>
           <div className="nav-menu pb-5 md:p-0 relative z-30 -left-[0%] md:-left-[8%] lg:left-[5%] xl:left-[10%] -top-4 w-1/3 block md:flex gap-5">
             <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/new-sale">New Sale</Link>
-            <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/cart">Cart</Link>
+            <div className="cursor-pointer relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" onClick={()=>{
+              if(user){
+                router.push('/cart')
+              }else{
+                router.push('/login')
+              }
+            }}>Cart</div>
             <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/favoruites">Favoruites</Link>
             <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/contact">Contact</Link>
-            {user && <Link onClick={()=>APIActions.logout()} className="relative text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="#">Logout</Link>}
+            {user 
+              ? <Link onClick={()=>APIActions.logout()} className="relative text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="#">Logout</Link>
+              : <Link onClick={()=>APIActions.logout()} className="relative text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/login">Login</Link>}
             {menuWrapperRef?.current?.classList?.contains('--open') && <button onClick={()=>handleMenu()} className='block my-4 -translate-x-[5%] text-md text-white rounded-md font-bold px-12 py-2'>Close</button>}
           </div>
         </div>
