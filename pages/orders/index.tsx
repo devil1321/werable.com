@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Nav from '@/app/components/orders/nav.component'
 import Item from '@/app/components/orders/item.component'
 import { useSelector } from 'react-redux'
@@ -8,7 +8,16 @@ import Hero from '@/app/components/global/hero.component'
 
 const Page = () => {
 
-  const { orders } = useSelector((state:State) => state.api)
+  const { orders,user } = useSelector((state:State) => state.api)
+  const [userOrders,setUserOrders] = useState<any>([])
+
+  const handleUserOrders = () =>{
+    setUserOrders(orders?.result?.filter((o:any)=> o.recipient.email === user?.email))
+  }
+
+  useEffect(()=>{
+    handleUserOrders()
+  },[orders])
 
   return (
     <Layout>
@@ -19,7 +28,7 @@ const Page = () => {
           paragraph='Stay updated on your wearable fashion purchases with our user-friendly orders page, designed to help you track, manage, and review your orders effortlessly'
         />
         <Nav />
-        {Array.from(Array(10).keys()).map((o:any) => <Item key={`order-key-${o}`} order={o} />)}
+        {userOrders?.map((o:any) => <Item key={`order-key-${o}`} order={o} />)}
       </div>
     </Layout>
   )

@@ -24,8 +24,10 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                 }
             })
             if(UpdatedCard){
+                const disconnected = await client.$disconnect()
                 res.status(200).json({...UpdatedCard})
             }else{
+                const disconnected = await client.$disconnect()
                 res.status(500).json(null)
             }
         }else{
@@ -40,8 +42,10 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                 }
             })
             if(CreatedCard){
+                const disconnected = await client.$disconnect()
                 res.status(200).json({...CreatedCard})
             }else{
+                const disconnected = await client.$disconnect()
                 res.status(500).json(null)
             }
         }

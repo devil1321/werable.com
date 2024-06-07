@@ -26,7 +26,9 @@ const useSyncProduct = (id:number) => {
   }
 
   useEffect(()=>{
-    handleFetchProduct()
+    if(typeof id === 'number'){
+      handleFetchProduct()
+    }
   },[id,locale])
 
   return [item,setItem]

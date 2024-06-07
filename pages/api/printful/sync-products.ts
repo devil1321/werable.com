@@ -8,6 +8,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
         if(params['offset'] && params['limit']){
             const products = await APIController.printfulGetAllSyncProducts(params['locale'] as string,Number(params['offset']),Number(params['limit']))
             if(products){
+                console.log(products)
                 res.status(200).json(products)
             }else{
                 res.status(500).json(null)

@@ -16,7 +16,6 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
         if(User){
             // @ts-ignore
             bcrypt.compare(password, User.password as string, async function(err, result) {
-                console.log(result)
                 if(result){
                     const token = jwt.sign(User,process.env.JWT_SECRET as string)
                     const disconnected = await client.$disconnect()

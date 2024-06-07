@@ -163,6 +163,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         opacity:1,
         stagger:0.2,
         duration:1,
+        force3D:true,
         motionPath: {
           path: pathRef.current,
           align: pathRef.current,
@@ -177,6 +178,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         opacity:1,
         stagger:0.2,
         duration:1,
+        force3D:true,
         motionPath: {
           path: pathRef.current,
           align: pathRef.current,
@@ -190,6 +192,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         opacity:1,
         stagger:0.2,
         duration:1,
+        force3D:true,
         motionPath: {
           path: pathRef.current,
           align: pathRef.current,
@@ -203,6 +206,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         opacity:1,
         stagger:0.2,
         duration:1,
+        force3D:true,
         motionPath: {
           path: pathRef.current,
           align: pathRef.current,
@@ -216,6 +220,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         opacity:1,
         stagger:0.2,
         duration:1,
+        force3D:true,
         motionPath: {
           path: pathRef.current,
           align: pathRef.current,
@@ -229,6 +234,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         opacity:1,
         stagger:0.2,
         duration:1,
+        force3D:true,
         motionPath: {
           path: pathRef.current,
           align: pathRef.current,
@@ -242,6 +248,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         opacity:1,
         stagger:0.2,
         duration:1,
+        force3D:true,
         motionPath: {
           path: pathRef.current,
           align: pathRef.current,

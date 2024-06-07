@@ -27,7 +27,7 @@ const Hero:React.FC<HeroProps> = ({img,title,paragraph}) => {
       }else{
         offsetTop = 550 - rect.top
         if(offsetTop > 550 && rect.top < -80){
-          gsap.to(imageWrapperRef.current,{ clipPath:`polygon(0 0, 100% 0, 100% ${(offsetTop) / 9}%, 0% 100%)`})
+          gsap.to(imageWrapperRef.current,{ clipPath:`polygon(0 0, 100% 0, 100% ${(offsetTop) / 8}%, 0% 100%)`})
         }
       }
     }
