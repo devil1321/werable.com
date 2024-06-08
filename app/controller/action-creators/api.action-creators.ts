@@ -195,14 +195,12 @@ const sizeRegex = query.size ? new RegExp(`^${query.size}`, 'i') : null;
 const filtered = items?.filter((product:any) => {
   return product.sync_variants.some((variant:any) => {
     const productName = product.sync_product.name;
-    const variantCategoryId = variant.main_category_id; 
     const variantRetailPrice = parseFloat(variant.retail_price);
     const variantSize = variant.size;
     const isNameMatch = nameRegex ? nameRegex.test(productName) : true;
     const isSizeMatch = sizeRegex ? sizeRegex.test(variantSize) : true;
-    const isCategoryMatch = query.main_category_id ? variantCategoryId === query.main_category_id ? true : false : true
     const isPriceMatch = variantRetailPrice > parseFloat(query.min_price) && variantRetailPrice < parseFloat(query.max_price);
-    return isNameMatch && isCategoryMatch && isPriceMatch && isSizeMatch;
+    return isNameMatch && isPriceMatch && isSizeMatch;
   });
 });
 
