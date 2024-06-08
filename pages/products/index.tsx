@@ -43,7 +43,7 @@ export default function Page() {
           />
         <Search  title="Products"/>
         <div className="products-items xl:px-10 flex justify-center items-start flex-wrap">
-          {products?.result?.map((p:any) => <Product key={`product-key-${p.id}`} product={p} />)}
+          {products?.map((p:any) => <Product key={`product-key-${p.sync_product.id}`} product={p} />)}
         </div>
         <Title isLeft={false} title="Hot" />
         <ProductCarousel />

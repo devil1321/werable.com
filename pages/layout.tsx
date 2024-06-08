@@ -11,12 +11,7 @@ import { State } from '@/app/controller/reducers/root.reducer'
 
 const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
 
-  
-  const router = useRouter()
-  const pathname = usePathname()
-
-  const { user,locale } = useSelector((state:State) => state.api)
-  const { cart } = useSelector((state:State) => state.shop)
+  const { user,locale,products } = useSelector((state:State) => state.api)
 
   const dispatch = useDispatch()
   const APIActions  = bindActionCreators(ApiActions,dispatch)
@@ -34,6 +29,7 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
       if(token){
         APIActions.getUser()
         APIActions.printfulGetAllSyncProducts(0,100)
+        APIActions.printfulGetCategories()
       }
     }
   },[locale])

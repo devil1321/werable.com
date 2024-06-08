@@ -134,11 +134,6 @@ export default (state:InitState = initState,action:APIActions) =>{
                     ...state,
                     products:action.products    
                 }
-        case APITypes.API_SEARCH_PRODUCTS:
-                return{
-                    ...state,
-                    matches:action.matches    
-                }
         case APITypes.API_UPDATE_PROFILE:
             return{
                 ...state,
@@ -198,6 +193,11 @@ export default (state:InitState = initState,action:APIActions) =>{
                 countries:action.countries
             }
         case PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS:
+            return{
+                ...state,
+                products:action.products
+            }
+        case PrintfulTypes.PRINTFUL_SET_ALL_SYNC_PRODUCTS:
             return{
                 ...state,
                 products:action.products

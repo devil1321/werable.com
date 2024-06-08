@@ -6,7 +6,7 @@ import { getToken } from '@/app/controller/lib/get-token'
 import store from "../store"
 import  printful  from "../lib/APIPrintful"
 import { PrintfulTypes } from "../types"
-
+import { removeDuplicatesByNestedKey } from "../lib/deleteDuplicateWithNestedKey"
 
 export const getUser = () => async (dispatch:Dispatch)=>{
     const token = getToken() as string
@@ -185,65 +185,38 @@ export const updateProfile = (user:Interfaces.User) => async(dispatch:Dispatch) 
         })
     }
 }
-export const filterProducts = (min:number,max:number,color:any) => async(dispatch:Dispatch) =>{
-    try{
-        const res = await axios.get('/assets/db/products.json')
-        let products = await res.data
-        products = products.filter((p:Interfaces.Product) => {
-            if(p.price > min && p.price < max){
-                const isColor = p.colors.find((p)=> p.hex === color.hex)
-                if(isColor){
-                    return p
-                }else{
-                    return null
-                }
-            }
-        }).filter((p:Interfaces.Product) => p !== null)
-        const prevProducts = store.getState().api.products
-        prevProducts.forEach((p:Interfaces.Product)=>{
-            products.forEach((ip:Interfaces.Product)=>{
-                if(p.id === ip.id){
-                    ip.inCart = p.inCart
-                }
-            })
-        })
+export const filterProducts = (query:any) => async(dispatch:Dispatch) =>{
+    const localProducts = localStorage.getItem('wearable-products')
+    const items = JSON.parse(localProducts as string)
+    // Define the regex patterns conditionally based on the query parameters
+const nameRegex = query.name ? new RegExp(`^${query.name}`, 'i') : null;
+const sizeRegex = query.size ? new RegExp(`^${query.size}`, 'i') : null;
+
+const filtered = items?.filter((product:any) => {
+  return product.sync_variants.some((variant:any) => {
+    const productName = product.sync_product.name;
+    const variantCategoryId = variant.main_category_id; 
+    const variantRetailPrice = parseFloat(variant.retail_price);
+    const variantSize = variant.size;
+    const isNameMatch = nameRegex ? nameRegex.test(productName) : true;
+    const isSizeMatch = sizeRegex ? sizeRegex.test(variantSize) : true;
+    const isCategoryMatch = query.main_category_id ? variantCategoryId === query.main_category_id ? true : false : true
+    const isPriceMatch = variantRetailPrice > parseFloat(query.min_price) && variantRetailPrice < parseFloat(query.max_price);
+    return isNameMatch && isCategoryMatch && isPriceMatch && isSizeMatch;
+  });
+});
+
+    console.log(query)
+    console.log(filtered)
+    if(filtered.length > 0){
         dispatch({
             type:APITypes.API_FILTER_PRODUCTS,
-            products:products
-        })
-    }catch(err){
-        console.log(err)
-        dispatch({
-            type:APITypes.API_FILTER_PRODUCTS,
-            products:[]
+            products:filtered.filter((p:any) => p !== undefined && p !== null)
         })
     }
 }
-export const searchProducts = (term:string) => async(dispatch:Dispatch) =>{
-    try{
-        const res = await axios.get('/assets/db/products.json')
-        let products = await res.data
-        const regex = new RegExp(`^${term}`,'gi')
-        products = products.filter((p:Interfaces.Product) => regex.test(p.title))
-        if(term === ''){
-            dispatch({
-                type:APITypes.API_SEARCH_PRODUCTS,
-                matches:[]
-            })
-        }else{
-            dispatch({
-                type:APITypes.API_SEARCH_PRODUCTS,
-                matches:products
-            })
-        }
-    }catch(err){
-        console.log(err)
-        dispatch({
-            type:APITypes.API_SEARCH_PRODUCTS,
-            matches:[]
-        })
-    }
-}
+
+
 export const getCard = (user_id:number) => async(dispatch:Dispatch) =>{
     try{
         const res = await axios.post('/api/get-card',{ user_id:user_id })
@@ -478,6 +451,13 @@ export const printfulGetCategory = (id:number) => async(dispatch:Dispatch) =>{
     }
 }
 
+export const printfulSetAllSyncProducts = (products:any) => async (dispatch:Dispatch) =>{
+    dispatch({
+        type:PrintfulTypes.PRINTFUL_SET_ALL_SYNC_PRODUCTS,
+        products:products
+    })
+}
+
 export const printfulGetAllSyncProducts = (offset:number,limit:number) => async (dispatch:Dispatch) =>{
     const { locale } = store.getState().api
     try {
@@ -489,18 +469,33 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
             }
         })
         const data = await res.data
+        const products = await Promise.all(data?.result?.map(async(p:any)=>{
+            try{
+                const res = await printful.get('/sync-products',{
+                    params:{
+                        id:p.id,
+                        locale:locale
+                    }
+               })
+               const data = await res.data
+               return data.result
+            }catch(err){
+                console.log(err)
+                return err
+            }
+        }))
         if(typeof window !== 'undefined'){
             const storage = localStorage.getItem('wearable-products')
-            if(JSON.stringify(storage) === JSON.stringify(data)){
+            if(JSON.stringify(storage) === JSON.stringify(products) && JSON.stringify(storage).length > 0){
                 dispatch({
                     type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
                     products:storage
                 })
             }else{
-                localStorage.setItem('wearable-products',JSON.stringify(data))
+                localStorage.setItem('wearable-products',JSON.stringify(products))
                 dispatch({
                     type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
-                    products:data
+                    products:products.filter((p:any) => p !== undefined && p !== null)
                 })
             }
         }

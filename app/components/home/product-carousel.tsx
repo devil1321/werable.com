@@ -87,7 +87,7 @@ const ProductCarousel = () => {
         </div>
       <div className="home-carousel-items-wrapper flex flex-col justify-center items-center relative z-40 top-0 left-0 h-[550px] w-[100vw] overflow-hidden">
         <div ref={viewRef} className="home-carousel-view flex justify-center items-center">
-            {products?.result?.map((p:any) => <Product key={`product-home-carousel-${p.id}`} productRef={itemRef} product={p}/>)}
+            {products?.map((p:any) => <Product key={`product-home-carousel-${p.sync_product.id}`} productRef={itemRef} product={p}/>)}
         </div>
       </div>
     </div>
