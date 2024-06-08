@@ -1,7 +1,4 @@
 'use client'
-import { GlobalComponents } from "../../app/components/global";
-import products from '@/public/assets/tmp/db/products.json'
-import { HomeComponents } from "../../app/components/home";
 import gsap from "gsap";
 import  ScrollTrigger  from "gsap/dist/ScrollTrigger";
 import { useEffect } from "react";
@@ -11,8 +8,12 @@ import Product from "@/app/components/global/product.component";
 import Title from "@/app/components/global/title.component";
 import ProductCarousel from "@/app/components/home/product-carousel";
 import Layout from "../layout";
+import { useSelector } from "react-redux";
+import { State } from "@/app/controller/reducers/root.reducer";
 
 export default function Page() {
+
+    const { products } = useSelector((state:State) => state.api)
 
     const handleAnimate = () =>{
       gsap.registerPlugin(ScrollTrigger)
