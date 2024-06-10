@@ -1,4 +1,4 @@
-'use client'
+import React from "react";
 import gsap from "gsap";
 import  ScrollTrigger  from "gsap/dist/ScrollTrigger";
 import { useEffect } from "react";
@@ -42,12 +42,15 @@ export default function Page() {
           title="Explore Our Cutting-Edge Products"
           paragraph="Discover a range of innovative products designed to enhance your lifestyle and redefine the way you interact with technology"
         />
-        <Search title="New Sale"/>
-        <div className="products-items xl:px-10 flex justify-center items-start flex-wrap">
-          {products.map((p:any) => <Product product={p} />)}
-        </div>
-        <Title isLeft={false} title="Hot" />
-        <ProductCarousel />
+        {products?.length > 0 &&
+        <React.Fragment>
+          <Search title="New Sale"/>
+          <div className="products-items xl:px-10 flex justify-center items-start flex-wrap">
+            {products.map((p:any) => <Product product={p} />)}
+          </div>
+          <Title isLeft={false} title="Hot" />
+          <ProductCarousel />
+        </React.Fragment>}
       </div>
     </Layout>
     )     

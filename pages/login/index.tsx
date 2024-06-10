@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ApiActions from '@/app/controller/action-creators/api.action-creators'
+import * as ShopActions from '@/app/controller/action-creators/shop.action-creators'
 import { bindActionCreators } from 'redux'
 import { usePathname, useRouter } from 'next/navigation'
 import { State } from '@/app/controller/reducers/root.reducer'
@@ -11,9 +12,10 @@ import Link from 'next/link'
 const Credentials = () => {
 
   const { data,countries,locale:language,user } = useSelector((state:State) => state.api)
-  
+  const { cart } = useSelector((state:State) => state.shop)
   const dispatch = useDispatch()
   const APIActions = bindActionCreators(ApiActions,dispatch)
+  const shopActions = bindActionCreators(ShopActions,dispatch)
 
   const router = useRouter()
   const pathname = usePathname()
@@ -67,14 +69,17 @@ const Credentials = () => {
   const handleInit = () =>{
     if(typeof window !== 'undefined'){
       const token = localStorage.getItem('jwt')
-      if(pathname === '/login' && token){
+      if(pathname === '/login' && token && cart.length > 0){
         router.push('/cart')
+      }else if(pathname === '/login' && token && cart.length === 0){
+        router.push('/home')
       }
     }
   }
 
   useEffect(()=>{
     handleInit()
+    shopActions.setCart()
   },[user])
 
   useEffect(()=>{

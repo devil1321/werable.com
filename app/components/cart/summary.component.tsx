@@ -49,13 +49,6 @@ const Summary = () => {
     setTotal(Number(summary) + Number(shippingType?.rate) + (Number(tax?.result?.rate) * (shippingType?.shipping_taxable ? Number(shippingType.rate) : 0) + (Number(tax?.result?.rate) * Number(summary))))
   }
 
-
-  const handleInitMenus = () =>{
-    if(shippingMenuRef.current){
-      shippingMenuRef.current.style.display = 'none'
-    }
-  }
-
   const handleMenu = (ref:MutableRefObject<HTMLDivElement>) =>{
     if(!ref.current.classList.contains('--open')){
       ref.current.style.display = 'block'
@@ -68,10 +61,6 @@ const Summary = () => {
       }})
     }
   }
-
-  useEffect(()=>{
-    handleInitMenus()
-  },[shippingMenuRef.current])
 
   useEffect(()=>{
     if(user){

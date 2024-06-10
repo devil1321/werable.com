@@ -19,8 +19,8 @@ const Item:React.FC<{ product?:any, id?:number }> = ({product,id}) => {
   const shopActions = bindActionCreators(ShopActions,dispatch)
 
   
-  const [item,setItem] = useSyncProduct(id ? id : product.id)
-  const [variant,setVariant] = useVariant(id ? id : product.id)
+  const [item,setItem] = useSyncProduct(id ? id : product?.id)
+  const [variant,setVariant] = useVariant(id ? id : product?.id)
   const [isFavoruite,setIsFavoruite] = useFavoruite(item?.result?.sync_product?.id)
   const [variantIndex,setVariantIndex] = useVariantIndex(item?.result?.sync_product?.id) 
   const [inCart,setInCart] = useInCart(item?.result?.sync_product?.id)
@@ -76,7 +76,9 @@ const Item:React.FC<{ product?:any, id?:number }> = ({product,id}) => {
   },[size,color])
 
   return (
-    <div className="item p-2 my-5 md:flex justify-center items-center">
+    <React.Fragment>
+      {item?.result?.sync_variants?.length > 0 && variant 
+    ?<div className="item p-2 my-5 md:flex justify-center items-center">
       {item?.result?.sync_variants[variantIndex as number]?.retail_price && <Product product={product} id={id} />}
       {item?.result?.sync_variants[variantIndex as number]?.retail_price &&
       <div className="item-details relative top-0 left-0 z-50 w-[100%] xl:w-[50%] md:w-[70%] rounded-md md:ml-12 py-3 px-2 md:px-12">
@@ -135,6 +137,8 @@ const Item:React.FC<{ product?:any, id?:number }> = ({product,id}) => {
         <button onClick={()=>shopActions.removeFromCart(item?.result?.sync_product?.id)} className='block my-2 hover:opacity-70 w-[100%] py-2 rounded-full text-white font-bold text-2xl'>Remove</button>
       </div>}
     </div>
+    : <h1 className='bg-green-300 w-[90%] rounded-md mx-auto font-bold text-white text-5xl px-12 py-2 my-2'>...Loading</h1>
+    }</React.Fragment>
   )
 }
 

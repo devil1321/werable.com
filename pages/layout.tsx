@@ -11,11 +11,23 @@ import { State } from '@/app/controller/reducers/root.reducer'
 
 const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
 
-  const { user,locale,products } = useSelector((state:State) => state.api)
+  const { user,locale } = useSelector((state:State) => state.api)
 
   const dispatch = useDispatch()
   const APIActions  = bindActionCreators(ApiActions,dispatch)
   const shopActions  = bindActionCreators(ShopActions,dispatch)
+
+  useEffect(()=>{
+    if(typeof window !== 'undefined'){
+      const products = localStorage.getItem('wearable-products')
+      if(products){
+        const items = JSON.parse(products)
+        if(items[0]?.sync_product){
+          APIActions.printfulSetAllSyncProducts(JSON.parse(items))
+        }
+      }
+    }
+  },[])
 
   useEffect(()=>{
     if(typeof window !== 'undefined'){

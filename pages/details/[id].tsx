@@ -10,15 +10,18 @@ import useCategory from '@/app/hooks/useCategory'
 import useVariant from '@/app/hooks/useVariant'
 import useInCart from '@/app/hooks/useInCart'
 import * as ShopActions from '@/app/controller/action-creators/shop.action-creators'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import useQuantity from '@/app/hooks/useQuantity'
 import useVariantIndex from '@/app/hooks/useVariantIndex'
-import store from '@/app/controller/store'
-import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { State } from '@/app/controller/reducers/root.reducer'
 
 const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct}) => {
-  
+
+    const router = useRouter()
+
+    const { user } = useSelector((state:State) => state.api)
     const dispatch = useDispatch()
     const shopActions = bindActionCreators(ShopActions,dispatch)
 
@@ -110,23 +113,39 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
             <div className="flex justify-between items-center gap-1 my-3">
               <div onClick={()=>{
                 if(inCart && quantity as number > 1){
-                  // @ts-ignore
-                  setQuantity(quantity - 1)
-                  shopActions.decrement(syncProduct?.result?.sync_product?.id,1)
+                  if(user){
+                    // @ts-ignore
+                    setQuantity(quantity - 1)
+                    shopActions.decrement(syncProduct?.result?.sync_product?.id,1)
+                  }else{
+                    router.push('/login')
+                  }
                 }else{
-                  shopActions.removeFromCart(syncProduct?.result?.sync_product?.id)
+                  if(user){
+                    shopActions.removeFromCart(syncProduct?.result?.sync_product?.id)
+                  }else{
+                    router.push('/login')
+                  }
                 }
               }} className="w-1/3 text-center hover:text-white p-2 font-bold hover:bg-green-300 cursor-pointer bg-white rounded-full">-</div>
               <div className="w-1/3 text-center  p-2 font-bold cursor-pointer bg-white rounded-full">{quantity as number}</div>
               <div onClick={()=>{
                 if(!inCart){
-                  shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex as number]?.retail_price,syncProduct?.result?.sync_variants[variantIndex as number]?.currency,variantIndex as number)
-                  // @ts-ignore
-                  setQuantity(1)
+                  if(user){
+                    shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex as number]?.retail_price,syncProduct?.result?.sync_variants[variantIndex as number]?.currency,variantIndex as number)
+                    // @ts-ignore
+                    setQuantity(1)
                 }else{
-                  // @ts-ignore
-                  setQuantity(quantity + 1)
-                  shopActions.increment(syncProduct?.result?.sync_product?.id,1)
+                  router.push('/login')
+                }
+                }else{
+                  if(user){
+                    // @ts-ignore
+                    setQuantity(quantity + 1)
+                   shopActions.increment(syncProduct?.result?.sync_product?.id,1)
+                  }else{
+                    router.push('/login')
+                  }
                 }
               }} className="w-1/3 text-center hover:text-white p-2 font-bold hover:bg-green-300 cursor-pointer bg-white rounded-full">+</div>
             </div>
@@ -150,7 +169,13 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
               {variantState?.result?.variant?.availability_status?.map((s:any) => <div key={`status-key-${s.region}`} className={`min-w-fit px-3 py-2 my-2 font-bold italic text-white rounded-md mr-3 ${s?.status === 'in_stock' ? "bg-green-300" : 'bg-red-500'}`}>{s?.region}</div>)}
             </div>
             {!inCart
-              ? <button onClick={()=> {if(!inCart) shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex as number]?.retail_price,syncProduct?.result?.sync_variants[variantIndex as number]?.currency,variantIndex as number)}} className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">Add To Cart</button>
+              ? <button onClick={()=> {if(!inCart) {
+                if(user){
+                  shopActions.addToCart(syncProduct?.result?.sync_product?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.id,syncProduct?.result?.sync_variants[variantIndex as number]?.variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.warehouse_product_variant_id,syncProduct?.result?.sync_variants[variantIndex as number]?.external_id,1,syncProduct?.result?.sync_variants[variantIndex as number]?.retail_price,syncProduct?.result?.sync_variants[variantIndex as number]?.currency,variantIndex as number)
+                  }else{
+                    router.push('/login')
+                  }
+              }}} className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">Add To Cart</button>
               : <button className="block w-[100%] rounded-full py-2 mt-5 font-bold text-white hover:opacity-70">In Your Cart</button>
             }
           </div>

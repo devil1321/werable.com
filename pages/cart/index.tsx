@@ -9,10 +9,13 @@ import Item from '@/app/components/global/item.component';
 import { useSelector } from 'react-redux';
 import { State } from '@/app/controller/reducers/root.reducer';
 import Layout from '../layout';
+import { useRouter } from 'next/router';
 
 export default function Page() {
 
+    const router = useRouter()
     const { cart } = useSelector((state:State) => state.shop)
+    const { user } = useSelector((state:State) => state.api)
 
     const handleDetails = () =>{
       const heading = document.querySelector('h1') as HTMLHeadingElement
@@ -34,6 +37,16 @@ export default function Page() {
       handleDetails()
       handleAnimate()
     },[])
+
+
+    useEffect(()=>{
+        if(typeof window !== 'undefined'){
+          const token = localStorage.getItem('jwt')
+          if(!token){
+            router.push('/login')
+          }
+        }
+    },[user])
 
     return (
     <Layout>

@@ -1,24 +1,27 @@
 'use client'
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
+import React, { MutableRefObject, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
 import  MotionPathPlugin  from 'gsap/dist/MotionPathPlugin'
 import SplitTextJS from 'split-text-js'
-import useSyncProduct from '@/app/hooks/useSyncProduct'
 import useVariant from '@/app/hooks/useVariant'
 import Link from 'next/link'
 import * as ShopActions  from '@/app/controller/action-creators/shop.action-creators'
-import * as ApiActions from '@/app/controller/action-creators/api.action-creators'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import useFavoruite from '@/app/hooks/useFavoruite'
 import useInCart from '@/app/hooks/useInCart'
 import useQuantity from '@/app/hooks/useQuantity'
 import useVariantIndex from '@/app/hooks/useVariantIndex'
+import useProduct from '@/app/hooks/useProduct'
+import { State } from '@/app/controller/reducers/root.reducer'
+import { useRouter } from 'next/navigation'
 
 const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<HTMLDivElement> }> = ({product,id,productRef}) => {
 
-  const { sync_product,sync_variants } = product
+ 
+  const { user } = useSelector((state:State) => state.api)
+  const { sync_product,sync_variants } = useProduct(product)
 
   const titleRef = useRef() as MutableRefObject<HTMLHeadingElement>
   const pathRef = useRef() as MutableRefObject<SVGPathElement>
@@ -39,6 +42,8 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
   
   const dispatch = useDispatch()
   const shopActions = bindActionCreators(ShopActions,dispatch)
+
+  const router = useRouter()
   
 
   const handleAnimationOut = (e:any) =>{
@@ -54,11 +59,11 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
           titleRef?.current?.classList.add('hidden')
         }, 1000);
       }
-      if(favoruitesRef.current){
+      if(favoruitesRef?.current){
         favoruitesRef.current.style.transition = 'opacity 1s ease-in-out'
         favoruitesRef.current.style.opacity = '0'
         setTimeout(() => {
-          if(!favoruitesRef.current.classList.contains('hidden')){
+          if(!favoruitesRef?.current?.classList?.contains('hidden')){
             favoruitesRef.current.classList.add('hidden')
           }
         }, 1000);
@@ -371,10 +376,12 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
 
   useEffect(()=>{
     handleAnimationInit()
-  },[])
+  },[sync_product,sync_variants])
 
   return (
-    <div onMouseLeave={(e)=>handleAnimationOut(e)} ref={productRef} className='product cursor-pointer my-12 mx-[50px] h-max relative top-0 left-0 z-40 '>
+    <React.Fragment>
+    {sync_product && sync_variants?.length > 0 
+    ? <div onMouseLeave={(e)=>handleAnimationOut(e)} ref={productRef} className='product cursor-pointer my-12 mx-[50px] h-max relative top-0 left-0 z-40 '>
       <svg className='absolute opacity-0 -top-[15%] -left-[10%] md:-left-[12.5%]' width={600} height={600}>
         <path ref={pathRef} d="M0,140a135,135 0 1,0 270,0a135,135 0 1,0 -270,0" fill="none" stroke="black" strokeWidth={2}/>
       </svg>
@@ -382,12 +389,20 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         <path ref={pathRefIcons} d="M-30,130a150,150 0 1,0 340,0a150,150 0 1,0 -340,0" fill="none" stroke="black" strokeWidth={2}/>
       </svg>
         {/* @ts-ignore */}
-      <h3 ref={titleRef} id={`title-id-${id ? id : sync_product.id}`} className="product-title hidden text-neutral-900 text-xl font-bold absolute top-0 left-0">{sync_variants[variantIndex]?.name}</h3>
+      <h3 ref={titleRef} id={`title-id-${id ? id : sync_product?.id}`} className="product-title hidden text-neutral-900 text-xl font-bold absolute top-0 left-0">{sync_variants[variantIndex]?.name}</h3>
       <div onClick={()=>{
         if(!isFavoruite){
-          shopActions.addFavoruite(sync_product?.id,variantIndex as number)
+          if(user){
+            shopActions.addFavoruite(sync_product?.id,variantIndex as number)
+          }else{
+            router.push('/login')
+          }
         }else{
-          shopActions.removeFavoruite(sync_product?.id)
+          if(user){
+            shopActions.removeFavoruite(sync_product?.id)
+          }else{
+            router.push('/login')
+          }
         }
         }} ref={favoruitesRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         {isFavoruite 
@@ -402,42 +417,63 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         </div>
       <div onClick={()=>{
         if(!inCart){
-          shopActions.addToCart(sync_product?.id,sync_variants[variantIndex as number]?.id,sync_variants[variantIndex as number]?.variant_id,sync_variants[variantIndex as number]?.warehouse_product_variant_id,sync_variants[variantIndex as number]?.external_id,1,sync_variants[variantIndex as number]?.retail_price,sync_variants[variantIndex as number]?.currency,variantIndex as number)
-          // @ts-ignore
-          setQuantity(1)
+          if(user){
+            shopActions.addToCart(sync_product?.id,sync_variants[variantIndex as number]?.id,sync_variants[variantIndex as number]?.variant_id,sync_variants[variantIndex as number]?.warehouse_product_variant_id,sync_variants[variantIndex as number]?.external_id,1,sync_variants[variantIndex as number]?.retail_price,sync_variants[variantIndex as number]?.currency,variantIndex as number)
+            // @ts-ignore
+            setQuantity(1)
+          }else{
+            router.push('/login')
+          }
         }
       }} ref={cartRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         <Image src="/assets/cart-icon.png" alt="icon-cart" width={25} height={25} />
       </div>
-      <Link ref={infoRef} className='absolute top-0 left-0 w-10 h-10' href="/details/[id]" as={`/details/${id ? id : sync_product.id}`}>
+      <Link ref={infoRef} className='absolute top-0 left-0 w-10 h-10' href="/details/[id]" as={`/details/${id ? id : sync_product?.id}`}>
         <div className="product-icon-wrapper hover:bg-gray-400 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
           <Image src="/assets/info-icon.png" alt="icon-info" width={25} height={25} />
         </div>
       </Link>
       <div onClick={()=>{
         if(!inCart){
-          shopActions.addToCart(sync_product?.id,sync_variants[variantIndex as number]?.id,sync_variants[variantIndex as number]?.variant_id,sync_variants[variantIndex as number]?.warehouse_product_variant_id,sync_variants[variantIndex as number]?.external_id,1,sync_variants[variantIndex as number]?.retail_price,sync_variants[variantIndex as number]?.currency,variantIndex as number)
+          if(user){
+            shopActions.addToCart(sync_product?.id,sync_variants[variantIndex as number]?.id,sync_variants[variantIndex as number]?.variant_id,sync_variants[variantIndex as number]?.warehouse_product_variant_id,sync_variants[variantIndex as number]?.external_id,1,sync_variants[variantIndex as number]?.retail_price,sync_variants[variantIndex as number]?.currency,variantIndex as number)
           // @ts-ignore
-          setQuantity(1)
+            setQuantity(1)
+          } else{
+            router.push('/login')
+          }
         }else{
-          shopActions.summary()
-          shopActions.increment(sync_product?.id,1)
-          // @ts-ignore
-          setQuantity(quantity as number + 1)
+          if(user){
+
+            shopActions.summary()
+            shopActions.increment(sync_product?.id,1)
+            // @ts-ignore
+            setQuantity(quantity as number + 1)
+          }else{
+            router.push('/login')
+          }
         }
       }} ref={plusRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         <Image src="/assets/plus-icon.png" alt="icon-plus" width={25} height={25} />
       </div>
       <div onClick={()=>{
         if(inCart && quantity as number < 1){
-          shopActions.removeFromCart(sync_product?.id)
-          // @ts-ignore
-          setQuantity(0)
+          if(user){
+            shopActions.removeFromCart(sync_product?.id)
+            // @ts-ignore
+            setQuantity(0)
+          }else{
+            router.push('/login')
+          }
         }else if(inCart && quantity as number >= 1){
-          shopActions.summary()
-          shopActions.decrement(sync_product?.id,1)
-          // @ts-ignore
-          setQuantity(quantity as number - 1)
+          if(user){
+            shopActions.summary()
+            shopActions.decrement(sync_product?.id,1)
+            // @ts-ignore
+            setQuantity(quantity as number - 1)
+          }else{
+            router.push('/login')
+          }
         }
       }} ref={minusRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         <Image src="/assets/minus-icon.png" alt="icon-minus" width={25} height={25} />
@@ -450,6 +486,8 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         {sync_product?.thumbnail_url && <Image className='rounded-full relative top-0 left-0 z-20' src={sync_product?.thumbnail_url} alt='product-image' width={500} height={500} />}
       </div>
     </div>
+    : <h1 className='bg-green-300 w-[25%] rounded-md mx-auto font-bold text-white text-5xl px-3 py-2 my-2'>...Loading</h1>
+    }</React.Fragment>
   )
 }
 

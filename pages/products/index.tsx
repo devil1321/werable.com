@@ -9,6 +9,7 @@ import Product from '@/app/components/global/product.component';
 import Layout from '../layout';
 import { useSelector } from "react-redux";
 import { State } from "@/app/controller/reducers/root.reducer";
+import React from "react";
 
 export default function Page() {
 
@@ -42,11 +43,14 @@ export default function Page() {
           paragraph="Discover a range of innovative products designed to enhance your lifestyle and redefine the way you interact with technology"
           />
         <Search  title="Products"/>
-        <div className="products-items xl:px-10 flex justify-center items-start flex-wrap">
-          {products?.map((p:any) => <Product key={`product-key-${p.sync_product.id}`} product={p} />)}
-        </div>
-        <Title isLeft={false} title="Hot" />
-        <ProductCarousel />
+        {products?.length > 0 &&
+          <React.Fragment>
+            <div className="products-items xl:px-10 flex justify-center items-start flex-wrap">
+            {products?.map((p:any) => <Product key={`product-key-${p?.sync_product?.id}`} product={p} />)}
+            </div>
+          <Title isLeft={false} title="Hot" />
+          <ProductCarousel />
+        </React.Fragment>}
       </div>
     </Layout>
     )     

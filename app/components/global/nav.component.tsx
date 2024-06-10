@@ -117,7 +117,7 @@ const Nav = () => {
           <span className="block w-8 my-1 rounded-full border-b-[4px] border-white"></span>
           <span className="block w-8 my-1 rounded-full border-b-[4px] border-white"></span>
         </div>
-        <Image ref={imageRef} className='opacity-70' src="/assets/nav-bg.png" alt='nav-background' width={1920} height={400} />
+        <Image ref={imageRef} className='nav-image opacity-70' src="/assets/nav-bg.png" alt='nav-background' width={1920} height={400} />
         <div ref={menuWrapperRef} className="nav-menus-wrapper z-50 overflow-hidden md:overflow-visible absolute w-[100%] md:w-fit md:max-w-[100vw] bg-neutral-900/70 md:bg-transparent h-[460px] md:h-max rounded-md top-[150px] md:top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col md:flex-row justify-between items-center">
           <div className="nav-menu pt-10 md:p-0 relative z-30 -left-[0%] md:-left-[3%] lg:-left-[15%] xl:-left-[20%] -top-4 w-1/3 block md:flex gap-5">
             <div className="nav-language relative top-0 left-0">
@@ -147,13 +147,7 @@ const Nav = () => {
           </div>
           <div className="nav-menu pb-5 md:p-0 relative z-30 -left-[0%] md:-left-[8%] lg:left-[5%] xl:left-[10%] -top-4 w-1/3 block md:flex gap-5">
             <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/new-sale">New Sale</Link>
-            <div className="cursor-pointer relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" onClick={()=>{
-              if(user){
-                router.push('/cart')
-              }else{
-                router.push('/login')
-              }
-            }}>Cart</div>
+            <Link href="/cart" className="cursor-pointer relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2">Cart</Link>
             <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/favoruites">Favoruites</Link>
             <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/contact">Contact</Link>
             {user 
