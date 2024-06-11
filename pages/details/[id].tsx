@@ -200,6 +200,12 @@ const Details:React.FC<{ syncProduct:any; variant:any,user:any }> = ({variant,sy
     try{
       const syncProduct = await APIController.printfulGetSyncProduct('en_US',Number(context.params.id))
       const variant = await APIController.printfulGetVariant('en_US',syncProduct?.result?.sync_variants[0].variant_id)
+      return {
+        props:{
+          syncProduct:syncProduct ? syncProduct : null,
+          variant:variant ? variant : null
+        }
+      }
     }catch(err){
       console.log(err)
       return {
