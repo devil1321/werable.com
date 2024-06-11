@@ -39,6 +39,8 @@ const Page:React.FC<{jwt:string}> = ({jwt}) => {
     </Layout>
     )     
   }
+
+  export default Page
   
 
 
