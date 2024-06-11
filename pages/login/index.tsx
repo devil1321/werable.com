@@ -114,7 +114,11 @@ const Page:React.FC<{jwt:string}> = ({jwt}) => {
                 <input className="block w-[100%] rounded-md bg-white border-[1px] border-gray-300 p-2"type="password" name="password" onChange={(e)=>handleChangeLogin(e)} value={loginFormData.password}/>
               </div>
               <Link href="#" className='block text-center p-2 rounded-md hover:opacity-70 text-white font-bold cursor-pointer bg-green-300 my-2 w-[100%]' onClick={()=>setIsRegister(true)}>Register</Link>
-              <button className='block w-[100%] rounded-md hover:opacity-70 text-white font-bold cursor-pointer bg-blue-400 p-2' type="submit">Login</button>
+              <button className='block w-[100%] rounded-md hover:opacity-70 text-white font-bold cursor-pointer bg-blue-400 p-2' type="submit" onClick={()=>{
+                setTimeout(()=>{
+                  router.push('/')
+                },1000)
+              }}>Login</button>
             </form>
           </div>
         : <div className='credentials-register w-[100vw] flex flex-col justify-center items-center'>
@@ -197,7 +201,11 @@ const Page:React.FC<{jwt:string}> = ({jwt}) => {
               </select>
             </div>
             <Link href="#" className='block text-center p-2 rounded-md hover:opacity-70 text-white font-bold cursor-pointer bg-green-300 my-2 w-[100%]' onClick={()=>setIsRegister(false)}>Login</Link>
-              <button className='block w-[100%] rounded-md hover:opacity-70 text-white font-bold cursor-pointer bg-blue-400 p-2' type="submit">Register</button>
+              <button className='block w-[100%] rounded-md hover:opacity-70 text-white font-bold cursor-pointer bg-blue-400 p-2' type="submit" onClick={()=>{
+                setTimeout(()=>{
+                  router.push('/')
+                },1000)
+              }}>Register</button>
           </form>
         </div>}
     </div>

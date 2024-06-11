@@ -36,3 +36,4 @@ model Card {
   user_id         Int
   WearableUser    WearableUser @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
+
