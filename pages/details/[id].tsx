@@ -221,9 +221,6 @@ const Details:React.FC<{ syncProduct:any; variant:any,user:any,jwt:string }> = (
   }
 }
   
-export const getServerSideProps = async(context:any) =>{
-  
-}
   export async function getStaticPaths(){
     try{
         const products = await APIController.printfulGetAllSyncProducts('en_US',0,100)
