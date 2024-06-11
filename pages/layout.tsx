@@ -7,7 +7,7 @@ import * as ShopActions from '@/app/controller/action-creators/shop.action-creat
 import { bindActionCreators } from 'redux'
 import { State } from '@/app/controller/reducers/root.reducer'
 
-const Layout:React.FC<{children:React.ReactNode,jwt:string}> = ({children,jwt}) => {
+const Layout:React.FC<{children:React.ReactNode,jwt:string | null}> = ({children,jwt}) => {
 
   const dispatch = useDispatch()
   const { user } = useSelector((state:State) => state.api)

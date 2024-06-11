@@ -9,7 +9,7 @@ import { State } from '@/app/controller/reducers/root.reducer'
 import { bindActionCreators } from 'redux'
 import { useRouter } from 'next/navigation'
 
-const Nav:React.FC<{jwt:string}> = ({jwt}) => {
+const Nav:React.FC<{jwt:string | null}> = ({jwt}) => {
 
   const router = useRouter()
 
