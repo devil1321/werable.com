@@ -195,10 +195,22 @@ const Details:React.FC<{ syncProduct:any; variant:any,user:any,jwt:string }> = (
     try{
       const syncProduct = await APIController.printfulGetSyncProduct('en_US',Number(params.id))
       const variant = await APIController.printfulGetVariant('en_US',syncProduct?.result?.sync_variants[0].variant_id)
+      let wearableJwtCookie
+  if (context.req.headers.cookie) {
+    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+      const [name, value] = current.trim().split('=');
+      prev[name] = value;
+      return prev;
+    }, {});
+    wearableJwtCookie = cookies['wearable-jwt'];
+    
+  }
+  
         return {
           props:{
           syncProduct,
-          variant
+          variant,
+          jwt:wearableJwtCookie ? wearableJwtCookie : null
         }
       }
     }catch(err){
@@ -210,21 +222,7 @@ const Details:React.FC<{ syncProduct:any; variant:any,user:any,jwt:string }> = (
 }
   
 export const getServerSideProps = async(context:any) =>{
-  let wearableJwtCookie
-  if (context.req.headers.cookie) {
-    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
-      const [name, value] = current.trim().split('=');
-      prev[name] = value;
-      return prev;
-    }, {});
-    wearableJwtCookie = cookies['wearable-jwt'];
-    
-  }
-  return {
-    props:{
-      jwt:wearableJwtCookie ? wearableJwtCookie : null
-    }
-  }
+  
 }
   export async function getStaticPaths(){
     try{
