@@ -8,10 +8,10 @@ import { bindActionCreators } from 'redux'
 import { usePathname, useRouter } from 'next/navigation'
 import { State } from '@/app/controller/reducers/root.reducer'
 import Link from 'next/link'
+import Cookie from 'js-cookie'
+const Page:React.FC<{jwt:string}> = ({jwt}) => {
 
-const Credentials = () => {
-
-  const { data,countries,locale:language,user } = useSelector((state:State) => state.api)
+  const { data,countries,locale:language } = useSelector((state:State) => state.api)
   const { cart } = useSelector((state:State) => state.shop)
   const dispatch = useDispatch()
   const APIActions = bindActionCreators(ApiActions,dispatch)
@@ -68,11 +68,12 @@ const Credentials = () => {
   
   const handleInit = () =>{
     if(typeof window !== 'undefined'){
-      const token = localStorage.getItem('jwt')
-      if(pathname === '/login' && token && cart.length > 0){
+      if(pathname === '/login' && jwt && cart.length > 0){
         router.push('/cart')
-      }else if(pathname === '/login' && token && cart.length === 0){
-        router.push('/home')
+      }else if(pathname === '/login' && jwt && cart.length === 0){
+        router.push('/')
+      }else if(!jwt){
+        router.push('/login')
       }
     }
   }
@@ -80,7 +81,7 @@ const Credentials = () => {
   useEffect(()=>{
     handleInit()
     shopActions.setCart()
-  },[user])
+  },[jwt])
 
   useEffect(()=>{
     APIActions.printfulGetCountries()
@@ -203,4 +204,22 @@ const Credentials = () => {
   )
 }
 
-export default Credentials
+export default Page
+
+export const getServerSideProps = async(context:any) =>{
+  let wearableJwtCookie
+  if (context.req.headers.cookie) {
+    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+      const [name, value] = current.trim().split('=');
+      prev[name] = value;
+      return prev;
+    }, {});
+    wearableJwtCookie = cookies['wearable-jwt'];
+    
+  }
+  return {
+    props:{
+      jwt:wearableJwtCookie ? wearableJwtCookie : null
+    }
+  }
+}

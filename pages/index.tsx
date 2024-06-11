@@ -8,12 +8,12 @@ import React from "react"
 import { useSelector } from "react-redux"
 import { State } from "@/app/controller/reducers/root.reducer"
 
-export default function Page() {
+const Page:React.FC<{jwt:string}> = ({jwt}) => {
 
     const { products } = useSelector((state:State) => state.api)
 
     return (
-    <Layout>
+    <Layout jwt={jwt}>
       <div className="home">
         <Carousel />
         <Categories />
@@ -39,4 +39,25 @@ export default function Page() {
     </Layout>
     )     
   }
+  
+  export default Page
+
+  export const getServerSideProps = async(context:any) =>{
+    let wearableJwtCookie
+    if (context.req.headers.cookie) {
+      const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+        const [name, value] = current.trim().split('=');
+        prev[name] = value;
+        return prev;
+      }, {});
+      wearableJwtCookie = cookies['wearable-jwt'];
+      
+    }
+    return {
+      props:{
+        jwt:wearableJwtCookie ? wearableJwtCookie : null
+      }
+    }
+  }
+
   

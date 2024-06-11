@@ -9,7 +9,7 @@ import { State } from '@/app/controller/reducers/root.reducer'
 import { bindActionCreators } from 'redux'
 import { useRouter } from 'next/navigation'
 
-const Nav = () => {
+const Nav:React.FC<{jwt:string}> = ({jwt}) => {
 
   const router = useRouter()
 
@@ -109,7 +109,7 @@ const Nav = () => {
 
 
   return (
-    <div className='nav absolute top-0 left-0 min-w-[100vw] min-h-[50px]'>
+    <div className='nav absolute top-0 left-0 min-w-[100vw] min-h-[50px] z-50'>
       <div ref={overlayRef} className="nav-overlay z-10 opacity-0 absolute top-0 left-0 w-[100%] h-[100vh]"></div>
         <div className="nav-navigation relative top-0 left-0 z-50">
         <div onClick={()=>handleMenu()} className='nav-hamburger absolute z-10 right-5 top-[10px] md:hidden'>
@@ -134,7 +134,7 @@ const Nav = () => {
             <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/">Home</Link>
             <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/products">Products</Link>
             <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/about">About Us</Link>
-            {user && <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/profile">Profile</Link>}
+            {jwt && <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/profile">Profile</Link>}
            
           </div>
           <div className="nav-logo-wrapper relative -left-[0%] -top-[10%] w-1/3 md:flex gap-3 items-center">
@@ -150,9 +150,9 @@ const Nav = () => {
             <Link href="/cart" className="cursor-pointer relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2">Cart</Link>
             <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/favoruites">Favoruites</Link>
             <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/contact">Contact</Link>
-            {user 
-              ? <Link onClick={()=>APIActions.logout()} className="relative text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="#">Logout</Link>
-              : <Link onClick={()=>APIActions.logout()} className="relative text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/login">Login</Link>}
+            {jwt 
+              ? <a onClick={()=>APIActions.logout()} className="relative text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2 cursor-pointer">Logout</a>
+              : <Link  className="relative text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/login">Login</Link>}
             {menuWrapperRef?.current?.classList?.contains('--open') && <button onClick={()=>handleMenu()} className='block my-4 -translate-x-[5%] text-md text-white rounded-md font-bold px-12 py-2'>Close</button>}
           </div>
         </div>

@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { State } from "@/app/controller/reducers/root.reducer";
 import React from "react";
 
-export default function Page() {
+const Page:React.FC<{jwt:string}> = ({jwt}) => {
 
     const { products } = useSelector((state:State) => state.api)
 
@@ -35,7 +35,7 @@ export default function Page() {
     },[])
 
     return (
-    <Layout>
+    <Layout jwt={jwt}>
       <div className="products">
         <Hero 
           img="/assets/about.jpg"
@@ -54,5 +54,25 @@ export default function Page() {
       </div>
     </Layout>
     )     
+
   }
   
+  export default Page
+
+  export const getServerSideProps = async(context:any) =>{
+    let wearableJwtCookie
+    if (context.req.headers.cookie) {
+      const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+        const [name, value] = current.trim().split('=');
+        prev[name] = value;
+        return prev;
+      }, {});
+      wearableJwtCookie = cookies['wearable-jwt'];
+      
+    }
+    return {
+      props:{
+        jwt:wearableJwtCookie ? wearableJwtCookie : null
+      }
+    }
+  }

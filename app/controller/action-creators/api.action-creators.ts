@@ -6,7 +6,7 @@ import { getToken } from '@/app/controller/lib/get-token'
 import store from "../store"
 import  printful  from "../lib/APIPrintful"
 import { PrintfulTypes } from "../types"
-import { removeDuplicatesByNestedKey } from "../lib/deleteDuplicateWithNestedKey"
+import Cookie from 'js-cookie'
 
 export const getUser = () => async (dispatch:Dispatch)=>{
     const token = getToken() as string
@@ -100,11 +100,6 @@ export const register = (formData:any) => async(dispatch:Dispatch) =>{
             }
         })
         const data = await res.data
-        if(typeof window !== 'undefined'){
-            if(data?.token){
-                localStorage.setItem('jwt',data?.token)
-            }
-        }
         dispatch({
             type:APITypes.API_REGISTER,
             user:data.user,
@@ -128,10 +123,16 @@ export const login = (formData:any) => async(dispatch:Dispatch) =>{
             }
         })
         const data = await res.data
-        if(typeof window !== 'undefined'){
-            if(data){
-                localStorage.setItem('jwt',data.token)
-            }
+        const cookies = document.cookie;
+
+        // Parse the cookie string to extract the value of the "wearable-jwt" cookie
+        const cookieArray = cookies.split(';').map(cookie => cookie.trim());
+        const wearableJwtCookie = cookieArray.find(cookie => cookie.startsWith('wearable-jwt='));
+      
+        // Extract the value of the "wearable-jwt" cookie
+        let wearableJwt = null;
+        if (wearableJwtCookie) {
+          wearableJwt = wearableJwtCookie.split('=')[1];
         }
         dispatch({
             type:APITypes.API_LOGIN,
@@ -139,6 +140,9 @@ export const login = (formData:any) => async(dispatch:Dispatch) =>{
             user:data.user,
             token:data.token,
         })
+        if(wearableJwt){
+            window.location.href = '/'
+        }
     }catch(err){
         dispatch({
             type:APITypes.API_LOGIN,
@@ -149,7 +153,12 @@ export const login = (formData:any) => async(dispatch:Dispatch) =>{
 }
 export const logout = () => async(dispatch:Dispatch) =>{
     if(typeof window !== 'undefined'){
-        localStorage.removeItem('jwt')
+        const deleteCookie = 'wearable-jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+        document.cookie = deleteCookie;
+
+        const res = await axios.get('/api/logout')
+        const data = await res.data
+
         setTimeout(() => {
             if(typeof window !== 'undefined'){
                 window.location.href = "/"
@@ -158,6 +167,7 @@ export const logout = () => async(dispatch:Dispatch) =>{
         dispatch({
             type:APITypes.API_LOGOUT,
             token:null,
+            data:data
         })
     }
 }
@@ -483,14 +493,25 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
             }
         }))
         if(typeof window !== 'undefined'){
-            const storage = localStorage.getItem('wearable-products')
-            if(JSON.stringify(storage) === JSON.stringify(products) && JSON.stringify(storage).length > 0){
+            let storage
+            const cookies = document.cookie.split(';');
+            const desiredCookie = cookies.find(cookie => cookie.trim().startsWith('wearable-products='));
+            if (desiredCookie) {
+              const cookieValue = desiredCookie.split('=')[1];
+              const decodedCookieValue = decodeURIComponent(cookieValue);
+              storage = JSON.parse(decodedCookieValue);
+            }
+            if(JSON.stringify(storage) === JSON.stringify(products)){
                 dispatch({
                     type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
                     products:storage
                 })
             }else{
-                localStorage.setItem('wearable-products',JSON.stringify(products))
+                const serializedProducts = JSON.stringify(products);
+                const expires = new Date();
+                expires.setDate(expires.getDate() + 7);
+                const cookieValue = `wearable-products=${encodeURIComponent(serializedProducts)}; expires=${expires.toUTCString()}; path=/;`;
+                document.cookie = cookieValue;
                 dispatch({
                     type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
                     products:products.filter((p:any) => p !== undefined && p !== null)

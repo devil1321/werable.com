@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import fs from 'fs'
 import * as Interfaces from '@/app/controller/interfaces'
 import path from 'path'
+
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(req.method === 'POST'){
        let user = null

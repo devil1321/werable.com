@@ -3,6 +3,7 @@ import { NextApiRequest,NextApiResponse } from 'next'
 import client from '@/prisma/prisma'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import Cookie from 'js-cookie';
 
 
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
@@ -19,6 +20,8 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                 if(result){
                     const token = jwt.sign(User,process.env.JWT_SECRET as string)
                     const disconnected = await client.$disconnect()
+                    const cookieValue = `wearable-jwt=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${60 * 60 * 24 * 7}; Secure`;
+                    res.setHeader('Set-Cookie', cookieValue);
                     res.json({user:User,token:token})
                 }else{
                     res.json({msg:'Password not match'})

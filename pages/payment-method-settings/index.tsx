@@ -4,10 +4,24 @@ import Hero from '@/app/components/global/hero.component'
 import Title from '@/app/components/global/title.component'
 import Form from '@/app/components/payment-methods-settings/form.component'
 import Nav from '@/app/components/profile/nav.component'
+import { useRouter } from 'next/navigation'
 
-const Page = () => {
+const Page:React.FC<{jwt:string}> = ({jwt}) => {
+
+  const router = useRouter()
+
+  const handleInit = () =>{
+    if(!jwt){
+      router.push('/login')
+    }
+  }
+
+  useEffect(()=>{
+    handleInit()
+  },[jwt])
+
   return (
-    <Layout>
+    <Layout jwt={jwt}>
       <div className="profile">
         <Hero 
           img='/assets/about.jpg'
@@ -26,3 +40,21 @@ const Page = () => {
 }
 
 export default Page
+
+export const getServerSideProps = async(context:any) =>{
+  let wearableJwtCookie
+  if (context.req.headers.cookie) {
+    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+      const [name, value] = current.trim().split('=');
+      prev[name] = value;
+      return prev;
+    }, {});
+    wearableJwtCookie = cookies['wearable-jwt'];
+    
+  }
+  return {
+    props:{
+      jwt:wearableJwtCookie ? wearableJwtCookie : null
+    }
+  }
+}

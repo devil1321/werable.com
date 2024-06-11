@@ -4,9 +4,9 @@ import Form from '@/app/components/contact/form.component'
 import Foot from '@/app/components/global/foot.component'
 import Layout from '../layout'
 
-const Page = () => {
+const Page:React.FC<{user:any}> = ({user}) => {
   return (
-  <Layout>
+  <Layout user={user}>
     <div className="contact md:pt-[150px]">
       <AboutFeature 
         className='mt-0 mb-12'

@@ -5,22 +5,34 @@ import { useSelector } from 'react-redux'
 import { State } from '@/app/controller/reducers/root.reducer'
 import Layout from '../layout'
 import Hero from '@/app/components/global/hero.component'
+import { useRouter } from 'next/navigation'
 
-const Page = () => {
+const Page:React.FC<{jwt:string}> = ({jwt}) => {
 
+  const router = useRouter()
   const { orders,user } = useSelector((state:State) => state.api)
   const [userOrders,setUserOrders] = useState<any>([])
 
   const handleUserOrders = () =>{
     setUserOrders(orders?.result?.filter((o:any)=> o.recipient.email === user?.email))
   }
+  const handleInit = () =>{
+    if(!jwt){
+      router.push('/login')
+    }
+  }
+
+
+  useEffect(()=>{
+    handleInit()
+  },[jwt])
 
   useEffect(()=>{
     handleUserOrders()
   },[orders])
 
   return (
-    <Layout>
+    <Layout jwt={jwt}>
       <div className="orders">
         <Hero 
           img='/assets/people.jpg'
@@ -35,3 +47,20 @@ const Page = () => {
 }
 
 export default Page
+export const getServerSideProps = async(context:any) =>{
+  let wearableJwtCookie
+  if (context.req.headers.cookie) {
+    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+      const [name, value] = current.trim().split('=');
+      prev[name] = value;
+      return prev;
+    }, {});
+    wearableJwtCookie = cookies['wearable-jwt'];
+    
+  }
+  return {
+    props:{
+      jwt:wearableJwtCookie ? wearableJwtCookie : null
+    }
+  }
+}

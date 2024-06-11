@@ -73,10 +73,10 @@ const Search:React.FC<{title:string}> = ({title}) => {
   },[query.size])
 
   return (
-    <div className='search mt-[100px] 2xl:-mt-[100%] mb-[700px] md:mb-[500px] relative flex justify-center items-start top-0 left-0 z-50'>
+    <div className='search mt-[100px] 2xl:-mt-[100%] mb-[700px] md:mb-[500px] relative flex justify-center items-start top-0 left-0 z-40'>
       <div className="search-form absolute left-0 md:-left-[5%] xl:rotate-[2deg] lg:left-0 xl:left-[3%] top-[100px] md:top-[0px] xl:-top-[50px]">
         <Image src="/assets/yellow-triangle.png" alt='triangle-yellow' width={550} height={550}/> 
-        <div className="search-form-form max-w-[350px] absolute z-10 px-5 md:px-0 left-0 md:-left-[5%] xl:-rotate-[2deg] md:left-[10%] lg:left-[5%] xl:left-[3%] top-[110px] md:top-[260px] xl:top-[240px]">
+        <div className="search-form-form max-w-[350px] absolute z-10 px-5 md:px-0 left-0 xl:-rotate-[2deg] md:left-[10%] lg:left-[5%] xl:left-[3%] top-[110px] md:top-[260px] xl:top-[240px]">
           <label htmlFor="" className="mx-2 italic">Name</label>
           <label htmlFor="" className="mx-2 italic">Price Min</label>
           <label htmlFor="" className="mx-2 italic">Price Max</label>

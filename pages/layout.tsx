@@ -3,48 +3,15 @@ import Footer from '@/app/components/global/footer.component'
 import Nav from '@/app/components/global/nav.component'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import * as ApiActions from '@/app/controller/action-creators/api.action-creators'
 import * as ShopActions from '@/app/controller/action-creators/shop.action-creators'
 import { bindActionCreators } from 'redux'
-import { usePathname, useRouter } from 'next/navigation'
 import { State } from '@/app/controller/reducers/root.reducer'
 
-const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
-
-  const { user,locale } = useSelector((state:State) => state.api)
+const Layout:React.FC<{children:React.ReactNode,jwt:string}> = ({children,jwt}) => {
 
   const dispatch = useDispatch()
-  const APIActions  = bindActionCreators(ApiActions,dispatch)
+  const { user } = useSelector((state:State) => state.api)
   const shopActions  = bindActionCreators(ShopActions,dispatch)
-
-  useEffect(()=>{
-    if(typeof window !== 'undefined'){
-      const products = localStorage.getItem('wearable-products')
-      if(products){
-        const items = JSON.parse(products)
-        if(items[0]?.sync_product){
-          APIActions.printfulSetAllSyncProducts(JSON.parse(items))
-        }
-      }
-    }
-  },[])
-
-  useEffect(()=>{
-    if(typeof window !== 'undefined'){
-      const token = localStorage.getItem('jwt')
-      const language = localStorage.getItem('wearable-locale')
-
-      if(language){
-        APIActions.printfulSetLocale(language)
-      }
-
-      if(token){
-        APIActions.getUser()
-        APIActions.printfulGetAllSyncProducts(0,100)
-        APIActions.printfulGetCategories()
-      }
-    }
-  },[locale])
 
   useEffect(()=>{
     shopActions.setCart()
@@ -52,7 +19,7 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
   
   return (
     <div className='container w-[100vw] mx-auto'>
-      <Nav />
+      <Nav jwt={jwt} />
       {children}
       <Foot />
       <Footer />
@@ -61,3 +28,4 @@ const Layout:React.FC<{children:React.ReactNode}> = ({children}) => {
 }
 
 export default Layout
+

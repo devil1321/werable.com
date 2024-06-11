@@ -11,11 +11,10 @@ import { State } from '@/app/controller/reducers/root.reducer';
 import Layout from '../layout';
 import { useRouter } from 'next/router';
 
-export default function Page() {
+const Page:React.FC<{jwt:string}> = ({jwt}) => {
 
     const router = useRouter()
     const { cart } = useSelector((state:State) => state.shop)
-    const { user } = useSelector((state:State) => state.api)
 
     const handleDetails = () =>{
       const heading = document.querySelector('h1') as HTMLHeadingElement
@@ -41,15 +40,14 @@ export default function Page() {
 
     useEffect(()=>{
         if(typeof window !== 'undefined'){
-          const token = localStorage.getItem('jwt')
-          if(!token){
+          if(!jwt){
             router.push('/login')
           }
         }
-    },[user])
+    },[jwt])
 
     return (
-    <Layout>
+    <Layout jwt={jwt}>
       <div className="cart">
         <Hero 
           img="/assets/clothes.jpg"
@@ -68,3 +66,21 @@ export default function Page() {
     )     
   }
   
+  export default Page
+  export const getServerSideProps = async(context:any) =>{
+    let wearableJwtCookie
+    if (context.req.headers.cookie) {
+      const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+        const [name, value] = current.trim().split('=');
+        prev[name] = value;
+        return prev;
+      }, {});
+      wearableJwtCookie = cookies['wearable-jwt'];
+      
+    }
+    return {
+      props:{
+        jwt:wearableJwtCookie ? wearableJwtCookie : null
+      }
+    }
+  }

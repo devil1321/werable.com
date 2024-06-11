@@ -4,11 +4,23 @@ import Link from 'next/link'
 import * as ShopActions from '@/app/controller/action-creators/shop.action-creators'
 import { useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { useRouter } from 'next/navigation'
 
-const Page = () => {
+const Page:React.FC<{jwt:string}> = ({jwt}) => {
 
+  const router = useRouter()
   const dispatch = useDispatch()
   const shopActions = bindActionCreators(ShopActions,dispatch)
+
+  const handleInit  = () =>{
+    if(!jwt){
+      router.push('/login')
+    }
+  }
+  
+  useEffect(()=>{
+    handleInit()
+  },[jwt])
 
   useEffect(()=>{
     shopActions.setCart([])
@@ -24,3 +36,21 @@ const Page = () => {
 }
 
 export default Page
+
+export const getServerSideProps = async(context:any) =>{
+  let wearableJwtCookie
+  if (context.req.headers.cookie) {
+    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+      const [name, value] = current.trim().split('=');
+      prev[name] = value;
+      return prev;
+    }, {});
+    wearableJwtCookie = cookies['wearable-jwt'];
+    
+  }
+  return {
+    props:{
+      jwt:wearableJwtCookie ? wearableJwtCookie : null
+    }
+  }
+}

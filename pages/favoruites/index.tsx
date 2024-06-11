@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { State } from '@/app/controller/reducers/root.reducer';
 import Layout from '../layout';
 
-export default function Page() {
+const Page:React.FC<{user:any}> = ({user}) => {
 
     const { favoruites } = useSelector((state:State) => state.shop)
 
@@ -28,7 +28,7 @@ export default function Page() {
     },[])
 
     return (
-    <Layout>
+    <Layout user={user}>
       <div className="favoruites">
         <Hero 
           img="/assets/banner-people.jpg"
@@ -45,3 +45,4 @@ export default function Page() {
     )     
   }
   
+  export default Page

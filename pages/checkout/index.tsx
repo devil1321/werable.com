@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { v4 as uuidv4 } from 'uuid';
 import usePaymentMethod from '@/app/hooks/usePaymentMethod'
 
-const Page = () => {
+const Page:React.FC<{jwt:string}> = ({jwt}) => {
 
   const router = useRouter()
 
@@ -27,6 +27,12 @@ const Page = () => {
   const dispatch = useDispatch()
   const APIActions = bindActionCreators(ApiActions,dispatch)
   const shopActions = bindActionCreators(ShopActions,dispatch)
+
+  const handleInit = () =>{
+    if(!jwt){
+      router.push('/login')
+    }
+  }
 
   const handleShipping = () => {
     const items = cart.map((i:any) => { 
@@ -154,6 +160,10 @@ const Page = () => {
   }
 
   useEffect(()=>{
+    handleInit()
+  },[])
+
+  useEffect(()=>{
     if(paymentMenuRef.current){
       handleInitMenus()
     }
@@ -226,9 +236,26 @@ const Page = () => {
         <button onClick={()=>handleCreateAnOrder()} className="block w-[100%] py-2 rounded-md font-bold text-white text-lg hover:opacity-50">Create An Order</button>
         <Link className="block w-[100%] my-2" href="/cart"><button className="block w-[100%] py-2 rounded-md font-bold text-white text-lg hover:opacity-50">Return To Cart</button></Link> 
       </div>
-      : <h1 className='py-[100px] text-[100px] font-bold italic bg-green-300 px-6 py-2 text-white text-center'>Your Cart Is Empty</h1>}
+      : <h1 className='text-[100px] font-bold italic bg-green-300 px-6 py-2 text-white text-center'>Your Cart Is Empty</h1>}
       </React.Fragment>
   )
 }
 
 export default Page
+export const getServerSideProps = async(context:any) =>{
+  let wearableJwtCookie
+  if (context.req.headers.cookie) {
+    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+      const [name, value] = current.trim().split('=');
+      prev[name] = value;
+      return prev;
+    }, {});
+    wearableJwtCookie = cookies['wearable-jwt'];
+    
+  }
+  return {
+    props:{
+      jwt:wearableJwtCookie ? wearableJwtCookie : null
+    }
+  }
+}

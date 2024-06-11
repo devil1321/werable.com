@@ -17,11 +17,10 @@ import useVariantIndex from '@/app/hooks/useVariantIndex'
 import { useRouter } from 'next/navigation'
 import { State } from '@/app/controller/reducers/root.reducer'
 
-const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct}) => {
+const Details:React.FC<{ syncProduct:any; variant:any,user:any,jwt:string }> = ({variant,syncProduct,user,jwt}) => {
 
     const router = useRouter()
 
-    const { user } = useSelector((state:State) => state.api)
     const dispatch = useDispatch()
     const shopActions = bindActionCreators(ShopActions,dispatch)
 
@@ -83,7 +82,7 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
     },[size,color])
 
     return ( 
-    <Layout>
+    <Layout jwt={jwt}>
       <div className='details pt-[200px]'>
         <div className="details-main flex justify-between items-start">
           <Image className ="md:w-1/2" src={syncProduct?.result?.sync_variants[variantIndex as number]?.files[1]?.preview_url} width={1920} height={768} alt='product-image' />
@@ -189,6 +188,8 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
     </Layout>
     )     
   }
+  export default Details
+
 
   export async function getStaticProps({params}:any){
     try{
@@ -208,8 +209,23 @@ const Details:React.FC<{ syncProduct:any; variant:any }> = ({variant,syncProduct
   }
 }
   
-  export default Details
-
+export const getServerSideProps = async(context:any) =>{
+  let wearableJwtCookie
+  if (context.req.headers.cookie) {
+    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+      const [name, value] = current.trim().split('=');
+      prev[name] = value;
+      return prev;
+    }, {});
+    wearableJwtCookie = cookies['wearable-jwt'];
+    
+  }
+  return {
+    props:{
+      jwt:wearableJwtCookie ? wearableJwtCookie : null
+    }
+  }
+}
   export async function getStaticPaths(){
     try{
         const products = await APIController.printfulGetAllSyncProducts('en_US',0,100)

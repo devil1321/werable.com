@@ -1,3 +1,4 @@
+import App from 'next/app';
 import React, { useEffect } from 'react';
 import store  from '@/app/controller/store'
 import { Provider, useSelector } from 'react-redux';
@@ -11,15 +12,14 @@ import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { State } from '@/app/controller/reducers/root.reducer';
 import { AppProps } from 'next/app';
-
 const MyApp = ({ Component, pageProps }: AppProps) => {
 
   return (
     <Provider store={store}>
       <WithRedux>
-        <Component {...pageProps} />
-        <Analytics />
+        <Component {...pageProps}/>
         <SpeedInsights />
+        <Analytics />
       </WithRedux>
     </Provider>
   );
@@ -27,21 +27,32 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
 export default MyApp
 
+  
+
 const WithRedux:React.FC<{ children:React.ReactNode }> = ({children}) =>{
 
+  const { locale } = useSelector((state:State) => state.api)
   const dispatch = useDispatch()
   const APIActions = bindActionCreators(ApiActions,dispatch)
   const shopActions = bindActionCreators(ShopActions,dispatch)
-  const { cart } = useSelector((state:State) => state.shop) 
   
 
 
   useEffect(()=>{
-    APIActions.printfulGetCategories()
-    APIActions.printfulGetAllSyncProducts(0,100)
+    if(typeof window !== 'undefined'){
+      const language = localStorage.getItem('wearable-locale')
+      if(language){
+        APIActions.printfulSetLocale(language)
+      }
+    }
+  },[locale])
+
+  useEffect(()=>{
     shopActions.setFavoruites()
-    shopActions.setCart()
+    APIActions.printfulGetAllSyncProducts(0,100)
+    APIActions.printfulGetCategories()
   },[])
 
   return <>{children}</>
 }
+

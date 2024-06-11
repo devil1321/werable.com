@@ -3,7 +3,7 @@ import client from '@/prisma/prisma'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import * as Interfaces from '@/app/controller/interfaces'
-
+import Cookie from 'js-cookie'
 
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
     
@@ -39,7 +39,8 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                                     const token = jwt.sign({
                                         exp: Math.floor(Date.now() / 1000) + (60 * 60),
                                         data: User
-                                    }, process.env.JWT_SECRET as string);   
+                                    }, process.env.JWT_SECRET as string); 
+                                    Cookie.set('wearable-jwt',token,{ expires:7 })  
                                     const disconnected = await client.$disconnect()
                                     res.json({user:User,token:token})
                                 }catch(err){

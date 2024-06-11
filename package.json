@@ -20,6 +20,7 @@
     "encoding": "^0.1.13",
     "formidable": "^3.5.1",
     "gsap": "^3.12.5",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "next": "^14.2.3",
     "next-cli": "^1.0.0",
