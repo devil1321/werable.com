@@ -191,9 +191,9 @@ const Details:React.FC<{ syncProduct:any; variant:any,user:any,jwt:string }> = (
   export default Details
 
 
-  export async function getStaticProps({params}:any){
+  export async function getStaticProps(context:any){
     try{
-      const syncProduct = await APIController.printfulGetSyncProduct('en_US',Number(params.id))
+      const syncProduct = await APIController.printfulGetSyncProduct('en_US',Number(context.params.id))
       const variant = await APIController.printfulGetVariant('en_US',syncProduct?.result?.sync_variants[0].variant_id)
       let wearableJwtCookie
   if (context.req.headers.cookie) {

@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { State } from '@/app/controller/reducers/root.reducer'
 import { usePathname,useRouter } from 'next/navigation'
 
-const AdminLayout:React.FC<{ children:React.ReactNode,jwt:string }> = ({children,jwt}) => {
+const AdminLayout:React.FC<any> = (props) => {
 
   const { user } = useSelector((state:State) => state.api)
 
@@ -16,7 +16,7 @@ const AdminLayout:React.FC<{ children:React.ReactNode,jwt:string }> = ({children
 
   const handleInit = () =>{
     if(typeof window !== 'undefined'){
-      if(pathname === '/admin' && jwt){
+      if(pathname === '/admin' && props.jwt){
         if(user?.is_admin){
           router.push('/admin/users')
         }else{
@@ -28,7 +28,7 @@ const AdminLayout:React.FC<{ children:React.ReactNode,jwt:string }> = ({children
 
   useEffect(()=>{
     handleInit()
-  },[user,jwt])
+  },[user,props.jwt])
 
 
   return (
@@ -36,7 +36,7 @@ const AdminLayout:React.FC<{ children:React.ReactNode,jwt:string }> = ({children
       <Sidebar />
       <Nav />
       <div className="inner-container translate-y-[150px] rounded-md p-5 bg-white mx-auto w-[95vw] md:w-[90vw] h-[100%]">
-        {children}
+        {props.children}
       </div>
       <Foot />
       <Footer />
@@ -47,16 +47,17 @@ const AdminLayout:React.FC<{ children:React.ReactNode,jwt:string }> = ({children
 export default AdminLayout
 
 export const getServerSideProps = async(context:any) =>{
+  let wearableJwtCookie
   if (context.req.headers.cookie) {
     const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
       const [name, value] = current.trim().split('=');
       prev[name] = value;
       return prev;
     }, {});
-    const wearableJwtCookie = cookies['wearable-jwt'];
+    wearableJwtCookie = cookies['wearable-jwt'];
     return {
       props:{
-        jwt:wearableJwtCookie
+        jwt:wearableJwtCookie ? wearableJwtCookie : null
       }
     }
   }
