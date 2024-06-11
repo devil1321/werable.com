@@ -15,15 +15,16 @@ import { bindActionCreators } from 'redux'
 import useQuantity from '@/app/hooks/useQuantity'
 import useVariantIndex from '@/app/hooks/useVariantIndex'
 import { useRouter } from 'next/navigation'
-import { State } from '@/app/controller/reducers/root.reducer'
+import Cookie from 'js-cookie'
 
-const Details:React.FC<{ syncProduct:any; variant:any,user:any,jwt:string }> = ({variant,syncProduct,user,jwt}) => {
+const Details:React.FC<{ syncProduct:any; variant:any,user:any }> = ({variant,syncProduct,user}) => {
 
     const router = useRouter()
 
     const dispatch = useDispatch()
     const shopActions = bindActionCreators(ShopActions,dispatch)
 
+    const [jwt,setJWT] = useState<string | null>(null)
     const [variantIndex,setVariantIndex] = useVariantIndex(syncProduct?.result?.sync_product?.id)
 
     const [template,setTemplate] = useTemplate(syncProduct?.result?.sync_product?.id,0,100)
@@ -70,6 +71,10 @@ const Details:React.FC<{ syncProduct:any; variant:any,user:any,jwt:string }> = (
         setVariantIndex(index)
       }
     }
+
+    useEffect(()=>{
+      setJWT(Cookie.get('wearable-jwt'))
+    },[])
 
     useEffect(()=>{
       setSize(template?.sizes[0])
@@ -195,24 +200,6 @@ const Details:React.FC<{ syncProduct:any; variant:any,user:any,jwt:string }> = (
     try{
       const syncProduct = await APIController.printfulGetSyncProduct('en_US',Number(context.params.id))
       const variant = await APIController.printfulGetVariant('en_US',syncProduct?.result?.sync_variants[0].variant_id)
-      let wearableJwtCookie
-  if (context.req.headers.cookie) {
-    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
-      const [name, value] = current.trim().split('=');
-      prev[name] = value;
-      return prev;
-    }, {});
-    wearableJwtCookie = cookies['wearable-jwt'];
-    
-  }
-  
-        return {
-          props:{
-          syncProduct,
-          variant,
-          jwt:wearableJwtCookie ? wearableJwtCookie : null
-        }
-      }
     }catch(err){
       console.log(err)
       return {
