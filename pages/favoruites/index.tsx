@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { State } from '@/app/controller/reducers/root.reducer';
 import Layout from '../layout';
 
-const Page:React.FC<{user:any}> = ({user}) => {
+const Page:React.FC<{jwt:string}> = ({jwt}) => {
 
     const { favoruites } = useSelector((state:State) => state.shop)
 
@@ -28,7 +28,7 @@ const Page:React.FC<{user:any}> = ({user}) => {
     },[])
 
     return (
-    <Layout user={user}>
+    <Layout jwt={jwt}>
       <div className="favoruites">
         <Hero 
           img="/assets/banner-people.jpg"
@@ -46,3 +46,22 @@ const Page:React.FC<{user:any}> = ({user}) => {
   }
   
   export default Page
+
+
+export const getServerSideProps = async(context:any) =>{
+  let wearableJwtCookie
+  if (context.req.headers.cookie) {
+    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+      const [name, value] = current.trim().split('=');
+      prev[name] = value;
+      return prev;
+    }, {});
+    wearableJwtCookie = cookies['wearable-jwt'];
+    
+  }
+  return {
+    props:{
+      jwt:wearableJwtCookie ? wearableJwtCookie : null
+    }
+  }
+}

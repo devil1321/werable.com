@@ -4,9 +4,9 @@ import Form from '@/app/components/contact/form.component'
 import Foot from '@/app/components/global/foot.component'
 import Layout from '../layout'
 
-const Page:React.FC<{user:any}> = ({user}) => {
+const Page:React.FC<{jwt:string}> = ({jwt}) => {
   return (
-  <Layout user={user}>
+  <Layout jwt={jwt}>
     <div className="contact md:pt-[150px]">
       <AboutFeature 
         className='mt-0 mb-12'
@@ -31,3 +31,22 @@ const Page:React.FC<{user:any}> = ({user}) => {
 }
 
 export default Page
+
+
+export const getServerSideProps = async(context:any) =>{
+  let wearableJwtCookie
+  if (context.req.headers.cookie) {
+    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+      const [name, value] = current.trim().split('=');
+      prev[name] = value;
+      return prev;
+    }, {});
+    wearableJwtCookie = cookies['wearable-jwt'];
+    
+  }
+  return {
+    props:{
+      jwt:wearableJwtCookie ? wearableJwtCookie : null
+    }
+  }
+}

@@ -7,9 +7,9 @@ import Feature from "@/app/components/about/feature.component";
 import Foot from "@/app/components/global/foot.component";
 import Layout from "../layout";
 
-export default function Page() {
+const Page:React.FC<{jwt:string}> = ({jwt}) => {
     return (
-    <Layout>
+    <Layout jwt={jwt}>
       <div className="about">
         <Hero 
           img="/assets/cat.jpg"
@@ -40,3 +40,22 @@ export default function Page() {
     )     
   }
   
+
+
+export const getServerSideProps = async(context:any) =>{
+  let wearableJwtCookie
+  if (context.req.headers.cookie) {
+    const cookies = context.req.headers.cookie.split(';').reduce((prev:any, current:any) => {
+      const [name, value] = current.trim().split('=');
+      prev[name] = value;
+      return prev;
+    }, {});
+    wearableJwtCookie = cookies['wearable-jwt'];
+    
+  }
+  return {
+    props:{
+      jwt:wearableJwtCookie ? wearableJwtCookie : null
+    }
+  }
+}
