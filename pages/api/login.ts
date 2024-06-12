@@ -20,7 +20,7 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                 if(result){
                     const token = jwt.sign(User,process.env.JWT_SECRET as string)
                     const disconnected = await client.$disconnect()
-                    const cookieValue = `wearable-jwt=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${60 * 60 * 24 * 7}; Secure`;
+                    const cookieValue = `wearable-jwt=${token}; Path=/; SameSite=Strict; Max-Age=${60 * 60 * 24 * 7}; Secure`;
                     res.setHeader('Set-Cookie', cookieValue);
                     res.json({user:User,token:token})
                 }else{

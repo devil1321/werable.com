@@ -1,7 +1,16 @@
 
 export const getToken = () =>{
     if(typeof window !== 'undefined'){
-        const token = localStorage.getItem('jwt')
-        return token
+        let allCookies = document.cookie;
+        let cookiesArray = allCookies.split(';');
+        let wearableJwt = null;
+        for (let i = 0; i < cookiesArray.length; i++) {
+            let cookie = cookiesArray[i].trim();
+            if (cookie.startsWith('wearable-jwt=')) {
+            wearableJwt = cookie.substring('wearable-jwt='.length);
+            break;
+            }
+        }
+        return wearableJwt
     }
 }

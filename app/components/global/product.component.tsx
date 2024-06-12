@@ -19,7 +19,6 @@ import { useRouter } from 'next/navigation'
 
 const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<HTMLDivElement> }> = ({product,id,productRef}) => {
 
- 
   const { user } = useSelector((state:State) => state.api)
   const { sync_product,sync_variants } = useProduct(product)
 
@@ -44,7 +43,6 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
   const shopActions = bindActionCreators(ShopActions,dispatch)
 
   const router = useRouter()
-  
 
   const handleAnimationOut = (e:any) =>{
     if(e){

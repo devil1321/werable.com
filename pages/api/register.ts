@@ -40,7 +40,8 @@ export default async function handler(req:NextApiRequest,res:NextApiResponse){
                                         exp: Math.floor(Date.now() / 1000) + (60 * 60),
                                         data: User
                                     }, process.env.JWT_SECRET as string); 
-                                    Cookie.set('wearable-jwt',token,{ expires:7 })  
+                                    const cookieValue = `wearable-jwt=${token}; Path=/; SameSite=Strict; Max-Age=${60 * 60 * 24 * 7}; Secure`;
+                                    res.setHeader('Set-Cookie', cookieValue);
                                     const disconnected = await client.$disconnect()
                                     res.json({user:User,token:token})
                                 }catch(err){
