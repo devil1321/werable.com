@@ -493,25 +493,18 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
             }
         }))
         if(typeof window !== 'undefined'){
-            let storage
-            const cookies = document.cookie.split(';');
-            const desiredCookie = cookies.find(cookie => cookie.trim().startsWith('wearable-products='));
-            if (desiredCookie) {
-              const cookieValue = desiredCookie.split('=')[1];
-              const decodedCookieValue = decodeURIComponent(cookieValue);
-              storage = JSON.parse(decodedCookieValue);
-            }
-            if(JSON.stringify(storage) === JSON.stringify(products)){
+            const storage = localStorage.getItem('wearable-products')
+            const toCheck = products?.result
+            const storaged = JSON.parse(storage)
+            if(JSON.stringify(storaged) === JSON.stringify(toCheck)){
+                console.log('storage')
                 dispatch({
                     type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
                     products:storage
                 })
             }else{
-                const serializedProducts = JSON.stringify(products);
-                const expires = new Date();
-                expires.setDate(expires.getDate() + 7);
-                const cookieValue = `wearable-products=${encodeURIComponent(serializedProducts)}; expires=${expires.toUTCString()}; path=/;`;
-                document.cookie = cookieValue;
+                const serializedProducts = JSON.stringify(products.filter((p:any) => p !== null && p !== undefined));
+                localStorage.setItem('wearable-products',serializedProducts)
                 dispatch({
                     type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
                     products:products.filter((p:any) => p !== undefined && p !== null)
