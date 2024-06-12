@@ -67,8 +67,12 @@ const Nav:React.FC<{jwt:string | null}> = ({jwt}) => {
 
   const handleMenu = () =>{
     if(!menuWrapperRef.current.classList.contains('--open')){
-      menuWrapperRef.current.classList.add('--open')
-      overlayRef.current.style.display = 'block'
+      if(menuWrapperRef.current){
+        menuWrapperRef.current.classList.add('--open')
+      }
+      if(overlayRef.current){
+        overlayRef.current.style.display = 'block'
+      }
       if(!isPlaying){
         setIsPlaying(true)
         gsap.fromTo('.nav-hamburger span:first-of-type',{ rotate:'0deg'},{ rotate:'45deg',duration:0.7,transformOrigin:'5px 2px'})
@@ -81,9 +85,13 @@ const Nav:React.FC<{jwt:string | null}> = ({jwt}) => {
         gsap.fromTo('.nav-overlay',{opacity:0},{opacity:1,duration:1})
       }
     }else{
-      menuWrapperRef.current.classList.remove('--open')
+      if(menuWrapperRef.current){
+        menuWrapperRef.current.classList.remove('--open')
+      }
       setTimeout(() => {
-        overlayRef.current.style.display = 'none'
+        if(overlayRef.current){
+          overlayRef.current.style.display = 'none'
+        }
       }, 2000);
       if(!isPlaying){
         gsap.fromTo('.nav-hamburger span:first-of-type',{ rotate:'45deg'},{ rotate:'0deg',duration:0.7,transformOrigin:'5px 2px'})
@@ -131,13 +139,13 @@ const Nav:React.FC<{jwt:string | null}> = ({jwt}) => {
                   }}>{c.name}</p>)}
               </div>}
             </div>
-            <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/">Home</Link>
-            <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/products">Products</Link>
-            <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/about">About Us</Link>
+            <Link onClick={()=>handleMenu()} className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/">Home</Link>
+            <Link onClick={()=>handleMenu()} className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/products">Products</Link>
+            <Link onClick={()=>handleMenu()} className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/about">About Us</Link>
             {jwt && <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/profile">Profile</Link>}
            
           </div>
-          <div className="nav-logo-wrapper relative -left-[0%] -top-[10%] w-1/3 md:flex gap-3 items-center">
+          <div className="nav-logo-wrapper relative -left-[0%]  -top-[10%] md:-left-[5%] lg:-left-0 w-1/3 md:flex gap-3 items-center">
             <Link className='flex justify-center items-center min-w-max mx-auto' href="/home">
             <div className="nav-logo mr-2 min-w-[40px] md:min-w-[0px] md:w-[30px] lg:w-[50px] xl:w-[70px]">
                 <Image src="/assets/logo-white.svg" alt='nav-background' width={70} height={50} />
@@ -146,14 +154,14 @@ const Nav:React.FC<{jwt:string | null}> = ({jwt}) => {
             </Link>
           </div>
           <div className="nav-menu pb-5 md:p-0 relative z-30 -left-[0%] md:-left-[8%] lg:left-[5%] xl:left-[10%] -top-4 w-1/3 block md:flex gap-5">
-            <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/new-sale">New Sale</Link>
-            <Link href="/cart" className="cursor-pointer relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2">Cart</Link>
-            <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/favoruites">Favoruites</Link>
-            <Link className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/contact">Contact</Link>
+            <Link onClick={()=>handleMenu()} className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/new-sale">New Sale</Link>
+            <Link onClick={()=>handleMenu()} href="/cart" className="cursor-pointer relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2">Cart</Link>
+            <Link onClick={()=>handleMenu()} className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/favoruites">Favoruites</Link>
+            <Link onClick={()=>handleMenu()} className="relative my-2 md:my-0 text-md md:text-sm block text-center md:inline-block z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/contact">Contact</Link>
             {jwt 
               ? <a onClick={()=>APIActions.logout()} className="relative text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2 cursor-pointer">Logout</a>
-              : <Link  className="relative text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/login">Login</Link>}
-            {menuWrapperRef?.current?.classList?.contains('--open') && <button onClick={()=>handleMenu()} className='block my-4 -translate-x-[5%] text-md text-white rounded-md font-bold px-12 py-2'>Close</button>}
+              : <Link onClick={()=>handleMenu()}  className="relative text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/login">Login</Link>}
+            {menuWrapperRef?.current?.classList?.contains('--open') && <button onClick={()=>handleMenu()} className='block my-4 absolute -bottom-[40%] left-1/2 -translate-x-1/2 text-md text-white rounded-md font-bold px-12 py-2'>Close</button>}
           </div>
         </div>
       </div>
