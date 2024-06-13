@@ -53,7 +53,7 @@ const WithRedux:React.FC<{ children:React.ReactNode }> = ({children}) =>{
     APIActions.printfulGetCategories()
     if(typeof window !== undefined){
       const storage = localStorage.getItem('wearable-products')
-      const parsed = JSON.parse(storage)
+      const parsed = JSON.parse(storage as string)
       APIActions.printfulSetAllSyncProducts(parsed)
     }
   },[])
