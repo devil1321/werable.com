@@ -9,7 +9,7 @@ interface InitState {
     html:any;
     data:any;
     user:any;
-    products:any[]
+    products:any;
     product:any;
     matches:any[]
     token:any;

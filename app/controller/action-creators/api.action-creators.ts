@@ -494,14 +494,8 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
         }))
         if(typeof window !== 'undefined'){
             const storage = localStorage.getItem('wearable-products')
-            let toCheck
-            if(products?.result){
-                toCheck = products?.result
-            }else{
-                toCheck = []
-            }
-            const storaged = JSON.parse(storage)
-            if(JSON.stringify(storaged) === JSON.stringify(toCheck)){
+            const storaged = JSON.parse(storage as any)
+            if(JSON.stringify(storaged) === JSON.stringify(products)){
                 console.log('storage')
                 dispatch({
                     type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
