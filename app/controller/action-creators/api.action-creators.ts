@@ -499,7 +499,7 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
                 if(p?.sync_product?.id){
                     return p
                 }
-            }
+            })
             if(JSON.stringify(storaged) === JSON.stringify(products)){
                 console.log('storage')
                 dispatch({
