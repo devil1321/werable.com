@@ -3,9 +3,13 @@
     "builds": [
       { "src": "server.js", "use": "@now/node" }
     ],
+    "functions": {
+      "api/**/*.ts": {
+        "maxDuration": 60
+      }
+    },
     "routes": [
       { "src": "/api/(.*)", "dest": "/api/$1" },
-      { "src": "/app/(.*)", "dest": "/app/$1" },
       { "src": "/(.*)", "dest": "server.js" }
     ]
   }
