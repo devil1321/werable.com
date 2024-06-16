@@ -3,14 +3,14 @@
     "builds": [
       { "src": "server.js", "use": "@now/node" }
     ],
-    "functions": {
-      "api/**/*.ts": {
-        "maxDuration": 60
-      }
-    },
     "routes": [
-      { "src": "/api/(.*)", "dest": "/api/$1" },
+      {
+        "src": "/api/(.*)",
+        "headers": {
+          "x-vercel-timeout": "60" 
+        },
+        "dest": "/api/$1"
+      },
       { "src": "/(.*)", "dest": "server.js" }
     ]
   }
-  
