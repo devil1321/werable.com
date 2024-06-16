@@ -1,17 +1,18 @@
 {
     "version": 2,
-    "builds": [
-      { "src": "next build", "use": "@vercel/node" }
-    ],
-    "functions": {
-      "api/**/*.ts": {
-        "maxDuration": 60
-      }
-    },
     "routes": [
       {
         "src": "/api/(.*)",
-        "dest": "/api/$1"
+        "dest": "/api/$1",
+        "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"],
+        "headers": {
+          "Cache-Control": "no-cache"
+        },
+        "config": {
+          "api": {
+            "maxDuration": 60
+          }
+        }
       },
       {
         "src": "/app/(.*)",
