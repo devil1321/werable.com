@@ -1,7 +1,7 @@
 {
     "functions": {
       "api/**/*": {
-        "maxDuration": 60 // duration in seconds
+        "maxDuration": 60
       }
     }
-  }
+}
