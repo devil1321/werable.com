@@ -515,7 +515,11 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
                 localStorage.setItem('wearable-products',serializedProducts)
                 dispatch({
                     type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
-                    products:products.filter((p:any) => p !== undefined && p !== null)
+                    products:products.map((p:any) =>{
+                        if(p?.sync_product?.id){
+                            return p
+                        }
+                    })
                 })
             }
         }
