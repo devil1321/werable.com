@@ -494,7 +494,12 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
         }))
         if(typeof window !== 'undefined'){
             const storage = localStorage.getItem('wearable-products')
-            const storaged = JSON.parse(storage as any)
+            let storaged = JSON.parse(storage as any)
+            storaged = storaged.map((p:any)=>{
+                if(p?.sync_product?.id){
+                    return p
+                }
+            }
             if(JSON.stringify(storaged) === JSON.stringify(products)){
                 console.log('storage')
                 dispatch({
@@ -502,7 +507,11 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
                     products:storage
                 })
             }else{
-                const serializedProducts = JSON.stringify(products.filter((p:any) => p !== null && p !== undefined));
+                const serializedProducts = JSON.stringify(products.map((p:any) => {
+                    if(p?.sync_product?.id){
+                        return p
+                    }
+                }));
                 localStorage.setItem('wearable-products',serializedProducts)
                 dispatch({
                     type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
