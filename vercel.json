@@ -3,16 +3,15 @@
     "builds": [
       { "src": "next build", "use": "@vercel/node" }
     ],
+    "functions": {
+      "api/**/*.ts": {
+        "maxDuration": 60
+      }
+    },
     "routes": [
       {
         "src": "/api/(.*)",
-        "dest": "/api/$1",
-        "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"],
-        "config": {
-          "api": {
-            "maxDuration": 60
-          }
-        }
+        "dest": "/api/$1"
       },
       {
         "src": "/app/(.*)",
@@ -28,4 +27,5 @@
         "dest": "/$1"
       }
     ]
-}
+  }
+  
