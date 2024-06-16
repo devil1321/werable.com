@@ -1,32 +1,9 @@
 {
     "version": 2,
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/api/$1",
-        "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"],
-        "headers": {
-          "Cache-Control": "no-cache"
-        },
-        "config": {
-          "api": {
-            "maxDuration": 60
-          }
+    "functions": {
+        "api/**/*.ts": {
+          "maxDuration": 60
         }
-      },
-      {
-        "src": "/app/(.*)",
-        "dest": "/app/$1",
-        "methods": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-      },
-      {
-        "src": "/pages/(.*)",
-        "dest": "/pages/$1"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/$1"
       }
-    ]
-  }
+}
   
