@@ -15,7 +15,7 @@
       {
         "src": "/app/(.*)",
         "dest": "/server.js",
-        "methods": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        "methods": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
       },
       {
         "src": "/pages/(.*)",
