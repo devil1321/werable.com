@@ -1,22 +1,21 @@
-/** @type {import('next').NextConfig} */
+// next.config.js
 const nextConfig = {
-    async headers() {
-        return [
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
           {
-            source: '/(.*)',
-            headers: [
-              {
-                key: 'Cache-Control',
-                value: 'public, max-age=3600',
-              },
-            ],
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, must-revalidate',
           },
-        ];
+        ],
       },
-    images: {
-        domains: ['files.cdn.printful.com'],
-    }
+    ];
+  },
+  images: {
+    domains: ['files.cdn.printful.com'],
+  },
 };
 
-
-export default nextConfig;
+module.exports = nextConfig;
