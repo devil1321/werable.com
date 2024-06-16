@@ -1,20 +1,22 @@
 {
     "version": 2,
     "builds": [
-      { "src": "server.js", "use": "@now/node" }
+      { "src": "next build", "use": "@vercel/node" }
     ],
     "routes": [
       {
         "src": "/api/(.*)",
-        "dest": "/server.js",
+        "dest": "/api/$1",
         "methods": ["GET", "POST", "PUT", "PATCH", "DELETE"],
-        "headers": {
-          "Cache-Control": "max-age=3600"
+        "config": {
+          "api": {
+            "maxDuration": 60
+          }
         }
       },
       {
         "src": "/app/(.*)",
-        "dest": "/server.js",
+        "dest": "/app/$1",
         "methods": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
       },
       {
@@ -23,8 +25,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "/server.js"
+        "dest": "/$1"
       }
     ]
-  }
-  
+}
