@@ -15,12 +15,14 @@ const httpsOptions = {
 };
 
 app.prepare().then(() => {
-  createServer(httpsOptions, (req, res) => {
+  const server = createServer(httpsOptions, (req, res) => {-
     // Enable CORS for all origins
     cors()(req, res, () => {
       const parsedUrl = parse(req.url, true);
       handle(req, res, parsedUrl);
     });
+    server.timeout = 60 * 1000; // 60 seconds
+    server.keepAliveTimeout = 60 * 1000; // 60 seconds
   }).listen(3000, (err) => {
     if (err) throw err;
     console.log('> Ready on https://localhost:3000');

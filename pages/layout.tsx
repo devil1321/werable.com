@@ -17,7 +17,7 @@ const Layout:React.FC<{children:React.ReactNode,jwt:string | null}> = ({children
   const APIActions = bindActionCreators(ApiActions,dispatch)
 
   useEffect(()=>{
-    APIActions.getUser()
+    APIActions.getUser
   },[])
 
   useEffect(()=>{
