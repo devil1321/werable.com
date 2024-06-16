@@ -1,9 +1,11 @@
 {
     "version": 2,
     "builds": [
+      { "src": "next.config.js", "use": "@vercel/static-build" },
       { "src": "api/**/*.ts", "use": "@vercel/node" }
     ],
     "routes": [
-      { "src": "/api/(.*)", "dest": "api/$1" }
+      { "src": "/api/(.*)", "dest": "api/$1" },
+      { "src": "/(.*)", "dest": "/$1", "headers": { "Cache-Control": "public, max-age=3600" } }
     ]
   }
