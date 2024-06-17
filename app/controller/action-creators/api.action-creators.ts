@@ -492,20 +492,6 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
             }
         }))
         if(typeof window !== 'undefined'){
-            const storage = localStorage.getItem('wearable-products')
-            let storaged = JSON.parse(storage as any)    
-            if(storaged){
-                if(JSON.stringify(storaged) === JSON.stringify(products)){
-                    storaged = storaged?.filter((p:any) => p !== undefined && p !== null).filter((p:any)=>{
-                        if(p?.sync_product?.id){
-                            return p
-                        }
-                    })
-                    dispatch({
-                        type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
-                        products:storage
-                    })
-                }else{
                     const serializedProducts = JSON.stringify(products?.filter((p:any) => p !== undefined && p !== null).filter((p:any) => {
                         if(p?.sync_product?.id){
                             return p
@@ -516,20 +502,8 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
                         type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
                         products:[...JSON.parse(serializedProducts)]
                     })
-                }
-            }else{
-                const serializedProducts = JSON.stringify(products?.filter((p:any) => {
-                    if(p?.sync_product?.id){
-                        return p
-                    }
-                }));
-                localStorage.setItem('wearable-products',serializedProducts)
-                dispatch({
-                    type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
-                    products:JSON.parse(serializedProducts)
-                })
-            }
-        }
+                
+                   }
     }catch(err){
         console.log(err)
         dispatch({
