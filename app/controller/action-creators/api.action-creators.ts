@@ -503,7 +503,7 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
                     })
                     dispatch({
                         type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
-                        products:[...storage]
+                        products:storage
                     })
                 }else{
                     const serializedProducts = JSON.stringify(products?.filter((p:any) => p !== undefined && p !== null).filter((p:any) => {
@@ -514,7 +514,7 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
                     localStorage.setItem('wearable-products',serializedProducts)
                     dispatch({
                         type:PrintfulTypes.PRINTFUL_GET_ALL_SYNC_PRODUCTS,
-                        products:J[...JSON.parse(serializedProducts)]
+                        products:[...JSON.parse(serializedProducts)]
                     })
                 }
             }else{
