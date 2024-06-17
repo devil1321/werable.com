@@ -496,7 +496,7 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
             let storaged = JSON.parse(storage as any)    
             if(storaged){
                 if(JSON.stringify(storaged) === JSON.stringify(products)){
-                    storaged = storaged?.filter((p:any)=>{
+                    storaged = storaged?.filter((p:any) => p !== undefined && p !== null).filter((p:any)=>{
                         if(p?.sync_product?.id){
                             return p
                         }
@@ -506,7 +506,7 @@ export const printfulGetAllSyncProducts = (offset:number,limit:number) => async 
                         products:storage
                     })
                 }else{
-                    const serializedProducts = JSON.stringify(products?.filter((p:any) => {
+                    const serializedProducts = JSON.stringify(products?.filter((p:any) => p !== undefined && p !== null).filter((p:any) => {
                         if(p?.sync_product?.id){
                             return p
                         }
