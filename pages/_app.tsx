@@ -54,7 +54,6 @@ const WithRedux:React.FC<{ children:React.ReactNode }> = ({children}) =>{
     shopActions.setFavoruites()
     startTransition(()=>{
       APIActions.printfulGetCategories()
-      APIActions.printfulGetAllSyncProducts(0,100)
     })
     if(typeof window !== undefined){
       const storage = localStorage.getItem('wearable-products')

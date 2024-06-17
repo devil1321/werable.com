@@ -426,11 +426,11 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
       }} ref={cartRef} className="product-icon-wrapper hover:bg-gray-400 absolute top-0 left-0 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
         <Image src="/assets/cart-icon.png" alt="icon-cart" width={25} height={25} />
       </div>
-      <Link ref={infoRef} className='absolute top-0 left-0 w-10 h-10' href="/details/[id]" as={`/details/${id ? id : sync_product?.id}`}>
+      <Link ref={infoRef} className='absolute top-0 left-0 w-10 h-10 z-50' href="/details/[id]" as={`/details/${id ? id : sync_product?.id}`}>
         <div className="product-icon-wrapper hover:bg-gray-400 bg-gray-300 w-10 h-10 p-2 rounded-full flex justify-center items-center">
           <Image src="/assets/info-icon.png" alt="icon-info" width={25} height={25} />
         </div>
-      </Link>
+      </Link> 
       <div onClick={()=>{
         if(!inCart){
           if(user){
