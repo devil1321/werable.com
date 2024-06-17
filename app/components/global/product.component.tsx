@@ -70,7 +70,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         sizeRef.current.style.transition = 'opacity 1s ease-in-out'
         sizeRef.current.style.opacity = '0'
         setTimeout(() => {
-          if(!sizeRef.current.classList.contains('hidden')){
+          if(!sizeRef?.current?.classList?.contains('hidden')){
             sizeRef.current.classList.add('hidden')
           }
         }, 1000);
@@ -79,7 +79,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         cartRef.current.style.transition = 'opacity 1s ease-in-out'
         cartRef.current.style.opacity = '0'
         setTimeout(() => {
-          if(!cartRef.current.classList.contains('hidden')){
+          if(!cartRef?.current?.classList?.contains('hidden')){
             cartRef.current.classList.add('hidden')
           }
         }, 1000);
@@ -88,7 +88,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         infoRef.current.style.transition = 'opacity 1s ease-in-out'
         infoRef.current.style.opacity = '0'
         setTimeout(() => {
-          if(!infoRef.current.classList.contains('hidden')){
+          if(!infoRef?.current?.classList?.contains('hidden')){
             infoRef.current.classList.add('hidden')
           }
         }, 1000);
@@ -97,7 +97,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         plusRef.current.style.transition = 'opacity 1s ease-in-out'
         plusRef.current.style.opacity = '0'
         setTimeout(() => {
-          if(!plusRef.current.classList.contains('hidden')){
+          if(!plusRef?.current?.classList?.contains('hidden')){
             plusRef.current.classList.add('hidden')
           }
         }, 1000);
@@ -106,7 +106,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         minusRef.current.style.transition = 'opacity 1s ease-in-out'
         minusRef.current.style.opacity = '0'
         setTimeout(() => {
-          if(!minusRef.current.classList.contains('hidden')){
+          if(!minusRef?.current?.classList?.contains('hidden')){
             minusRef.current.classList.add('hidden')
           }
         }, 1000);

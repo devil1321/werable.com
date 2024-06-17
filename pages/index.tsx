@@ -51,7 +51,6 @@ const Page:React.FC<{jwt:string}> = ({jwt}) => {
         return prev;
       }, {});
       wearableJwtCookie = cookies['wearable-jwt'];
-      
     }
     return {
       props:{

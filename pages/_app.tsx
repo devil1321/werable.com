@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { State } from '@/app/controller/reducers/root.reducer';
 import { AppProps } from 'next/app';
+import { startTransition } from 'react';
 const MyApp = ({ Component, pageProps }: AppProps) => {
 
   return (
@@ -42,14 +43,19 @@ const WithRedux:React.FC<{ children:React.ReactNode }> = ({children}) =>{
     if(typeof window !== 'undefined'){
       const language = localStorage.getItem('wearable-locale')
       if(language){
-        APIActions.printfulSetLocale(language)
+        startTransition(()=>{
+          APIActions.printfulSetLocale(language)
+        })
       }
     }
   },[locale])
 
   useEffect(()=>{
     shopActions.setFavoruites()
-    APIActions.printfulGetCategories()
+    startTransition(()=>{
+      APIActions.printfulGetCategories()
+      APIActions.printfulGetAllSyncProducts(0,100)
+    })
     if(typeof window !== undefined){
       const storage = localStorage.getItem('wearable-products')
       const parsed = JSON.parse(storage as string)

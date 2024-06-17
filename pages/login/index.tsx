@@ -72,8 +72,6 @@ const Page:React.FC<{jwt:string}> = ({jwt}) => {
         router.push('/cart')
       }else if(pathname === '/login' && jwt && cart.length === 0){
         router.push('/')
-      }else if(!jwt){
-        router.push('/login')
       }
     }
   }
@@ -81,7 +79,7 @@ const Page:React.FC<{jwt:string}> = ({jwt}) => {
   useEffect(()=>{
     handleInit()
     shopActions.setCart()
-  },[jwt])
+  },[])
 
   useEffect(()=>{
     APIActions.printfulGetCountries()

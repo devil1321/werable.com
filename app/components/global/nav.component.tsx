@@ -1,5 +1,6 @@
 'use client'
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
+import { startTransition } from 'react';
 import Image from 'next/image'
 import Link from 'next/link'
 import gsap from 'gsap'
@@ -13,10 +14,9 @@ const Nav:React.FC<{jwt:string | null}> = ({jwt}) => {
 
   const router = useRouter()
 
-  const [locale,setLocale] = useState<string>('EN')
   const [isLanguageMenu,setIsLanguageMenu] = useState<boolean>(false)
   
-  const { countries,user,locale:language } = useSelector((state:State) => state.api)
+  const { countries } = useSelector((state:State) => state.api)
 
   const [isPlaying,setIsPlaying] = useState<boolean>(false)
   const menuWrapperRef = useRef() as MutableRefObject<HTMLDivElement>
@@ -107,11 +107,6 @@ const Nav:React.FC<{jwt:string | null}> = ({jwt}) => {
   }
 
   useEffect(()=>{
-    APIActions.printfulGetCountries()
-    setLocale(language)
-  },[language])
-
-  useEffect(()=>{
     handleMenuInit()
   },[menuWrapperRef.current])
 
@@ -128,17 +123,6 @@ const Nav:React.FC<{jwt:string | null}> = ({jwt}) => {
         <Image ref={imageRef} className='nav-image opacity-70' src="/assets/nav-bg.png" alt='nav-background' width={1920} height={400} />
         <div ref={menuWrapperRef} className="nav-menus-wrapper z-50 overflow-hidden md:overflow-visible absolute w-[100%] md:w-fit md:max-w-[100vw] bg-neutral-900/70 md:bg-transparent h-[460px] md:h-max rounded-md top-[150px] md:top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col md:flex-row justify-between items-center">
           <div className="nav-menu pt-10 md:p-0 relative z-30 -left-[0%] md:-left-[3%] lg:-left-[15%] xl:-left-[20%] -top-4 w-1/3 block md:flex gap-5">
-            <div className="nav-language relative top-0 left-0">
-              <p className='text-red-500 cursor-pointer min-w-max translate-y-2 text-center md:text-left' onClick={()=>setIsLanguageMenu(!isLanguageMenu)}>{locale}</p>
-              {isLanguageMenu &&
-                <div className="nav-language-menu h-[400px] overflow-y-scroll  bg-white p-3 rounded-md text-black absolute top-10 left-1/2 -translate-x-1/2">
-                {countries?.result?.map((c:any)=> <p className='p-2 rounded-md hover:bg-gray-200 w-[200px] cursor-pointer' onClick={()=>{
-                  setLocale(c.code)
-                  setIsLanguageMenu(false)
-                  APIActions.printfulSetLocale(c.code)
-                  }}>{c.name}</p>)}
-              </div>}
-            </div>
             <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/">Home</Link>
             <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/products">Products</Link>
             <Link className="relative my-2 md:my-0 text-md md:text-sm  block md:inline-block text-center z-50 top-0 left-0 hover:underline text-white translate-y-2" href="/about">About Us</Link>
