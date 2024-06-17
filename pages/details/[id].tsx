@@ -88,7 +88,7 @@ const Details:React.FC<{ syncProduct:any; variant:any,user:any }> = ({variant,sy
 
     return ( 
     <Layout jwt={jwt}>
-      <div className='details lg:pt-[200px]'>
+      <div className='details md:pt-[200px]'>
         <div className="details-main md:flex justify-between items-start">
           <Image className ="md:w-1/2" src={syncProduct?.result?.sync_product?.thumbnail_url} width={1920} height={768} alt='product-image' />
           <div className="details-info p-5 md:w-1/2">
