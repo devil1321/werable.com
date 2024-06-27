@@ -5,7 +5,7 @@ const APIPrintful = axiosRateLimit(axios.create({
     baseURL:'/api/printful',
 }),{
     maxRequests:100,
-    perMilliseconds:1000
+    perMilliseconds:30000
 })
 
 export default APIPrintful

@@ -7,7 +7,7 @@ import { State } from '@/app/controller/reducers/root.reducer'
 
 const Search:React.FC<{title:string}> = ({title}) => {
 
-  const { categories,products } = useSelector((state:State) => state.api)
+  const { products } = useSelector((state:State) => state.api)
   const [nameMatches,setNameMatches] = useState<any>([])
   const [allSizes,setAllSizes] = useState<any[]>([
     '1',
@@ -51,7 +51,7 @@ const Search:React.FC<{title:string}> = ({title}) => {
 
   const handleNameMatches = (e:any) =>{
     const regex = new RegExp(`^${e.target.value}`,'i')
-    setNameMatches(products?.filter((p:any) => regex.test(p.sync_product.name)))
+    setNameMatches(products?.filter((p:any) => regex.test(p.name)))
   }
 
   const handleSizeMatches = (e:any) =>{
@@ -84,7 +84,7 @@ const Search:React.FC<{title:string}> = ({title}) => {
 
           <form action="">
             <div className="search-field rounded-full p-1 w-[75%] bg-gray-200">
-              <input className='bg-gray-200 px-2 w-[100%]' type="text" placeholder='By Name' name="name" value={query.name} onChange={(e)=>{
+              <input onBlur={()=>setNameMatches([])} className='bg-gray-200 px-2 w-[100%]' type="text" placeholder='By Name' name="name" value={query.name} onChange={(e)=>{
                 handleChange(e)
                 setSizeMatches([])
                 setTimeout(() => {
@@ -97,10 +97,10 @@ const Search:React.FC<{title:string}> = ({title}) => {
               {nameMatches?.map((c:any) => <div className='hover:bg-green-300 cursor-pointer px-4 py-2 my-2 rounded-md font-bold hover:text-white' onClick={(e)=>{
                 setQuery((prevState:any)=>({
                   ...prevState,
-                  name:c.sync_product.name
+                  name:c.name
                 }))
                 setNameMatches([])
-                }}>{c.sync_product.name}</div>)}
+                }}>{c.name}</div>)}
             </div>}
             <div className="search-form-items my-3 flex justify-start gap-3">
               <div className="search-field rounded-full p-1 max-w-[100px] bg-gray-200">

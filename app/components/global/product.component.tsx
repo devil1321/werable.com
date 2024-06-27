@@ -1,5 +1,5 @@
 'use client'
-import React, { MutableRefObject, useEffect, useRef } from 'react'
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
 import  MotionPathPlugin  from 'gsap/dist/MotionPathPlugin'
@@ -33,6 +33,7 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
   const minusRef = useRef() as MutableRefObject<HTMLDivElement>
   const breadcrumbRef = useRef() as MutableRefObject<HTMLDivElement>
   
+  const [imgSrc,setImgSrc] = useState<string>('')
   const [variant,setVariant] = useVariant(id ? id : sync_product?.id)
   const [isFavoruite,setIsFavoruite] = useFavoruite(sync_product?.id)
   const [variantIndex,setVariantIndex] = useVariantIndex(sync_product?.id) 
@@ -373,12 +374,16 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
   }
 
   useEffect(()=>{
+    setImgSrc(product?.thumbnail_url)
+  },[product])
+
+  useEffect(()=>{
     handleAnimationInit()
   },[sync_product,sync_variants])
 
   return (
     <React.Fragment>
-    {sync_product && sync_variants?.length > 0 
+    {product  
     ? <div onMouseLeave={(e)=>handleAnimationOut(e)} ref={productRef} className='product cursor-pointer my-12 mx-[50px] h-max relative top-0 left-0 z-40 '>
       <svg className='absolute opacity-0 -top-[15%] -left-[10%] md:-left-[12.5%]' width={600} height={600}>
         <path ref={pathRef} d="M0,140a135,135 0 1,0 270,0a135,135 0 1,0 -270,0" fill="none" stroke="black" strokeWidth={2}/>
@@ -477,14 +482,18 @@ const Product:React.FC<{ product?:any, id?:number; productRef?:MutableRefObject<
         <Image src="/assets/minus-icon.png" alt="icon-minus" width={25} height={25} />
       </div>
       <div onMouseEnter={(e)=>handleAnimationIn(e)} className='product-image z-50 relative top-0 left-0 bg-gray-300 rounded-full w-[220px] h-[220px] overflow-hidden'>
-        <div ref={breadcrumbRef} className="product-breadcrumb pointer-events-none absolute z-50 top-1/2 -translate-y-1/2 -right-56 w-[220px] px-8 py-3 bg-green-300 text-white font-bold rounded-l-md">
-          <p className="text-center">{sync_variants[variantIndex as number]?.retail_price}{sync_variants[variantIndex as number]?.currency}</p>
-          <p className="text-center"><span className='italic'>{variant?.result?.variant?.in_stock ? 'In Stock' : 'Out Of Stock'}</span> / <span className="italic">In Cart {quantity as number}</span></p> 
-        </div>
-        {sync_product?.thumbnail_url && <Image className='rounded-full relative top-0 left-0 z-20' src={sync_product?.thumbnail_url} alt='product-image' width={500} height={500} />}
+        {variant
+        ? <div ref={breadcrumbRef} className="product-breadcrumb pointer-events-none absolute z-50 top-1/2 -translate-y-1/2 -right-56 w-[220px] px-8 py-3 bg-green-300 text-white font-bold rounded-l-md">
+            <p className="text-center">{sync_variants[variantIndex as number]?.retail_price}{sync_variants[variantIndex as number]?.currency}</p>
+            <p className="text-center"><span className='italic'>{variant?.result?.variant?.in_stock ? 'In Stock' : 'Out Of Stock'}</span> / <span className="italic">In Cart {quantity as number}</span></p> 
+          </div>
+        : <div ref={breadcrumbRef} className="product-breadcrumb pointer-events-none absolute z-50 top-1/2 -translate-y-1/2 -right-56 w-[220px] px-8 py-3 bg-green-300 text-white font-bold rounded-l-md">
+            <p className="text-center">...Loading</p>
+          </div>}
+        {imgSrc.length > 0 && <Image className='rounded-full relative top-0 left-0 z-20' src={imgSrc} alt='product-image' width={500} height={500} />}
       </div>
     </div>
-    : <h1 className='bg-green-300 w-[25%] rounded-md mx-auto font-bold text-white text-5xl px-3 py-2 my-2'>...Loading</h1>
+    : <h1 className='bg-green-300 w-[20%] rounded-md mx-6 font-bold text-white text-2xl px-3 py-2 my-2'>...Loading</h1>
     }</React.Fragment>
   )
 }

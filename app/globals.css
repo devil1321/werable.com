@@ -42,8 +42,13 @@
   svg path,.home-carousel-view,.home-carousel-feature-controls div,.product-title {
     transition: all 0.7s ease-in-out;
   }
-  .nav-overlay,.nav-image,.summary-shipping-menu,.item-sizes-menu,.item-color-menu  {
+  .nav-overlay,.nav-image,.summary-shipping-menu,.item-sizes-menu,.item-color-menu {
     display: none;
+  }
+  @media (max-device-width:1024px) {
+    .nav-menus-wrapper {
+      max-height: 0px;    
+    }
   }
   .nav-overlay{
     box-shadow: 0px -200px 100px inset black;

@@ -213,8 +213,6 @@ const filtered = items?.filter((product:any) => {
   });
 });
 
-    console.log(query)
-    console.log(filtered)
     if(filtered.length > 0){
         dispatch({
             type:APITypes.API_FILTER_PRODUCTS,
@@ -467,33 +465,30 @@ export const printfulSetAllSyncProducts = (products:any) => async (dispatch:Disp
 
 export const printfulGetAllSyncProducts = (offset:number,limit:number) => async (dispatch:Dispatch) =>{
     const { locale } = store.getState().api
+    let isFetched = false
+    let tmpOffset = offset
+    let tmpLimit = limit
+    let tmpProducts = []
     try {
-        const res = await printful.get('/sync-products',{
-            params:{
-                offset:offset,
-                limit:limit,
-                locale:locale
+        while(!isFetched){
+            const res = await printful.get('/sync-products',{
+                params:{
+                    offset:tmpOffset,
+                    limit:tmpLimit,
+                    locale:locale
+                }
+            }) 
+            const data = await res.data
+            tmpProducts.push(...data.result)
+            tmpOffset += 100
+            if(!data?.result[0]?.id){
+                isFetched = true
             }
-        })
-        const data = await res.data
-        const products = await Promise.all(data?.result?.map(async(p:any)=>{
-            try{
-                const res = await printful.get('/sync-products',{
-                    params:{
-                        id:p.id,
-                        locale:locale
-                    }
-               })
-               const data = await res.data
-               return data.result
-            }catch(err){
-                console.log(err)
-                return err
-            }
-        }))
-        if(typeof window !== 'undefined'){
-                    const serializedProducts = JSON.stringify(products?.filter((p:any) => p !== undefined && p !== null).filter((p:any) => {
-                        if(p?.sync_product?.id){
+        }
+      
+                 if(typeof window !== 'undefined'){
+                    const serializedProducts = JSON.stringify(tmpProducts?.filter((p:any) => p !== undefined && p !== null).filter((p:any) => {
+                        if(p.id){
                             return p
                         }
                     }));

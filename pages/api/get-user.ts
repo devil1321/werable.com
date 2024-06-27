@@ -7,9 +7,13 @@ import path from 'path'
 export default async function handler(req:NextApiRequest,res:NextApiResponse){
     if(req.method === 'POST'){
        let user = null
-       let token = req.headers.authorization as string
-       if(/Bearer/gi.test(token) && token !== 'undefined' && token !== 'null'){
-           token = token?.slice(7,token.length)
+       let token = req.headers.authorization as any
+       if(/Bearer/gi.test(token)){
+        if(!Boolean(/Bearer undefined/gi.test(token))){
+            token = token?.slice(7,token.length)
+        }else{
+            token = undefined
+        }
        }
        if(token){
            user = jwt.verify(token as string,process.env.JWT_SECRET as string) as Interfaces.User

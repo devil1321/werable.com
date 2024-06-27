@@ -48,19 +48,19 @@ const Footer = () => {
           </div>
           <div className="footer-contact-item my-1 md:my-5 flex gap-3 items-center">
             <Image src="/assets/email-icon.png" alt="email" width={30} height={30} />
-            <p className="text-sm text-white italic">support@wearable.com</p>
+            <p className="text-sm text-white italic">Email: composite.wearable@protonmail.com</p>
           </div>
           <div className="footer-contact-item my-1 md:my-5 flex gap-3 items-center">
             <Image src="/assets/email-icon.png" alt="phone" width={30} height={30} />
-            <p className="text-sm text-white italic">888-100-888</p>
+            <p className="text-sm text-white italic">Phone: 696442238</p>
           </div>
-          <div className="footer-contact-item my-0 md:my-5 flex gap-3 items-center">
+          {/* <div className="footer-contact-item my-0 md:my-5 flex gap-3 items-center">
             <Image src="/assets/email-icon.png" alt="address" width={30} height={30} />
             <div>
-              <p className="text-sm text-white italic">Houston Road 25</p>
-              <p className="text-sm text-white italic">Seattle 200-300</p>
+              <p className="text-sm text-white italic">Rakolupy Duze 36</p>
+              <p className="text-sm text-white italic">22-122 Lesniowice</p>
             </div>
-          </div>
+          </div> */}
         </div>
           <button className='w-[170px] md:hidden relative -top-5 left-0 py-2 font-bold text-white text-md rounded-full'>
             <Link className="block -ml-[20px]" href="/contact">

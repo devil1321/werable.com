@@ -3,8 +3,6 @@ import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { useEffect } from "react";
 import Hero from '@/app/components/global/hero.component';
 import Search from '@/app/components/global/search.component';
-import Title from '@/app/components/global/title.component';
-import ProductCarousel from '@/app/components/home/product-carousel';
 import Product from '@/app/components/global/product.component';
 import Layout from '../layout';
 import { useSelector } from "react-redux";
@@ -48,8 +46,6 @@ const Page:React.FC<{jwt:string}> = ({jwt}) => {
             <div className="products-items xl:px-10 flex justify-center items-start flex-wrap">
             {products?.map((p:any) => <Product key={`product-key-${p?.sync_product?.id}`} product={p} />)}
             </div>
-          <Title isLeft={false} title="Hot" />
-          <ProductCarousel />
         </React.Fragment>}
       </div>
     </Layout>

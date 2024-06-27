@@ -42,7 +42,9 @@ const useSyncProduct = (id:number) => {
 }
 
   useEffect(()=>{
+    if(typeof id === 'number'){
       handleFetchVariant()
+    }
   },[id,locale])
 
   return [variant,setVariant]

@@ -1,7 +1,6 @@
 import * as APIController from '@/app/APIController/printful'
 import Image from 'next/image'
 import Title from '@/app/components/global/title.component'
-import ProductCarousel from '@/app/components/home/product-carousel'
 import Layout from '../layout'
 import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
@@ -184,11 +183,6 @@ const Details:React.FC<{ syncProduct:any; variant:any,user:any }> = ({variant,sy
             }
           </div>
         </div>
-        <Title 
-          isLeft={true}
-          title="Hot"
-          />
-        <ProductCarousel />
       </div>
     </Layout>
     )     
