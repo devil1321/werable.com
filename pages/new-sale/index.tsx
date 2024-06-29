@@ -6,7 +6,6 @@ import Search from "@/app/components/global/search.component";
 import Hero from "@/app/components/global/hero.component";
 import Product from "@/app/components/global/product.component";
 import Title from "@/app/components/global/title.component";
-import ProductCarousel from "@/app/components/home/product-carousel";
 import Layout from "../layout";
 import { useSelector } from "react-redux";
 import { State } from "@/app/controller/reducers/root.reducer";
@@ -48,8 +47,6 @@ const Page:React.FC<{jwt:string}> = ({jwt}) => {
           <div className="products-items xl:px-10 flex justify-center items-start flex-wrap">
             {products.map((p:any) => <Product product={p} />)}
           </div>
-          <Title isLeft={false} title="Hot" />
-          <ProductCarousel />
         </React.Fragment>}
       </div>
     </Layout>
