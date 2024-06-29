@@ -96,11 +96,12 @@ const Details:React.FC<{ syncProduct:any; variant:any,user:any }> = ({variant,sy
               <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold italic">Price: <span className='text-green-300'>{syncProduct?.result?.sync_variants[variantIndex as number]?.retail_price}{syncProduct?.result?.sync_variants[variantIndex as number]?.currency}</span></div>
               {template && 
                 <div className="w-1/2 p-2 text-center bg-white rounded-full font-bold relative top-0 left-0">
-                  <p onClick={()=>handleMenu(colorsMenuRef)} className='hover:opacity-50 min-w-max cursor-pointer italic font-bold'>Color: <span className='text-green-300'>{color?.color_name as string}</span></p>
-                  <div ref={colorsMenuRef} className="details-color-menu absolute top-12 left-1/2 -translate-x-1/2 w-[160px] p-3 rounded-lg bg-white shadow-lg shadow-gray-300">
+                  <p onClick={()=>handleMenu(colorsMenuRef)} className='hover:opacity-50 min-w-max cursor-pointer italic font-bold'>Color: <span>{color?.color_name as string}</span><span style={{backgroundColor:color.color_codes[0]}} className="ml-2 px-3 rounded-md"></span></p>
+                  <div ref={colorsMenuRef} className="details-color-menu  h-[300px] overflow-y-scroll absolute top-12 left-1/2 -translate-x-1/2 w-[160px] p-3 rounded-lg bg-white shadow-lg shadow-gray-300">
                     {template?.colors?.map((c:any) => <p onClick={()=>{
                       setColor(c)
-                    }} className={`p-2 cursor-pointer italic hover:bg-green-300 rounded-lg hover:text-white`}>{c?.color_name}</p>)}
+                      handleMenu(colorsMenuRef)
+                    }} style={{background:c.color_codes[0]}} className={`px-2 py-5 my-1 border-[1px] border-gray-300 cursor-pointer italic hover:opacity-70 rounded-lg hover:text-white`}></p>)}
                   </div>
                 </div>}
               {template && 
@@ -109,6 +110,7 @@ const Details:React.FC<{ syncProduct:any; variant:any,user:any }> = ({variant,sy
                   <div ref={sizesMenuRef} className="details-sizes-menu absolute top-12 left-1/2 -translate-x-1/2 w-[160px] p-3 rounded-lg bg-white shadow-lg shadow-gray-300">
                     {template?.sizes?.map((s:string) => <p onClick={()=>{
                       setSize(s)
+                      handleMenu(sizesMenuRef)
                     }} className='p-2 cursor-pointer hover:bg-green-300 rounded-lg hover:text-white'>{s}</p>)}
                   </div>
                 </div>}

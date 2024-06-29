@@ -48,11 +48,11 @@ const Footer = () => {
           </div>
           <div className="footer-contact-item my-1 md:my-5 flex gap-3 items-center">
             <Image src="/assets/email-icon.png" alt="email" width={30} height={30} />
-            <p className="text-sm text-white italic">Email: composite.wearable@protonmail.com</p>
+            <p className="text-sm text-white italic">scomposite.wearable@protonmail.com</p>
           </div>
           <div className="footer-contact-item my-1 md:my-5 flex gap-3 items-center">
             <Image src="/assets/email-icon.png" alt="phone" width={30} height={30} />
-            <p className="text-sm text-white italic">Phone: 696442238</p>
+            <p className="text-sm text-white italic">At Development</p>
           </div>
           {/* <div className="footer-contact-item my-0 md:my-5 flex gap-3 items-center">
             <Image src="/assets/email-icon.png" alt="address" width={30} height={30} />
